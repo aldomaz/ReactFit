@@ -1,7 +1,7 @@
 import React,  {useEffect, useState} from 'react'
-import {View, Text, ScrollView, Button} from 'react-native'
+import {ScrollView, Button} from 'react-native'
 import firebase from '../database/firebase'
-import { ListItem, Avatar}from 'react-native-elements'
+import { ListItem}from 'react-native-elements'
 
 const UsersList = (props) => {
     const [users, setusers]=useState([])
@@ -29,12 +29,15 @@ const UsersList = (props) => {
             {
                 users.map(user => {
                     return(
-                        <ListItem key={user.id}>
+                        <ListItem key={user.id} bottomDivider onPress={() => {
+                            props.navigation.navigate("UserDetailScreen",{
+                                userId: user.id
+                            })
+                        }}>
                             <ListItem.Chevron />
                             <ListItem.Content>
-                                <ListItem.Title>
-                                    {user.name}
-                                </ListItem.Title>
+                                <ListItem.Title>{user.name}</ListItem.Title>
+                                <ListItem.Subtitle>{user.email}</ListItem.Subtitle>
                             </ListItem.Content>
                         </ListItem>
                     )
