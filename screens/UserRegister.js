@@ -4,6 +4,8 @@ import { View, Button, TextInput, ScrollView, StyleSheet, ActivityIndicator, Ale
 import firebase from '../database/firebase'
 
 const UserRegister = (props) => {
+    
+    
     const [state, setState] = useState({
         name: '',
         email: '',
@@ -29,10 +31,12 @@ const UserRegister = (props) => {
         else{
             try{
                 setLoading(true);
-                await firebase.db.collection('users').add({
-                    name: state.name,
-                    email: state.email,
-                    password: state.password
+                await firebase.auth
+                .createUserWithEmailAndPassword(state.email, state.password)
+                .then((res) => {
+                    res.user.updateProfile({
+                        name: state.name
+                    })
                 })
                 setLoading(false);
                 registerAlert();

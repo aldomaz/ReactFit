@@ -5,20 +5,57 @@ import firebase from '../database/firebase'
 
 const LoginScreen = (props) =>{
 
+    const [state, setState] = useState({
+        email: '',
+        password: ''
+    });
+    
+    const handleChangeText = (email, value) => {
+        setState({...state, [email]: value})
+    }
+
+    const [loading, setLoading] = useState(false)
+
+    const userLogin = () => {
+        if(state.email === '' && state.password === ''){
+            Alert.alert('Ubique los datos para ingresar');
+        }else{
+            setLoading(true);
+            firebase.auth
+            .signInWithEmailAndPassword(state.email, state.password)
+            .then((res) => {
+                console.log(res);
+                setLoading(false);
+                props.navigation.navigate("UsersList");
+            })
+            .catch(error => setState({ errorMessage: error.message}))
+        }
+    }
+
+    if (loading){
+        return(
+            <View>
+                <ActivityIndicator size="large" color="#9e9e9e"/>
+            </View>
+        );
+    }
+
     return(
         <ScrollView style = {styles.container}>
             <View style = {styles.inputGroup}>
-                <TextInput placeholder='Nombre de Usuario o Email' />
+                <TextInput placeholder='Nombre de Usuario o Email' 
+                onChangeText={(value) => handleChangeText('email', value)}/>
             </View>
             <View style = {styles.inputGroup}>
                 <TextInput placeholder='Contraseña'
                 secureTextEntry={true}
-                maxLength={16}/>
+                maxLength={16}
+                onChangeText={(value) => handleChangeText('password', value)}/>
             </View>
             <View>
                 <Button title='Ingresar' 
                 color='#19AC52'
-                /*onPress={() => props.navigation.navigate('MainMenu')}*//>
+                onPress={() => userLogin()}/>
             </View>
             <View>
                 <Button title='Registrarse' onPress={() => props.navigation.navigate('CreateUserScreen')}/>
