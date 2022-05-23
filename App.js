@@ -16,7 +16,7 @@ function MyStack(){
     <Stack.Navigator>
       <Stack.Screen name="LoginScreen" component={LoginScreen} options={{title: 'Login', headerTitleAlign: 'center'}}/>
       <Stack.Screen name="UsersList" component={UsersList} options={{title: 'Users List'}}/>
-      <Stack.Screen name="CreateUserScreen" component={UserRegister} options={{title: 'Registro de Usuario', headerTitleAlign: 'center'}}/>
+      <Stack.Screen name="UserRegister" component={UserRegister} options={{title: 'Registro de Usuario', headerTitleAlign: 'center'}}/>
       <Stack.Screen name="UserDetailScreen" component={UserDetailScreen} options={{title: 'User Detail'}}/>
     </Stack.Navigator>
   )
