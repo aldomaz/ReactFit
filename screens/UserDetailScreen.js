@@ -75,7 +75,8 @@ const UserDetailScreen = (props) =>{
                 placeholder='Name User'
                 value={user.name}
                 onChangeText={(value) => handleChangeText('name', value)} />
-            </View>
+            </View> 
+            
             <View style = {styles.inputGroup}>
                 <TextInput 
                 placeholder='Email User' 
