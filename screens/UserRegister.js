@@ -3,7 +3,7 @@ import React, {useState} from 'react'
 import { View, Button, TextInput, ScrollView, StyleSheet, ActivityIndicator, Alert } from 'react-native'
 import firebase from '../database/firebase'
 
-const CreateUserScreen = (props) => {
+const UserRegister = (props) => {
     const [state, setState] = useState({
         name: '',
         email: '',
@@ -88,4 +88,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default CreateUserScreen
+export default UserRegister
