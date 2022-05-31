@@ -1,6 +1,6 @@
 import { async } from '@firebase/util';
 import React, {useState} from 'react'
-import { View, Button, TextInput, ScrollView, StyleSheet, ActivityIndicator, Alert } from 'react-native'
+import { View, Button, TextInput, ScrollView, StyleSheet, ActivityIndicator, Alert, ActivityIndicatorComponent } from 'react-native'
 import firebase from '../database/firebase'
 
 const UserRegister = (props) => {
@@ -31,15 +31,22 @@ const UserRegister = (props) => {
         else{
             try{
                 setLoading(true);
-                await firebase.auth
+                const infoUsuario = await firebase.auth
                 .createUserWithEmailAndPassword(state.email, state.password)
                 .then((res) => {
                     res.user.updateProfile({
-                        name: state.name
+                        displayName: state.name
                     })
-                })
+                    return res;
+                });
+                const dbRef = firebase.db.collection('users').doc(infoUsuario.user.uid);
+                await dbRef.set({
+                    name: state.name,
+                    email: infoUsuario.user.email,
+                });
                 setLoading(false);
                 registerAlert();
+                props.navigation.navigate('LoginScreen');
             }catch(error){
                 console.log(error);
             }

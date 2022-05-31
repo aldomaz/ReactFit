@@ -17,7 +17,7 @@ const LoginScreen = (props) =>{
     const [loading, setLoading] = useState(false)
 
     const userLogin = () => {
-        if(state.email === '' && state.password === ''){
+        if(state.email === '' || state.password === ''){
             Alert.alert('Ubique los datos para ingresar');
         }else{
             setLoading(true);
@@ -26,7 +26,7 @@ const LoginScreen = (props) =>{
             .then((res) => {
                 console.log(res);
                 setLoading(false);
-                props.navigation.navigate("UsersList");
+                props.navigation.navigate("Dashboard");
             })
             .catch(error => setState({ errorMessage: error.message}))
         }
@@ -58,7 +58,7 @@ const LoginScreen = (props) =>{
                 onPress={() => userLogin()}/>
             </View>
             <View>
-                <Button title='Registrarse' onPress={() => props.navigation.navigate('CreateUserScreen')}/>
+                <Button title='Registrarse' onPress={() => props.navigation.navigate('UserRegister')}/>
             </View>
         </ScrollView>
     )

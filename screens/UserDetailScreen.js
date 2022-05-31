@@ -10,7 +10,6 @@ const UserDetailScreen = (props) =>{
         id: '',
         name: '',
         email: '',
-        phone: '',
     }
 
     const [user, setUser] = useState(initialState)
@@ -47,7 +46,6 @@ const UserDetailScreen = (props) =>{
         await dbRef.set({
             name: user.name,
             email: user.email,
-            phone: user.phone,
         })
         setUser(initialState);
         props.navigation.navigate('UsersList');
@@ -83,12 +81,7 @@ const UserDetailScreen = (props) =>{
                 value={user.email}
                 onChangeText={(value) => handleChangeText('email', value)}/>
             </View>
-            <View style = {styles.inputGroup}>
-                <TextInput 
-                placeholder='Phone User' 
-                value={user.phone}
-                onChangeText={(value) => handleChangeText('phone', value)}/>
-            </View>
+            
             <View>
                 <Button color='#19AC52' title='Update User' onPress={() => updateUser()}/>
             </View>
