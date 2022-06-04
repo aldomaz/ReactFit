@@ -15,11 +15,15 @@ import UserDetailScreen from './screens/UserDetailScreen';
 function MyStack(){
   return(
     <Stack.Navigator>
-      <Stack.Screen name="LoginScreen" component={LoginScreen} options={{title: 'Login', headerTitleAlign: 'center'}}/>
-      <Stack.Screen name="Dashboard" component={Dashboard} options={{title: 'Menú Principal', headerTitleAlign: 'center'}}/>
-      <Stack.Screen name="UsersList" component={UsersList} options={{title: 'Users List'}}/>
-      <Stack.Screen name="UserRegister" component={UserRegister} options={{title: 'Registro de Usuario', headerTitleAlign: 'center'}}/>
-      <Stack.Screen name="UserDetailScreen" component={UserDetailScreen} options={{title: 'User Detail'}}/>
+      <Stack.Group>
+        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{title: 'Login', headerTitleAlign: 'center'}}/>
+        <Stack.Screen name="UserRegister" component={UserRegister} options={{title: 'Registro de Usuario', headerTitleAlign: 'center'}}/>
+      </Stack.Group>
+      <Stack.Group>
+        <Stack.Screen name="Dashboard" component={Dashboard} options={{title: 'Menú Principal', headerTitleAlign: 'center', headerBackVisible: false, headerLeft: null}}/>
+        <Stack.Screen name="UsersList" component={UsersList} options={{title: 'Users List'}}/>
+        <Stack.Screen name="UserDetailScreen" component={UserDetailScreen} options={{title: 'User Detail'}}/>
+      </Stack.Group>
     </Stack.Navigator>
   )
 }
