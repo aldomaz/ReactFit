@@ -1,8 +1,10 @@
 import { async } from '@firebase/util';
-import React from 'react'
+import React , {useEffect, useState} from 'react'
 import firebase from '../database/firebase'
 import { View } from 'react-native'
 import { Button } from 'react-native-elements'
+import AdminView from '../views/AdminView';
+import ClientView from '../views/ClientView';
 
 function Dashboard(props) {
 
@@ -14,10 +16,6 @@ function Dashboard(props) {
 
     return (
         <View>
-            <Button title = 'Lista de Usuarios'
-            color='#19AC52'
-            onPress={() => props.navigation.navigate('UsersList')}> 
-            </Button>
             <Button title = 'Cerrar Sesión'
             onPress={() => SignOut()}> 
             </Button>
