@@ -43,8 +43,10 @@ const LoginScreen = (props) =>{
     return(
         <ScrollView style = {styles.container}>
             <View style = {styles.inputGroup}>
-                <TextInput placeholder='Nombre de Usuario o Email' 
-                onChangeText={(value) => handleChangeText('email', value)}/>
+                <TextInput placeholder='Email' 
+                onChangeText={(value) => handleChangeText('email', value)}
+                keyboardType={'email-address'}
+                autoCapitalize={'none'}/>
             </View>
             <View style = {styles.inputGroup}>
                 <TextInput placeholder='Contraseña'
