@@ -24,7 +24,6 @@ const LoginScreen = (props) =>{
             firebase.auth
             .signInWithEmailAndPassword(state.email, state.password)
             .then((res) => {
-                console.log(res);
                 setLoading(false);
                 props.navigation.navigate("Dashboard");
             })
