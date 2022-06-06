@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { Children } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import {NavigationContainer, StackActions} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -11,6 +11,7 @@ import Dashboard from './screens/Dashboard'
 import UsersList from './screens/UsersList';
 import UserRegister from './screens/UserRegister';
 import UserDetailScreen from './screens/UserDetailScreen';
+import AdminView from './views/AdminView';
 
 function MyStack(){
   return(
