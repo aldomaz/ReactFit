@@ -3,7 +3,6 @@ import React from 'react';
 import firebase from '../database/firebase';
 import { View , Text} from 'react-native';
 import { Button } from 'react-native-elements';
-import UsersList from '../screens/UsersList'
 
 function AdminView(props) {
     
