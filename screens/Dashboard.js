@@ -1,12 +1,15 @@
 import { async } from '@firebase/util';
-import React , {useEffect, useState} from 'react'
+import React , {Children, useEffect, useState} from 'react'
 import firebase from '../database/firebase'
-import { View } from 'react-native'
+import { View , ActivityIndicator} from 'react-native'
 import { Button } from 'react-native-elements'
 import AdminView from '../views/AdminView';
 import ClientView from '../views/ClientView';
+import InstructorView from '../views/InstructorView';
 
 function Dashboard(props) {
+
+    const [loading, setLoading] = useState(false)
 
     const [user, setUser] = useState({
         id: '',
@@ -31,6 +34,7 @@ function Dashboard(props) {
                 };
                 setUser(userData);
                 console.log("userData final", userData);
+                setLoading(false);
             });
         }
     }
@@ -45,9 +49,19 @@ function Dashboard(props) {
         .then(() => {props.navigation.navigate('LoginScreen')});
     }
 
+    if (loading){
+        return(
+            <View>
+                <ActivityIndicator size="large" color="#9e9e9e"/>
+            </View>
+        );
+    }
+
+
     return (
         <View>
-            {user.userRole === 'admin' ? <AdminView/> : <ClientView/>}
+            {user.userRole === 'admin' ? <AdminView navigation={props.navigation}/> : (user.userRole === 'cliente' ? <ClientView navigation={props.navigation}/> : (user.userRole !== '' ? <InstructorView navigation={props.navigation}
+            /> : setLoading(true)))}
             <Button title = 'Cerrar Sesión'
             onPress={() => SignOut()}> 
             </Button>
