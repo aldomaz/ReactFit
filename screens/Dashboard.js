@@ -1,7 +1,7 @@
 import { async } from '@firebase/util';
 import React , {Children, useEffect, useState} from 'react'
 import firebase from '../database/firebase'
-import { View , ActivityIndicator} from 'react-native'
+import { View , ActivityIndicator, StyleSheet} from 'react-native'
 import { Button } from 'react-native-elements'
 import AdminView from '../views/AdminView';
 import ClientView from '../views/ClientView';
@@ -43,11 +43,6 @@ function Dashboard(props) {
         setUserWithDbAndRol();
     })
 
-    const SignOut = async () => {
-        await firebase.auth
-        .signOut()
-        .then(() => {props.navigation.navigate('LoginScreen')});
-    }
 
     if (loading){
         return(
@@ -59,14 +54,18 @@ function Dashboard(props) {
 
 
     return (
-        <View>
+        <View style={styles.button}>
             {user.userRole === 'admin' ? <AdminView navigation={props.navigation}/> : (user.userRole === 'cliente' ? <ClientView navigation={props.navigation}/> : (user.userRole !== '' ? <InstructorView navigation={props.navigation}
             /> : setLoading(true)))}
-            <Button title = 'Cerrar Sesión'
-            onPress={() => SignOut()}> 
-            </Button>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    button:{
+        margin: 10,
+        padding: 5,
+    },
+});
 
 export default Dashboard

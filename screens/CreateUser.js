@@ -1,10 +1,10 @@
 import { async } from '@firebase/util';
-import React, {useState} from 'react'
-import { View, Button, TextInput, ScrollView, StyleSheet, ActivityIndicator, Alert } from 'react-native'
-import firebase from '../database/firebase'
+import React, {useState} from 'react';
+import { View, Button, TextInput, ScrollView, StyleSheet, ActivityIndicator, Alert} from 'react-native';
+import firebase from '../database/firebase';
+import {Picker} from '@react-native-picker/picker';
 
-const UserRegister = (props) => {
-    
+function CreateUser(props) {
     const auth = firebase.auth;
     const db = firebase.db;
 
@@ -24,7 +24,7 @@ const UserRegister = (props) => {
 
     const registerAlert = () => {
         Alert.alert("Usuario Registrado Exitosamente", "", [
-            {text: 'OK', onPress:()=>props.navigation.navigate('LoginScreen')},
+            {text: 'OK', onPress:()=>props.navigation.navigate('CreateUser')},
         ])
     }
 
@@ -49,11 +49,11 @@ const UserRegister = (props) => {
                         id: auth.currentUser.uid,
                         name: state.name,
                         email: infoUsuario.user.email,
-                        role: 'cliente',
+                        role: state.role,
                     });
                     setLoading(false);
                     registerAlert();
-                    props.navigation.navigate('LoginScreen');
+                    props.navigation.navigate('CreateUser');
                 }catch(error){
                     console.log(error);
                 }
@@ -72,7 +72,7 @@ const UserRegister = (props) => {
     }
 
     return(
-        <ScrollView style = {styles.container}>
+            <ScrollView style = {styles.container}>
             <View style = {styles.inputGroup}>
                 <TextInput placeholder='Nombre de Usuario' 
                 onChangeText={(value) => handleChangeText('name', value)} />
@@ -95,11 +95,23 @@ const UserRegister = (props) => {
                 secureTextEntry={true}
                 maxLenght={16}/>
             </View>
-            <View>
-                <Button title='Registrarse' 
+            <View style = {styles.list}>
+                <Picker
+                selectedValue={state.role}
+                onValueChange={(itemValue) => {
+                    handleChangeText('role', itemValue);
+                    }}>
+                    <Picker.Item label="Administrador" value={"admin"}/>
+                    <Picker.Item label="Cliente" value={"cliente"}/>
+                    <Picker.Item label="Instructor" value={"instructor"}/>
+                </Picker>
+            </View>
+            <View style = {styles.button}>
+                <Button title='Registrar Usuario' 
                 onPress={() => saveNewUser()}/>
             </View>
         </ScrollView>
+        
     )
 }
 
@@ -107,14 +119,24 @@ const styles = StyleSheet.create({
     container:{
         flex: 1,
         padding: 35,
+        alignSelf: 'auto',
     },
     inputGroup: {
-        flex:1,
-        padding:0,
-        marginBottom:15,
-        borderBottomWidth:1,
-        borderBottomColor: '#cccccc'
-    }
+        margin: 5,
+        backgroundColor: "white",
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: 'grey',
+        padding: 10,
+        fontSize: 20,
+    },
+    button:{
+        padding: 5,
+    },
+    list: {
+        padding: 5,
+        borderColor: 'grey',
+    },
 })
 
-export default UserRegister
+export default CreateUser

@@ -45,7 +45,8 @@ const LoginScreen = (props) =>{
                 <TextInput placeholder='Email' 
                 onChangeText={(value) => handleChangeText('email', value)}
                 keyboardType={'email-address'}
-                autoCapitalize={'none'}/>
+                autoCapitalize={'none'}
+                maxLength={50}/>
             </View>
             <View style = {styles.inputGroup}>
                 <TextInput placeholder='Contraseña'
@@ -53,12 +54,12 @@ const LoginScreen = (props) =>{
                 maxLength={16}
                 onChangeText={(value) => handleChangeText('password', value)}/>
             </View>
-            <View>
+            <View style = {styles.button}>
                 <Button title='Ingresar' 
                 color='#19AC52'
                 onPress={() => userLogin()}/>
             </View>
-            <View>
+            <View style = {styles.button}>
                 <Button title='Registrarse' onPress={() => props.navigation.navigate('UserRegister')}/>
             </View>
         </ScrollView>
@@ -69,13 +70,19 @@ const styles = StyleSheet.create({
     container:{
         flex: 1,
         padding: 35,
+        alignSelf: 'auto',
     },
     inputGroup: {
-        flex:1,
-        padding:0,
-        marginBottom:15,
-        borderBottomWidth:1,
-        borderBottomColor: '#cccccc',
+        margin: 5,
+        backgroundColor: "white",
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: 'grey',
+        padding: 10,
+        fontSize: 20,
+    },
+    button:{
+        padding: 5,
     },
 });
 
