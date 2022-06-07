@@ -11,7 +11,7 @@ import Dashboard from './screens/Dashboard'
 import UsersList from './screens/UsersList';
 import UserRegister from './screens/UserRegister';
 import UserDetailScreen from './screens/UserDetailScreen';
-import AdminView from './views/AdminView';
+import CreateUser from './screens/CreateUser';
 
 function MyStack(){
   return(
@@ -23,7 +23,8 @@ function MyStack(){
       <Stack.Group>
         <Stack.Screen name="Dashboard" component={Dashboard} options={{title: 'Menú Principal', headerTitleAlign: 'center', headerBackVisible: false, headerLeft: null}}/>
         <Stack.Screen name="UsersList" component={UsersList} options={{title: 'Users List'}}/>
-        <Stack.Screen name="UserDetailScreen" component={UserDetailScreen} options={{title: 'User Detail'}}/>
+        <Stack.Screen name="UserDetailScreen" component={UserDetailScreen} options={{title: 'Datos del Usuario'}}/>
+        <Stack.Screen name="CreateUser" component={CreateUser} options={{title: 'Crear Usuario', headerTitleAlign: 'center'}}/>
       </Stack.Group>
     </Stack.Navigator>
   )

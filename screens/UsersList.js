@@ -10,12 +10,11 @@ const UsersList = (props) => {
         firebase.db.collection('users').onSnapshot(querySnapshot => {
             const users = [];
             querySnapshot.docs.forEach(doc => {
-                const {name, email, phone} = doc.data()
+                const {name, email} = doc.data()
                 users.push({
                     id: doc.id,
                     name,
                     email,
-                    phone
                 })
             })  
             
@@ -25,7 +24,7 @@ const UsersList = (props) => {
 
     return(
         <ScrollView>
-            <Button title="Create User" onPress={() => props.navigation.navigate('CreateUserScreen')}/>
+            <Button title="Create User" onPress={() => props.navigation.navigate('CreateUser')}/>
             {
                 users.map(user => {
                     return(
