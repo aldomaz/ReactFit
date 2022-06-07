@@ -12,6 +12,11 @@ import UsersList from './screens/UsersList';
 import UserRegister from './screens/UserRegister';
 import UserDetailScreen from './screens/UserDetailScreen';
 import CreateUser from './screens/CreateUser';
+import CompleteUserProfile from './screens/CompleteUserProfile';
+import CustomerList from './screens/CustomerList';
+import AssignRoutine from './screens/AssignRoutine'
+import RoutineView from './screens/RoutineView';
+
 
 function MyStack(){
   return(
@@ -22,9 +27,13 @@ function MyStack(){
       </Stack.Group>
       <Stack.Group>
         <Stack.Screen name="Dashboard" component={Dashboard} options={{title: 'Menú Principal', headerTitleAlign: 'center', headerBackVisible: false, headerLeft: null}}/>
-        <Stack.Screen name="UsersList" component={UsersList} options={{title: 'Users List'}}/>
+        <Stack.Screen name="UsersList" component={UsersList} options={{title: 'Lista de Usuarios'}}/>
         <Stack.Screen name="UserDetailScreen" component={UserDetailScreen} options={{title: 'Datos del Usuario'}}/>
         <Stack.Screen name="CreateUser" component={CreateUser} options={{title: 'Crear Usuario', headerTitleAlign: 'center'}}/>
+        <Stack.Screen name="CompleteUserProfile" component={CompleteUserProfile} options={{title: 'Editar Perfil', headerTitleAlign: 'center'}}/>
+        <Stack.Screen name="CustomerList" component={CustomerList} options={{title: 'Lista de Clientes', headerTitleAlign: 'center'}}/>
+        <Stack.Screen name="AssignRoutine" component={AssignRoutine} options={{title: 'Asignar Rutina', headerTitleAlign: 'center'}}/>      
+        <Stack.Screen name="RoutineView" component={RoutineView} options={{title: 'Rutinas Asignadas', headerTitleAlign: 'center'}}/>      
       </Stack.Group>
     </Stack.Navigator>
   )
