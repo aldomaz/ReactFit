@@ -14,8 +14,13 @@ function InstructorView(props) {
 
     return (
         <ScrollView >
-            <View style={styles.text}>
-                <Text>Bienvenido Instructor</Text>
+            <View >
+                <Text style={styles.text}>Bienvenido {firebase.auth.currentUser.displayName}</Text>
+            </View>
+            <View style={styles.button}>
+                <Button title = 'Asignar Rutina'
+                    onPress={() => props.navigation.navigate('CustomerList')}> 
+                </Button>
             </View>
             <View style={styles.button}>
                 <Button title = 'Cerrar Sesión'
@@ -28,11 +33,17 @@ function InstructorView(props) {
 
 const styles = StyleSheet.create({
     button:{
-        margin: 5,
         padding: 10,
     },
     text:{
         alignSelf: 'center',
+        fontSize: 20,
+        padding: 15,
+    },
+    container:
+    {
+        alignContent: 'center',
+        paddingVertical: 12,
     },
 });
 

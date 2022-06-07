@@ -13,9 +13,19 @@ function ClientView(props) {
     }
 
     return (
-        <ScrollView >
-            <View style={styles.text}>
-                <Text>Bienvenido Cliente</Text>
+        <ScrollView style={styles.container}>
+            <View >
+                <Text style={styles.text}>Bienvenido {firebase.auth.currentUser.displayName}</Text>
+            </View>
+            <View style={styles.button}>
+                <Button title = 'Editar Perfil'
+                onPress={() => props.navigation.navigate('CompleteUserProfile')}> 
+                </Button>
+            </View>
+            <View style={styles.button}>
+                <Button title = 'Ver rutinas'
+                onPress={() => props.navigation.navigate('RoutineView')}> 
+                </Button>
             </View>
             <View style={styles.button}>
                 <Button title = 'Cerrar Sesión'
@@ -28,10 +38,17 @@ function ClientView(props) {
 
 const styles = StyleSheet.create({
     button:{
-        margin: 10,
+        padding: 10,
     },
     text:{
         alignSelf: 'center',
+        fontSize: 20,
+        padding: 15,
+    },
+    container:
+    {
+        alignContent: 'center',
+        paddingVertical: 12,
     },
 });
 

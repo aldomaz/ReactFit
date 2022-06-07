@@ -13,9 +13,9 @@ function AdminView(props) {
     }
 
     return (
-        <ScrollView >
-            <View style={styles.text}>
-                <Text>Bienvenido Administrador</Text>
+        <ScrollView style={styles.container}>
+            <View>
+                <Text style={styles.text}>Bienvenido {firebase.auth.currentUser.displayName}</Text>
             </View>
             <View style={styles.button}>    
                 <Button title = 'Lista de Usuarios'
@@ -34,13 +34,17 @@ function AdminView(props) {
 
 const styles = StyleSheet.create({
     button:{
-        padding: 5,
-        width: 200,
-        borderStyle: 'dashed',
-        alignSelf: 'center',
+        padding: 10,
     },
     text:{
         alignSelf: 'center',
+        fontSize: 20,
+        padding: 15,
+    },
+    container:
+    {
+        alignContent: 'center',
+        paddingVertical: 12,
     },
 });
 
