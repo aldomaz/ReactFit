@@ -25,8 +25,22 @@ const UserRegister = (props) => {
     const registerAlert = () => {
         Alert.alert("Usuario Registrado Exitosamente", "", [
             {text: 'OK', onPress:()=>props.navigation.navigate('LoginScreen')},
-        ])
+        ]);
     }
+
+    const errorAlert = (err) => {
+        if (err === 'auth/email-already-in-use')
+        {
+            Alert.alert("Existe una cuenta con el email ya registrado");
+        }else{
+            if (err === 'auth/weak-password')
+            {
+                Alert.alert("La contraseña debe tener más de 6 caracteres");
+            } 
+        }
+
+        setLoading(false);
+    }   
 
     const saveNewUser = async () => {
         if(state.name === '' || state.email === '' || state.password === '' || state.password2 === ''){
@@ -52,16 +66,18 @@ const UserRegister = (props) => {
                         role: 'cliente',
                     });
                     setLoading(false);
-                    registerAlert();
+                    registerAlert('');
                     props.navigation.navigate('LoginScreen');
                 }catch(error){
-                    console.log(error);
+                    errorAlert(error.code);
                 }
             } else {
                 alert("Las contraseñas no coinciden");
             } 
         }
     }
+
+    
 
     if (loading){
         return(
