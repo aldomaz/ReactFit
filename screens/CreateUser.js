@@ -13,7 +13,7 @@ function CreateUser(props) {
         email: '',
         password: '',
         password2: '',
-        role: '',
+        role: 'admin',
     });
 
     const [loading, setLoading] = useState(false)
@@ -95,19 +95,20 @@ function CreateUser(props) {
                 secureTextEntry={true}
                 maxLenght={16}/>
             </View>
-            <View style = {styles.list}>
+            <View style = {styles.list}>  
                 <Picker
                 selectedValue={state.role}
                 onValueChange={(itemValue) => {
                     handleChangeText('role', itemValue);
                     }}>
                     <Picker.Item label="Administrador" value={"admin"}/>
-                    <Picker.Item label="Cliente" value={"cliente"}/>
                     <Picker.Item label="Instructor" value={"instructor"}/>
+                    <Picker.Item label="Cliente Premium" value={"premium"}/>
+                    <Picker.Item label="Cliente Normal" value={"normal"}/>
                 </Picker>
             </View>
             <View style = {styles.button}>
-                <Button title='Registrar Usuario' 
+                <Button title='Crear Usuario' 
                 onPress={() => saveNewUser()}/>
             </View>
         </ScrollView>
