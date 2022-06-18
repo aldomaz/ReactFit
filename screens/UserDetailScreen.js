@@ -14,7 +14,6 @@ const UserDetailScreen = (props) =>{
     }
 
     const [user, setUser] = useState(initialState)
-
     const [loading, setLoading] = useState(true)
 
     const getUserByID = async (id) => {

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
-import {View, StyleSheet, TextInput, ScrollView, Button, Alert} from 'react-native'
+import { async } from '@firebase/util';
+import {View, StyleSheet, TextInput, ScrollView, Button, Alert, Text , Image} from 'react-native'
 import { ActivityIndicator } from 'react-native'
 import firebase from '../database/firebase'
 
@@ -16,6 +17,16 @@ const LoginScreen = (props) =>{
 
     const [loading, setLoading] = useState(false)
 
+    const loginErrorAlerts = (err) => {
+        if (err === 'auth/user-not-found')
+        {
+            Alert.alert("Email incorrecto o usuario no existente");
+        } else {
+            Alert.alert("Contraseña incorrecta");
+        }
+        setLoading(false);
+    }
+
     const userLogin = () => {
         if(state.email === '' || state.password === ''){
             Alert.alert('Ubique los datos para ingresar');
@@ -24,10 +35,11 @@ const LoginScreen = (props) =>{
             firebase.auth
             .signInWithEmailAndPassword(state.email, state.password)
             .then((res) => {
+
                 setLoading(false);
                 props.navigation.navigate("Dashboard");
             })
-            .catch(error => setState({ errorMessage: error.message}))
+            .catch(error => loginErrorAlerts(error.code));
         }
     }
 
@@ -40,7 +52,13 @@ const LoginScreen = (props) =>{
     }
 
     return(
-        <ScrollView style = {styles.container}>
+        <ScrollView style = {styles.container} backgroundColor = {'black'}>
+            <View >
+                <Image style = {styles.image} source = {require('react-native-firebase/resources/logo.png')}/>
+            </View>
+            <View>
+                <Text style = {styles.text}>ReactFit</Text>
+            </View>
             <View style = {styles.inputGroup}>
                 <TextInput placeholder='Email' 
                 onChangeText={(value) => handleChangeText('email', value)}
@@ -56,11 +74,8 @@ const LoginScreen = (props) =>{
             </View>
             <View style = {styles.button}>
                 <Button title='Ingresar' 
-                color='#19AC52'
+                color='red'
                 onPress={() => userLogin()}/>
-            </View>
-            <View style = {styles.button}>
-                <Button title='Registrarse' onPress={() => props.navigation.navigate('UserRegister')}/>
             </View>
         </ScrollView>
     )
@@ -72,6 +87,12 @@ const styles = StyleSheet.create({
         padding: 35,
         alignSelf: 'auto',
     },
+    image:{
+        width: 160,
+        height: 160,
+        resizeMode: 'stretch',
+        alignSelf: 'center',
+    },
     inputGroup: {
         margin: 5,
         backgroundColor: "white",
@@ -82,7 +103,14 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     button:{
-        padding: 5,
+        margin: 10,
+    },
+    text:{
+        alignSelf: 'center',
+        fontSize: 30,
+        padding: 15,
+        margin: 20,
+        color: 'white',
     },
 });
 

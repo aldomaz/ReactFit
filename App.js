@@ -22,7 +22,7 @@ function MyStack(){
   return(
     <Stack.Navigator>
       <Stack.Group>
-        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{title: 'Login', headerTitleAlign: 'center'}}/>
+        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{title: ''}}/>
         <Stack.Screen name="UserRegister" component={UserRegister} options={{title: 'Registro de Usuario', headerTitleAlign: 'center'}}/>
       </Stack.Group>
       <Stack.Group>

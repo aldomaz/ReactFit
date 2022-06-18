@@ -18,7 +18,13 @@ function AdminView(props) {
                 <Text style={styles.text}>Bienvenido {firebase.auth.currentUser.displayName}</Text>
             </View>
             <View style={styles.button}>    
-                <Button title = 'Lista de Usuarios'
+                <Button title = 'Lista de Clientes'
+                    color='#19AC52'
+                    onPress={() => props.navigation.navigate('UsersList')}> 
+                </Button>
+            </View>
+            <View style={styles.button}>    
+                <Button title = 'Lista de Clientes'
                     color='#19AC52'
                     onPress={() => props.navigation.navigate('UsersList')}> 
                 </Button>
