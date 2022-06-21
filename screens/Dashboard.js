@@ -1,11 +1,10 @@
-import { async } from '@firebase/util';
-import React , {Children, useEffect, useState} from 'react'
+import React , {useState} from 'react'
 import firebase from '../database/firebase'
 import { View , ActivityIndicator, StyleSheet} from 'react-native'
-import { Button } from 'react-native-elements'
 import AdminView from '../views/AdminView';
-import ClientView from '../views/ClientView';
+import PremiumView from '../views/PremiumView';
 import InstructorView from '../views/InstructorView';
+import NormalView from '../views/NormalView';
 
 function Dashboard(props) {
 
@@ -25,7 +24,7 @@ function Dashboard(props) {
     }
 
     const setUserWithDbAndRol = () =>{
-        if (user.userRole === '') {
+            setLoading(true);
             getRol(firebase.auth.currentUser.uid).then((rol) => {
                 const userData = {
                     id: firebase.auth.currentUser.uid,
@@ -36,13 +35,7 @@ function Dashboard(props) {
                 console.log("userData final", userData);
                 setLoading(false);
             });
-        }
     }
-    
-    useEffect (() => {
-        setUserWithDbAndRol();
-    })
-
 
     if (loading){
         return(
@@ -54,18 +47,13 @@ function Dashboard(props) {
 
 
     return (
-        <View style={styles.button}>
-            {user.userRole === 'admin' ? <AdminView navigation={props.navigation}/> : (user.userRole === 'cliente' ? <ClientView navigation={props.navigation}/> : (user.userRole !== '' ? <InstructorView navigation={props.navigation}
-            /> : setLoading(true)))}
-        </View>
+        <>
+            {user.userRole === 'admin' ? <AdminView navigation={props.navigation}/> 
+            : (user.userRole === 'premium' ? <PremiumView navigation={props.navigation}/> 
+            : (user.userRole === 'instructor' ? <InstructorView navigation={props.navigation}/> 
+            : (user.userRole === 'normal' ? <NormalView navigation={props.navigation}/> : setUserWithDbAndRol())))}
+        </>
     )
 }
-
-const styles = StyleSheet.create({
-    button:{
-        margin: 10,
-        padding: 5,
-    },
-});
 
 export default Dashboard

@@ -1,25 +1,25 @@
-import React,  {useEffect, useState} from 'react'
-import {ScrollView, Button, Text} from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { ScrollView, Button, Text } from 'react-native'
 import firebase from '../database/firebase'
-import { ListItem}from 'react-native-elements'
+import { ListItem } from 'react-native-elements'
 
-function CustomerList (props) {
-    const [users, setusers]=useState([])
+function CustomerList(props) {
+    const [users, setusers] = useState([])
 
     useEffect(() => {
         firebase.db.collection('users').onSnapshot(querySnapshot => {
             const users = [];
             querySnapshot.docs.forEach(doc => {
-                if(doc.data().role === 'cliente') {
-                    const {name, email} = doc.data()
+                if (doc.data().role === 'premium' || doc.data().role === 'normal') {
+                    const { name, email } = doc.data()
                     users.push({
                         id: doc.id,
                         name,
                         email,
-                })
+                    })
                 }
-            })  
-            
+            })
+
             setusers(users)
         })
     }, [])
@@ -28,9 +28,9 @@ function CustomerList (props) {
         <ScrollView>
             {
                 users.map(user => {
-                    return(
+                    return (
                         <ListItem key={user.id} bottomDivider onPress={() => {
-                            props.navigation.navigate("AssignRoutine",{
+                            props.navigation.navigate("AssignRoutine", {
                                 userId: user.id
                             })
                         }}>
