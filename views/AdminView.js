@@ -1,15 +1,15 @@
 import { async } from '@firebase/util';
 import React from 'react';
 import firebase from '../database/firebase';
-import { View , Text, StyleSheet, ScrollView} from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
 
 function AdminView(props) {
-    
+
     const SignOut = async () => {
         await firebase.auth
-        .signOut()
-        .then(() => {props.navigation.navigate('LoginScreen')});
+            .signOut()
+            .then(() => { props.navigation.navigate('LoginScreen') });
     }
 
     return (
@@ -17,21 +17,21 @@ function AdminView(props) {
             <View>
                 <Text style={styles.text}>Bienvenido {firebase.auth.currentUser.displayName}</Text>
             </View>
-            <View style={styles.button}>    
-                <Button title = 'Lista de Clientes'
+            <View style={styles.button}>
+                <Button title='Lista de Entrenadores'
                     color='#19AC52'
-                    onPress={() => props.navigation.navigate('UsersList')}> 
-                </Button>
-            </View>
-            <View style={styles.button}>    
-                <Button title = 'Lista de Clientes'
-                    color='#19AC52'
-                    onPress={() => props.navigation.navigate('UsersList')}> 
+                    onPress={() => props.navigation.navigate('UsersList')}>
                 </Button>
             </View>
             <View style={styles.button}>
-                <Button title = 'Cerrar Sesión'
-                    onPress={() => SignOut()}> 
+                <Button title='Lista de Clientes'
+                    color='#19AC52'
+                    onPress={() => props.navigation.navigate('ClientList')}>
+                </Button>
+            </View>
+            <View style={styles.button}>
+                <Button title='Cerrar Sesión'
+                    onPress={() => SignOut()}>
                 </Button>
             </View>
         </ScrollView>
@@ -39,10 +39,10 @@ function AdminView(props) {
 }
 
 const styles = StyleSheet.create({
-    button:{
+    button: {
         padding: 10,
     },
-    text:{
+    text: {
         alignSelf: 'center',
         fontSize: 20,
         padding: 15,

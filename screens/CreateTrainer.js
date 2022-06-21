@@ -2,17 +2,17 @@ import { async } from '@firebase/util';
 import React, {useState} from 'react';
 import { View, Button, TextInput, ScrollView, StyleSheet, ActivityIndicator, Alert} from 'react-native';
 import firebase from '../database/firebase';
-import {Picker} from '@react-native-picker/picker';
 
-function CreateUser(props) {
+function CreateTrainer(props) {
     const auth = firebase.auth;
     const db = firebase.db;
+
     const initialState = {
         name: '',
         email: '',
         password: '',
         password2: '',
-        role: 'premium',
+        role: 'instructor',
     }
 
     const [state, setState] = useState(initialState);
@@ -20,13 +20,13 @@ function CreateUser(props) {
     const [loading, setLoading] = useState(false)
 
     const handleChangeText = (name, value) => {
-        setState({...state, [name]: value});
+        setState({...state, [name]: value})
     }
 
     const registerAlert = () => {
         Alert.alert("Usuario Registrado Exitosamente", "", [
             {text: 'OK', onPress:()=> {
-                props.navigation.navigate('CreateUser');
+                props.navigation.navigate('CreateTrainer');
                 setState(initialState);
             }},
         ])
@@ -57,7 +57,7 @@ function CreateUser(props) {
                     });
                     setLoading(false);
                     registerAlert();
-                    props.navigation.navigate('CreateUser');
+                    props.navigation.navigate('CreateTrainer');
                 }catch(error){
                     console.log(error);
                 }
@@ -99,18 +99,8 @@ function CreateUser(props) {
                 secureTextEntry={true}
                 maxLenght={16}/>
             </View>
-            <View style = {styles.list}>  
-                <Picker
-                selectedValue={state.role}
-                onValueChange={(itemValue) => {
-                    handleChangeText('role', itemValue);
-                    }}>
-                    <Picker.Item label="Cliente Premium" value={"premium"}/>
-                    <Picker.Item label="Cliente Normal" value={"normal"}/>
-                </Picker>
-            </View>
             <View style = {styles.button}>
-                <Button title='Crear Usuario' 
+                <Button title='Crear Entrenador' 
                 onPress={() => saveNewUser()}/>
             </View>
         </ScrollView>
@@ -141,5 +131,4 @@ const styles = StyleSheet.create({
         borderColor: 'grey',
     },
 })
-
-export default CreateUser
+export default CreateTrainer

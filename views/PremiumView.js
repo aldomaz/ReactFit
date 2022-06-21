@@ -4,7 +4,7 @@ import firebase from '../database/firebase';
 import { View , Text, StyleSheet, ScrollView} from 'react-native';
 import { Button } from 'react-native-elements';
 
-function ClientView(props) {
+function PremiumView(props) {
 
     const SignOut = async () => {
         await firebase.auth
@@ -52,4 +52,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ClientView
+export default PremiumView

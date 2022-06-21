@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { ScrollView, Button } from 'react-native'
+import { ScrollView, Button, Text } from 'react-native'
 import firebase from '../database/firebase'
 import { ListItem } from 'react-native-elements'
 
-const UsersList = (props) => {
+function ClientList(props) {
     const [users, setusers] = useState([])
 
     useEffect(() => {
         firebase.db.collection('users').onSnapshot(querySnapshot => {
             const users = [];
             querySnapshot.docs.forEach(doc => {
-                if (doc.data().role === 'instructor') {
+                if (doc.data().role === 'normal' || doc.data().role === 'premium') {
                     const { name, email } = doc.data()
                     users.push({
                         id: doc.id,
@@ -26,7 +26,7 @@ const UsersList = (props) => {
 
     return (
         <ScrollView>
-            <Button title="Añadir Entrenador" onPress={() => props.navigation.navigate('CreateTrainer')} />
+            <Button title="Añadir Cliente" onPress={() => props.navigation.navigate('CreateUser')} />
             {
                 users.map(user => {
                     return (
@@ -48,4 +48,4 @@ const UsersList = (props) => {
     )
 }
 
-export default UsersList
+export default ClientList
