@@ -1,8 +1,7 @@
-import { async } from '@firebase/util';
 import React from 'react';
 import firebase from '../database/firebase';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { Button } from 'react-native-elements';
+import { View, Text, StyleSheet, ScrollView , Button} from 'react-native';
+
 
 function AdminView(props) {
 
@@ -19,18 +18,19 @@ function AdminView(props) {
             </View>
             <View style={styles.button}>
                 <Button title='Lista de Entrenadores'
-                    color='#19AC52'
+                    color='red'
                     onPress={() => props.navigation.navigate('UsersList')}>
                 </Button>
             </View>
             <View style={styles.button}>
                 <Button title='Lista de Clientes'
-                    color='#19AC52'
+                    color='red'
                     onPress={() => props.navigation.navigate('ClientList')}>
                 </Button>
             </View>
             <View style={styles.button}>
                 <Button title='Cerrar Sesión'
+                    color='red'
                     onPress={() => SignOut()}>
                 </Button>
             </View>
@@ -39,18 +39,32 @@ function AdminView(props) {
 }
 
 const styles = StyleSheet.create({
-    button: {
+    container: {
+        flex: 1,
+        padding: 35,
+    },
+    buttonColor:{
+        backgroundColor:'red',
+    },  
+    inputGroup: {
+        margin: 5,
+        backgroundColor: "white",
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: 'grey',
         padding: 10,
+        fontSize: 20,
+    },
+    button: {
+        margin: 10,
     },
     text: {
         alignSelf: 'center',
-        fontSize: 20,
+        textAlign: 'center',
+        fontSize: 30,
         padding: 15,
-    },
-    container:
-    {
-        alignContent: 'center',
-        paddingVertical: 12,
+        margin: 20,
+        color: 'white',
     },
 });
 

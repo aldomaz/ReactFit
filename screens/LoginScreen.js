@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, TextInput, ScrollView, Button, Alert, Text, Image } from 'react-native'
+import { View, StyleSheet, TextInput, ScrollView, Button, Alert, Text, Image , StatusBar } from 'react-native'
 import { ActivityIndicator } from 'react-native'
 import firebase from '../database/firebase'
 
@@ -30,7 +30,6 @@ const LoginScreen = (props) => {
                 setState(initialState);
             }
         }
-        setLoading(false);
     }
 
     const userLogin = async () => {
@@ -46,6 +45,7 @@ const LoginScreen = (props) => {
                 })
                 .catch(error => {
                     console.log(error.code);
+                    setLoading(false);
                     loginErrorAlerts(error.code);
                 });
         }

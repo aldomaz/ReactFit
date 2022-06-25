@@ -1,8 +1,6 @@
-import { async } from '@firebase/util';
 import React from 'react';
 import firebase from '../database/firebase';
-import { View , Text, StyleSheet, ScrollView} from 'react-native';
-import { Button } from 'react-native-elements';
+import { View , Text, StyleSheet, ScrollView , Button} from 'react-native';
 
 function PremiumView(props) {
 
@@ -14,22 +12,26 @@ function PremiumView(props) {
 
     return (
         <ScrollView style={styles.container}>
-            <View >
-                <Text style={styles.text}>Bienvenido {firebase.auth.currentUser.displayName}</Text>
+            <View style={styles.view}>
+                <Text style={styles.text}>Bienvenido</Text>
+                <Text style={styles.text}>{firebase.auth.currentUser.displayName}</Text>
             </View>
             <View style={styles.button}>
                 <Button title = 'Editar Perfil'
+                color='red'
                 onPress={() => props.navigation.navigate('CompleteUserProfile')}> 
                 </Button>
             </View>
             <View style={styles.button}>
                 <Button title = 'Ver rutinas'
+                color='red'
                 onPress={() => props.navigation.navigate('RoutineView')}> 
                 </Button>
             </View>
             <View style={styles.button}>
                 <Button title = 'Cerrar Sesión'
-                    onPress={() => SignOut()}> 
+                color='red'
+                onPress={() => SignOut()}> 
                 </Button>
             </View>
         </ScrollView>
@@ -37,18 +39,32 @@ function PremiumView(props) {
 }
 
 const styles = StyleSheet.create({
-    button:{
-        padding: 10,
+    container: {
+        flex: 1,
+        padding: 35,
     },
-    text:{
-        alignSelf: 'center',
-        fontSize: 20,
+    view: {
+        flex: 1,
         padding: 15,
     },
-    container:
-    {
-        alignContent: 'center',
-        paddingVertical: 12,
+    inputGroup: {
+        margin: 5,
+        backgroundColor: "white",
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: 'grey',
+        padding: 10,
+        fontSize: 20,
+    },
+    button: {
+        margin: 10,
+    },
+    text: {
+        alignSelf: 'center',
+        textAlign: 'center',
+        fontSize: 30,
+        margin: 3,
+        color: 'white',
     },
 });
 

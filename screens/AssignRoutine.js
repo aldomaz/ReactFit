@@ -91,6 +91,7 @@ function AssignRoutine(props) {
             </View>
             <View style = {styles.button}>
                 <Button title='Asignar' 
+                color='red'
                 onPress={() => saveRoutine()}/>
             </View>
         </ScrollView>

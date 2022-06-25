@@ -1,6 +1,6 @@
 import React , {useState} from 'react'
 import firebase from '../database/firebase'
-import { View , ActivityIndicator, StyleSheet} from 'react-native'
+import { View , ActivityIndicator, ScrollView , StyleSheet, StatusBar } from 'react-native'
 import AdminView from '../views/AdminView';
 import PremiumView from '../views/PremiumView';
 import InstructorView from '../views/InstructorView';
@@ -47,13 +47,41 @@ function Dashboard(props) {
 
 
     return (
-        <>
+        <ScrollView backgroundColor='black'>
             {user.userRole === 'admin' ? <AdminView navigation={props.navigation}/> 
             : (user.userRole === 'premium' ? <PremiumView navigation={props.navigation}/> 
             : (user.userRole === 'instructor' ? <InstructorView navigation={props.navigation}/> 
             : (user.userRole === 'normal' ? <NormalView navigation={props.navigation}/> : setUserWithDbAndRol())))}
-        </>
+        </ScrollView>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 35,
+    },
+    inputGroup: {
+        margin: 5,
+        backgroundColor: "white",
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: 'grey',
+        padding: 10,
+        fontSize: 20,
+    },
+    button: {
+        margin: 10,
+        color:'red',
+    },
+    text: {
+        alignSelf: 'center',
+        textAlign: 'center',
+        fontSize: 30,
+        padding: 15,
+        margin: 20,
+        color: 'white',
+    },
+});
 
 export default Dashboard
