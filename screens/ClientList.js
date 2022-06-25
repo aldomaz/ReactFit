@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { ScrollView, Button, Text } from 'react-native'
+import { ScrollView, Button, StyleSheet } from 'react-native'
 import firebase from '../database/firebase'
-import { ListItem } from 'react-native-elements'
+import { ListItem , SearchBar } from 'react-native-elements'
 
 function ClientList(props) {
     const [users, setusers] = useState([])
@@ -25,20 +25,25 @@ function ClientList(props) {
     }, [])
 
     return (
-        <ScrollView>
-            <Button title="Añadir Cliente" onPress={() => props.navigation.navigate('CreateUser')} />
+        <ScrollView style={styles.container}>
+            <Button title="Añadir Cliente" 
+            color='red'
+            onPress={() => props.navigation.navigate('CreateUser')} />
             {
                 users.map(user => {
                     return (
-                        <ListItem key={user.id} bottomDivider onPress={() => {
+                        <ListItem 
+                            key={user.id} 
+                            containerStyle={styles.list}
+                            bottomDivider onPress={() => {
                             props.navigation.navigate("UserDetailScreen", {
                                 userId: user.id
                             })
                         }}>
                             <ListItem.Chevron />
                             <ListItem.Content>
-                                <ListItem.Title>{user.name}</ListItem.Title>
-                                <ListItem.Subtitle>{user.email}</ListItem.Subtitle>
+                                <ListItem.Title style={styles.text}>{user.name}</ListItem.Title>
+                                <ListItem.Subtitle style={styles.text}>{user.email}</ListItem.Subtitle>
                             </ListItem.Content>
                         </ListItem>
                     )
@@ -47,5 +52,18 @@ function ClientList(props) {
         </ScrollView>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'black',
+    },
+    list: {
+        backgroundColor: 'black',
+    },
+    text: {
+        color: 'white',
+    },
+});
 
 export default ClientList

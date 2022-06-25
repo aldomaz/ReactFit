@@ -1,4 +1,3 @@
-import { async } from '@firebase/util';
 import React, {useState} from 'react'
 import { View, Button, TextInput, ScrollView, StyleSheet, ActivityIndicator, Alert } from 'react-native'
 import firebase from '../database/firebase'
@@ -31,14 +30,15 @@ const UserRegister = (props) => {
     const errorAlert = (err) => {
         if (err === 'auth/email-already-in-use')
         {
-            Alert.alert("Existe una cuenta con el email ya registrado");
+            alert("Existe una cuenta con el email ya registrado");
         }else{
             if (err === 'auth/weak-password')
             {
-                Alert.alert("La contraseña debe tener más de 6 caracteres");
-            } 
+                alert("La contraseña debe tener más de 6 caracteres");
+            } else {
+                alert("Correo no válido");
+            }
         }
-
         setLoading(false);
     }   
 

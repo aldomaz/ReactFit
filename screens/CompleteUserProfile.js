@@ -86,7 +86,7 @@ function CompleteUserProfile(props) {
                 onChangeText={(value) => handleChangeText('job', value)} />
             </View> 
             <View>
-                <Button color='#19AC52' title='Guardar Información' onPress={() => updateUser()}/>
+                <Button color='red' title='Guardar Información' onPress={() => updateUser()}/>
             </View>
         </ScrollView>
   )

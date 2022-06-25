@@ -1,4 +1,3 @@
-import { async } from '@firebase/util';
 import React, {useState} from 'react';
 import { View, Button, TextInput, ScrollView, StyleSheet, ActivityIndicator, Alert} from 'react-native';
 import firebase from '../database/firebase';
@@ -32,6 +31,20 @@ function CreateTrainer(props) {
         ])
     }
 
+    const errorAlert = (err) => {
+        if (err === 'auth/email-already-in-use')
+        {
+            alert("Existe una cuenta con el email ya registrado");
+        }else{
+            if (err === 'auth/weak-password')
+            {
+                alert("La contraseña debe tener más de 6 caracteres");
+            } else {
+                alert("Correo no válido");
+            }
+        }
+    }   
+
     const saveNewUser = async () => {
         if(state.name === '' || state.email === '' || state.password === '' || state.password2 === ''){
             alert('Por favor ubicar datos en todos los campos')
@@ -59,7 +72,7 @@ function CreateTrainer(props) {
                     registerAlert();
                     props.navigation.navigate('CreateTrainer');
                 }catch(error){
-                    console.log(error);
+                    errorAlert(error.code)
                 }
             } else {
                 alert("Las contraseñas no coinciden");
@@ -101,6 +114,7 @@ function CreateTrainer(props) {
             </View>
             <View style = {styles.button}>
                 <Button title='Crear Entrenador' 
+                color='red'
                 onPress={() => saveNewUser()}/>
             </View>
         </ScrollView>
@@ -109,7 +123,7 @@ function CreateTrainer(props) {
 }
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         flex: 1,
         padding: 35,
         alignSelf: 'auto',
@@ -123,12 +137,15 @@ const styles = StyleSheet.create({
         padding: 10,
         fontSize: 20,
     },
-    button:{
-        padding: 5,
+    button: {
+        margin: 10,
     },
-    list: {
-        padding: 5,
-        borderColor: 'grey',
+    text: {
+        alignSelf: 'center',
+        fontSize: 30,
+        padding: 15,
+        margin: 20,
+        color: 'white',
     },
 })
 export default CreateTrainer
