@@ -64,7 +64,7 @@ const UserDetailScreen = (props) =>{
         }
     }
 
-    const openConfirmationAlert = async () => {
+    const openConfirmationAlert = () => {
         Alert.alert("Eliminar Usuario", "¿Estás Seguro?", [
             {text: 'Sí', onPress: () => deleteUser()},
             {text: 'No', onPress: () => console.log('false')},

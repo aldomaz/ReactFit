@@ -19,7 +19,7 @@ function AdminView(props) {
             <View style={styles.button}>
                 <Button title='Lista de Entrenadores'
                     color='red'
-                    onPress={() => props.navigation.navigate('UsersList')}>
+                    onPress={() => props.navigation.navigate('TrainerList')}>
                 </Button>
             </View>
             <View style={styles.button}>

@@ -3,7 +3,7 @@ import {View, StyleSheet, TextInput, ScrollView, Button, Alert, ActivityIndicato
 import firebase from '../database/firebase'
 import {Picker} from '@react-native-picker/picker';
 
-function AssignRoutine(props) {
+function NormalInfo(props) {
     
     const initialState = {
         id: '',
@@ -33,7 +33,7 @@ function AssignRoutine(props) {
 
     const assignAlert = () => {
         Alert.alert("Rutina Asignada Exitosamente", "", [
-            {text: 'OK', onPress:()=>props.navigation.navigate('CustomerList')},
+            {text: 'OK', onPress:()=>props.navigation.navigate('NormalList')},
         ])
     }
 
@@ -52,6 +52,7 @@ function AssignRoutine(props) {
 
     useEffect (() => {
         getUserByID(props.route.params.userId);
+        console.log(props.route.params.userRole);
     }, [])
 
     if (loading){
@@ -127,4 +128,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default AssignRoutine
+export default NormalInfo

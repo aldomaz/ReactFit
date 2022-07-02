@@ -1,35 +1,31 @@
 import React, { useEffect, useState } from 'react'
-import { ScrollView, Button , StyleSheet } from 'react-native'
-import firebase from '../database/firebase'
+import { ScrollView, StyleSheet, Text } from 'react-native'
+import firebase from '../../database/firebase'
 import { ListItem } from 'react-native-elements'
-import { color } from 'react-native-elements/dist/helpers'
 
-const UsersList = (props) => {
+function PremiumList(props) {
     const [users, setusers] = useState([])
 
     useEffect(() => {
-        firebase.db.collection('users').onSnapshot(querySnapshot => {
+        firebase.db.collection('users').orderBy('name').onSnapshot(querySnapshot => {
             const users = [];
             querySnapshot.docs.forEach(doc => {
-                if (doc.data().role === 'instructor') {
-                    const { name, email } = doc.data()
+                if (doc.data().role === 'premium') {
+                    const { name, email, role } = doc.data()
                     users.push({
                         id: doc.id,
-                        name,
+                        name, 
                         email,
+                        role,
                     })
                 }
             })
-
             setusers(users)
         })
     }, [])
 
     return (
         <ScrollView style={styles.container}>
-            <Button title="Añadir Entrenador" 
-            color = {'red'}
-            onPress={() => props.navigation.navigate('CreateTrainer')}/>
             {
                 users.map(user => {
                     return (
@@ -37,8 +33,9 @@ const UsersList = (props) => {
                         key={user.id} 
                         containerStyle={styles.list}
                         bottomDivider onPress={() => {
-                            props.navigation.navigate("UserDetailScreen", {
-                                userId: user.id
+                            props.navigation.navigate("PremiumInfo", {
+                                userId: user.id,
+                                userRole: user.role,
                             })
                         }}>
                             <ListItem.Chevron />
@@ -67,4 +64,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default UsersList
+export default PremiumList
