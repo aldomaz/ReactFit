@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { ScrollView, StyleSheet, Text } from 'react-native'
-import firebase from '../database/firebase'
+import { ScrollView, Button , StyleSheet } from 'react-native'
+import firebase from '../../database/firebase'
 import { ListItem } from 'react-native-elements'
+import { color } from 'react-native-elements/dist/helpers'
 
-function CustomerList(props) {
+const TrainerList = (props) => {
     const [users, setusers] = useState([])
 
     useEffect(() => {
         firebase.db.collection('users').onSnapshot(querySnapshot => {
             const users = [];
             querySnapshot.docs.forEach(doc => {
-                if (doc.data().role === 'premium' || doc.data().role === 'normal') {
+                if (doc.data().role === 'instructor') {
                     const { name, email } = doc.data()
                     users.push({
                         id: doc.id,
@@ -26,6 +27,9 @@ function CustomerList(props) {
 
     return (
         <ScrollView style={styles.container}>
+            <Button title="Añadir Entrenador" 
+            color = {'red'}
+            onPress={() => props.navigation.navigate('CreateTrainer')}/>
             {
                 users.map(user => {
                     return (
@@ -33,7 +37,7 @@ function CustomerList(props) {
                         key={user.id} 
                         containerStyle={styles.list}
                         bottomDivider onPress={() => {
-                            props.navigation.navigate("AssignRoutine", {
+                            props.navigation.navigate("UserDetailScreen", {
                                 userId: user.id
                             })
                         }}>
@@ -63,4 +67,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default CustomerList
+export default TrainerList

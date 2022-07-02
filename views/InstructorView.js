@@ -17,9 +17,15 @@ function InstructorView(props) {
                 <Text style={styles.text}>{firebase.auth.currentUser.displayName}</Text>
             </View>
             <View style={styles.button}>
-                <Button title = 'Asignar Rutina'
+                <Button title = 'Ver Clientes Premium'
                     color= 'red'
-                    onPress={() => props.navigation.navigate('CustomerList')}> 
+                    onPress={() => props.navigation.navigate('PremiumList')}> 
+                </Button>
+            </View>
+            <View style={styles.button}>
+                <Button title = 'Ver Clientes Normales'
+                    color= 'red'
+                    onPress={() => props.navigation.navigate('NormalList')}> 
                 </Button>
             </View>
             <View style={styles.button}>

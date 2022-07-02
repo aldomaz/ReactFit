@@ -10,6 +10,8 @@ function CompleteUserProfile(props) {
         goal: '',
         dateBirth: '',
         age: '',
+        weight: '',
+        height: '',
         job: '',
         physicalActivity: "",
     }
@@ -38,14 +40,18 @@ function CompleteUserProfile(props) {
     }
 
     const updateUser = async () => {
+        setLoading(true);
         const dbRef = firebase.db.collection('users').doc(user.id);
         await dbRef.update({
             name: user.name,
             goal: user.goal,
             age: user.age,
+            weight: user.weight,
+            height: user.height,
             job: user.job,
         })
         setUser(initialState);
+        setLoading(false);
         props.navigation.navigate('Dashboard');
     }
 
@@ -77,7 +83,24 @@ function CompleteUserProfile(props) {
                 <TextInput 
                 value={user.age}
                 keyboardType={'number-pad'}
+                maxLength={3}
                 onChangeText={(value) => handleChangeText('age', value)} />
+            </View> 
+            <View style = {styles.inputGroup}>
+                <Text style = {styles.title}>Peso (kg)</Text>
+                <TextInput 
+                value={user.weight}
+                keyboardType={'number-pad'}
+                maxLength={3}
+                onChangeText={(value) => handleChangeText('weight', value)} />
+            </View> 
+            <View style = {styles.inputGroup}>
+                <Text style = {styles.title}>Estatura (cm)</Text>
+                <TextInput 
+                value={user.height}
+                keyboardType={'number-pad'}
+                maxLength={3}
+                onChangeText={(value) => handleChangeText('height', value)} />
             </View> 
             <View style = {styles.inputGroup}>
                 <Text style = {styles.title}>Ocupacion</Text>

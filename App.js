@@ -6,16 +6,21 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 import LoginScreen from './screens/LoginScreen';
 import Dashboard from './screens/Dashboard'
-import UsersList from './screens/UsersList';
+
 import UserRegister from './screens/UserRegister';
 import UserDetailScreen from './screens/UserDetailScreen';
 import CreateUser from './screens/CreateUser';
 import CompleteUserProfile from './screens/CompleteUserProfile';
-import CustomerList from './screens/CustomerList';
-import AssignRoutine from './screens/AssignRoutine'
+import PremiumInfo from './screens/PremiumInfo'
 import RoutineView from './screens/RoutineView';
 import CreateTrainer from './screens/CreateTrainer'
-import ClientList from './screens/ClientList';
+
+import PremiumList from './screens/lists/PremiumList';
+import TrainerList from './screens/lists/TrainerList';
+import ClientList from './screens/lists/ClientList';
+import NormalList from './screens/lists/NormalList';
+
+import PremiumRoutine from './screens/PremiumRoutine';
 
 
 function MyStack() {
@@ -33,7 +38,7 @@ function MyStack() {
           headerLeft: null, 
           headerTitleStyle:{color:'white'} , 
           headerStyle:{backgroundColor: 'black'}}}/>
-        <Stack.Screen name="UsersList" component={UsersList} options={{ title: 'Entrenadores', headerTitleAlign: 'center' , 
+        <Stack.Screen name="TrainerList" component={TrainerList} options={{ title: 'Entrenadores', headerTitleAlign: 'center' , 
           headerTitleStyle:{color:'white'},
           headerTintColor:'white',
           headerStyle:{backgroundColor: 'black'}}} />
@@ -57,11 +62,19 @@ function MyStack() {
           headerTitleStyle:{color:'white'},
           headerTintColor:'white',
           headerStyle:{backgroundColor: 'black'}}} />
-        <Stack.Screen name="CustomerList" component={CustomerList} options={{ title: 'Lista de Clientes', headerTitleAlign: 'center' ,
+        <Stack.Screen name="PremiumList" component={PremiumList} options={{ title: 'Clientes Premium', headerTitleAlign: 'center' ,
           headerTitleStyle:{color:'white'},
           headerTintColor:'white',
           headerStyle:{backgroundColor: 'black'}}} />
-        <Stack.Screen name="AssignRoutine" component={AssignRoutine} options={{ title: 'Asignar Rutina', headerTitleAlign: 'center' ,
+        <Stack.Screen name="NormalList" component={NormalList} options={{ title: 'Clientes Normales', headerTitleAlign: 'center' ,
+          headerTitleStyle:{color:'white'},
+          headerTintColor:'white',
+          headerStyle:{backgroundColor: 'black'}}} />
+        <Stack.Screen name="PremiumInfo" component={PremiumInfo} options={{ title: 'Información Cliente', headerTitleAlign: 'center' ,
+          headerTitleStyle:{color:'white'},
+          headerTintColor:'white',
+          headerStyle:{backgroundColor: 'black'}}} />
+          <Stack.Screen name="PremiumRoutine" component={PremiumRoutine} options={{ title: 'Asignar Rutina Premium', headerTitleAlign: 'center' ,
           headerTitleStyle:{color:'white'},
           headerTintColor:'white',
           headerStyle:{backgroundColor: 'black'}}} />

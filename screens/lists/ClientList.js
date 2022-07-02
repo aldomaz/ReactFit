@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ScrollView, Button, StyleSheet } from 'react-native'
-import firebase from '../database/firebase'
-import { ListItem , SearchBar } from 'react-native-elements'
+import firebase from '../../database/firebase'
+import { ListItem } from 'react-native-elements'
 
 function ClientList(props) {
     const [users, setusers] = useState([])

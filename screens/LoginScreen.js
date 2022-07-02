@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, TextInput, ScrollView, Button, Alert, Text, Image , StatusBar } from 'react-native'
+import { View, StyleSheet, TextInput, ScrollView, Button, Alert, Text, Image } from 'react-native'
 import { ActivityIndicator } from 'react-native'
 import firebase from '../database/firebase'
 
@@ -41,6 +41,7 @@ const LoginScreen = (props) => {
                 .signInWithEmailAndPassword(state.email, state.password)
                 .then(() => {
                     setLoading(false);
+                    setState(initialState);
                     props.navigation.navigate("Dashboard");
                 })
                 .catch(error => {
