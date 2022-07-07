@@ -34,7 +34,7 @@ function PremiumInfo(props) {
     const assignRoutine = async () => {
         if(props.route.params.userRole === "premium")
         {
-            props.navigation.navigate('PremiumRoutine', {username: user.name});
+            props.navigation.navigate('PremiumRoutine', {username: user.id});
         }else{
             props.navigation.navigate('NormalRoutine');
         }
