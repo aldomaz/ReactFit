@@ -1,9 +1,26 @@
 import React, {useEffect, useState} from 'react'
 import {View, StyleSheet, TextInput, ScrollView, Button, Alert, ActivityIndicator , Text} from 'react-native'
 import firebase from '../database/firebase'
-import { SpeedDial, FAB } from 'react-native-elements'
+import { SpeedDial, FAB , Dialog, CheckBox, ListItem} from 'react-native-elements'
 
 function PremiumRoutine(props) {
+
+    const [showex, setEx] = useState([]);
+    const [showex2, setEx2] = useState([]);
+    
+    const initialState2 = {
+        name: '',
+        repeats: '',
+        series: '',
+    }
+
+    const userState = {
+        username: '',
+    }
+
+    const [user, setUser] = useState (userState);
+    const [counter, setCounter] = useState(0);
+    const [exercise, setExercise] = useState(initialState2)
 
     const getCurrentDate=()=>{
         var date = new Date().getDate();
@@ -11,13 +28,18 @@ function PremiumRoutine(props) {
         var year = new Date().getFullYear();
         return date + '-' + month + '-' + year;
     }
-
+    
+    const [visible5, setVisible5] = useState(false);
+    const toggleDialog5 = () => {
+        setVisible5(!visible5);
+      };
+    const [checked, setChecked] = useState(1);
+    
     const initialState1 = {
         name: '',
-        aux: 0,
         id: '',
+        aux: 0,
     }
-
     const [routine, setRoutine] = useState(initialState1);
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false)
@@ -30,29 +52,78 @@ function PremiumRoutine(props) {
         var date = new Date().getDate();
         var month = new Date().getMonth() + 1;
         var year = new Date().getFullYear();
-        var res = props.route.params.username.substring(0, 3);
+        var res = user.username;
         return res + date + month + year;
     }
 
-    const addExcercise = async () => {
-        if(routine.aux === 0){
-            setLoading(true);
-            const dbRef = firebase.db.collection('routines').doc(generateID());
-            await dbRef.set({
-                name: routine.name,
-                date: getCurrentDate(),
-            });
-            setRoutine({ 
-                name: routine.name,
-                aux: routine.aux + 1,
-                id: generateID(),
+    const sendExercise = async (ex2) => {
+        setLoading(true);
+        const dbRef = firebase.db.collection('routines').doc(generateID()).collection('exercise').doc(ex2);
+        await dbRef.set({
+            name: exercise.name,
+            series: exercise.series,
+            repeats: exercise.repeats,
+        })
+        setCounter(counter+1);
+        firebase.db.collection('routines').doc(generateID()).collection('exercise').orderBy('name').onSnapshot(querySnapshot => {
+            const showex2 = [];
+            querySnapshot.docs.forEach(doc => {
+                const { name, repeats, series } = doc.data()
+                showex2.push({
+                    id: doc.id,
+                    name,
+                    repeats,
+                    series,
+                })
             })
-            console.log('Ejercicio1');
-            setLoading(false);
+            setEx2(showex2);
+        })
+        setLoading(false);
+        alert('Asignación exitosa');
+    }
+
+    const addExercise = async (ex) => {
+        if(routine.name !== ''){
+            if(routine.aux === 0){
+                setLoading(true);
+                const dbRef = firebase.db.collection('routines').doc(generateID());
+                await dbRef.set({
+                    name: routine.name,
+                    date: getCurrentDate(),
+                });
+                setRoutine({ 
+                    name: routine.name,
+                    id: generateID(),
+                    aux: routine.aux + 1,
+                })
+                setLoading(false);
+            }
+            sendExercise(ex);
         } else {
-            
+            alert('Asigne un nombre a la rutina')
         }
     }
+
+    useEffect (() => {
+        firebase.db.collection('excersises').orderBy('name').onSnapshot(querySnapshot => {
+            const showex = [];
+            querySnapshot.docs.forEach(doc => {
+                const { name, repeats, series } = doc.data()
+                showex.push({
+                    id: doc.id,
+                    name,
+                    repeats,
+                    series,
+                })
+            })
+            setEx(showex);
+        })
+        if(user.username === ''){
+            setUser({
+                username: props.route.params.username,
+            })
+        }
+    }, [])
 
     if (loading){
         return(
@@ -76,9 +147,30 @@ function PremiumRoutine(props) {
                 value = {getCurrentDate()}
                 color='black'
                 editable={false}/>
-        <View style = {{paddingBottom:10 }}>
-        <Text style = {styles.title2}>Ejercicios Asignados ({routine.aux}):</Text>
+        <View style = {{margin:3 }}>
+        <Text style = {styles.title2}>Ejercicios Asignados ({counter}):</Text>
         <Text style = {styles.title2}>** Para agregar ejercicios hacer clic en el botón + **</Text>
+        </View>
+        <View style = {{margin:5}}>
+        {
+            showex2.map(showex2 => {
+                return (
+                    <ListItem 
+                    key={showex2.id} 
+                    containerStyle={styles.list}
+                    onPress={() => {
+                        props.navigation.navigate("ModifyExercise", {
+                            exerciseId: showex2.id,
+                            userId: generateID(),
+                        })}}>
+                    <ListItem.Chevron />
+                    <ListItem.Content>
+                    <ListItem.Title style={styles.text}>{showex2.name}</ListItem.Title>
+                    </ListItem.Content>
+                    </ListItem>
+                )
+            })
+        }
         </View>
         <FAB style = {styles.button}
             visible={true}
@@ -110,9 +202,45 @@ function PremiumRoutine(props) {
               icon={{ name: 'add', color: 'white' }}
               buttonStyle={{backgroundColor:'limegreen'}}
               title="Añadir Ejercicio"
-              onPress={() => addExcercise()}
+              onPress={toggleDialog5}
             />
         </SpeedDial>
+        <ScrollView>
+        <Dialog
+            isVisible={visible5}
+            onBackdropPress={toggleDialog5}
+        >
+        <ScrollView >
+        <Dialog.Title title="Seleccionar Ejercicio"/>
+            {showex.map(showex => (
+                <CheckBox
+                    key= {showex.id}
+                    title={showex.name}
+                    containerStyle={{ backgroundColor: 'white', borderWidth: 0 }}
+                    checkedIcon="dot-circle-o"
+                    uncheckedIcon="circle-o"
+                    checked={checked === showex.id}
+                    onPress={() => {setChecked(showex.id),
+                    setExercise({
+                        name: showex.name,
+                        repeats: showex.repeats,
+                        series: showex.series,
+                    })}}
+               />
+            ))}
+        <Dialog.Actions>
+            <Dialog.Button
+                title="CONFIRM"
+                onPress={() => {
+                    toggleDialog5;
+                    addExercise(checked);
+                }}
+            />
+            <Dialog.Button title="CANCEL" onPress={toggleDialog5} />
+        </Dialog.Actions>
+        </ScrollView>
+    </Dialog>
+    </ScrollView>
     </View>
   )
 }
@@ -145,6 +273,16 @@ const styles = StyleSheet.create({
         borderColor: 'grey',
         padding: 10,
         fontSize: 15,
+    },
+    list: {
+        backgroundColor: 'black',
+        padding: 10,
+        borderWidth: 1,
+        borderColor: 'red',
+        borderRadius: 10,
+    },
+    text: {
+        color: 'white',
     },
 });
 
