@@ -77,11 +77,14 @@ function MyStack() {
           <Stack.Screen name="PremiumRoutine" component={PremiumRoutine} options={{ title: 'Asignar Rutina Premium', headerTitleAlign: 'center' ,
           headerTitleStyle:{color:'white'},
           headerTintColor:'white',
-          headerStyle:{backgroundColor: 'black'}}} />
+          headerBackVisible: false, 
+          headerLeft: null, 
+          headerStyle:{backgroundColor: 'black'}}}/>
           <Stack.Screen name="ModifyExercise" component={ModifyExercise} options={{ title: 'Modificar Ejercicio', headerTitleAlign: 'center' ,
           headerTitleStyle:{color:'white'},
           headerTintColor:'white',
-          headerStyle:{backgroundColor: 'black'}}} />
+          headerStyle:{backgroundColor: 'black'}}}
+          />
         <Stack.Screen name="RoutineView" component={RoutineView} options={{ title: 'Rutinas Asignadas', headerTitleAlign: 'center',
           headerTitleStyle:{color:'white'},
           headerTintColor:'white',

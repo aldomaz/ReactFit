@@ -15,8 +15,8 @@ function ModifyExercise(props) {
     const [loading, setLoading] = useState(true)
     const [exercise, setExercise] = useState(initialState)
     
-    const getExerciseByID = async (userId, exerciseId) => {
-        const dbRef = firebase.db.collection('routines').doc(userId).collection('exercise').doc(exerciseId);
+    const getExerciseByID = async (userId, routineId, exerciseId) => {
+        const dbRef = firebase.db.collection('users').doc(userId).collection('routines').doc(routineId).collection('exercise').doc(exerciseId);
         const doc = await dbRef.get();
         const exercise = doc.data();
         setExercise({
@@ -31,17 +31,25 @@ function ModifyExercise(props) {
     }
 
     useEffect (() => {
-        getExerciseByID(props.route.params.userId, props.route.params.exerciseId);
+        getExerciseByID(props.route.params.userId, props.route.params.routineId, props.route.params.exerciseId);
     }, [])
 
     const saveChanges =  async () => {
         setLoading(true);
-        const dbRef = firebase.db.collection('routines').doc(props.route.params.userId).collection('exercise').doc(props.route.params.exerciseId);
+        const dbRef = firebase.db.collection('users').doc(props.route.params.userId).collection('routines').doc(props.route.params.routineId).collection('exercise').doc(props.route.params.exerciseId);
         await dbRef.set({
             name: exercise.name,
             repeats: exercise.repeats,
             series: exercise.series,
         })
+        setExercise(initialState);
+        props.navigation.navigate('PremiumRoutine');
+    }
+
+    const deleteExercise = async () => {
+        setLoading(true);
+        const dbRef = firebase.db.collection('users').doc(props.route.params.userId).collection('routines').doc(props.route.params.routineId).collection('exercise').doc(props.route.params.exerciseId);
+        await dbRef.delete();
         setExercise(initialState);
         props.navigation.navigate('PremiumRoutine');
     }
@@ -64,29 +72,40 @@ function ModifyExercise(props) {
                 editable={false}
                 onChangeText={(value) => handleChangeText('name', value)}/>
             </View>
-            <Text style = {styles.title}>Repeticiones</Text>
-            <View style = {styles.inputGroup2}>
-                <TextInput style = {styles.text}
-                placeholder='Exercise Series'
-                value={exercise.series}
-                onChangeText={(value) => handleChangeText('series', value)}/>
-            </View>
             <Text style = {styles.title}>Series</Text>
             <View style = {styles.inputGroup2}>
                 <TextInput style = {styles.text}
-                placeholder='Exercise Repeats'
+                placeholder='Series'
+                value={exercise.series}
+                onChangeText={(value) => handleChangeText('series', value)}/>
+            </View>
+            <Text style = {styles.title}>Repeticiones</Text>
+            <View style = {styles.inputGroup2}>
+                <TextInput style = {styles.text}
+                placeholder='Repeticiones'
                 value={exercise.repeats}
                 onChangeText={(value) => handleChangeText('repeats', value)}/>
             </View>
-            <FAB style = {styles.button}
-            visible={true}
-            title="Guardar Cambios"
-            titleStyle = {{fontSize: 12}}
-            color='red'
-            upperCase
-            onPress={() => saveChanges()}
-            icon={{ name: 'check', color: 'white' }}
-            />
+            <View>
+                <FAB style = {styles.button}
+                visible={true}
+                title=" Guardar Cambios "
+                titleStyle = {{fontSize: 12}}
+                color='limegreen'
+                upperCase
+                onPress={() => saveChanges()}
+                icon={{ name: 'check', color: 'white' }}
+                />
+                <FAB style = {styles.button}
+                visible={true}
+                title="Eliminar Ejercicio"
+                titleStyle = {{fontSize: 12}}
+                color='red'
+                upperCase
+                onPress={() => deleteExercise()}
+                icon={{ name: 'delete', color: 'white' }}
+                />
+            </View>
         </ScrollView>
     )
 }
@@ -117,7 +136,6 @@ const styles = StyleSheet.create({
     },
     button:{
         padding: 2,
-        margin: 15,
     },
     list: {
         padding: 5,
