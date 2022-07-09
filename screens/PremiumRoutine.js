@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {View, StyleSheet, TextInput, ScrollView, Button, Alert, ActivityIndicator , Text} from 'react-native'
+import {View, StyleSheet, TextInput, ScrollView, BackHandler , Alert, ActivityIndicator , Text} from 'react-native'
 import firebase from '../database/firebase'
 import { SpeedDial, FAB , Dialog, CheckBox, ListItem} from 'react-native-elements'
 
@@ -58,14 +58,14 @@ function PremiumRoutine(props) {
 
     const sendExercise = async (ex2) => {
         setLoading(true);
-        const dbRef = firebase.db.collection('routines').doc(generateID()).collection('exercise').doc(ex2);
+        const dbRef = firebase.db.collection('users').doc(user.username).collection('routines').doc(generateID()).collection('exercise').doc(ex2);
         await dbRef.set({
             name: exercise.name,
             series: exercise.series,
             repeats: exercise.repeats,
         })
         setCounter(counter+1);
-        firebase.db.collection('routines').doc(generateID()).collection('exercise').orderBy('name').onSnapshot(querySnapshot => {
+        firebase.db.collection('users').doc(user.username).collection('routines').doc(generateID()).collection('exercise').orderBy('name').onSnapshot(querySnapshot => {
             const showex2 = [];
             querySnapshot.docs.forEach(doc => {
                 const { name, repeats, series } = doc.data()
@@ -86,7 +86,7 @@ function PremiumRoutine(props) {
         if(routine.name !== ''){
             if(routine.aux === 0){
                 setLoading(true);
-                const dbRef = firebase.db.collection('routines').doc(generateID());
+                const dbRef = firebase.db.collection('users').doc(user.username).collection('routines').doc(generateID());
                 await dbRef.set({
                     name: routine.name,
                     date: getCurrentDate(),
@@ -103,6 +103,30 @@ function PremiumRoutine(props) {
             alert('Asigne un nombre a la rutina')
         }
     }
+
+    const finishRoutineAlert = () => {
+        Alert.alert("Finalizar asignación de rutina", "¿Estás Seguro?", [
+            {text: 'Sí', onPress: () => props.navigation.navigate('PremiumList')},
+            {text: 'No', onPress: () => console.log('false')},
+        ])
+    }
+
+    const cancelRoutine = async () => {
+        setLoading(true);
+        if(routine.name !== ''){
+            const dbref = firebase.db.collection('users').doc(user.username).collection('routines').doc(routine.id);
+            await dbref.delete();
+        }
+        props.navigation.navigate('PremiumList');
+    }
+
+    const cancelRoutineAlert = () => {
+        Alert.alert("Desea cancelar la asignación de rutina", "¿Estás Seguro?", [
+            {text: 'Sí', onPress: () => cancelRoutine()},
+            {text: 'No', onPress: () => console.log('false')},
+        ])
+    }
+
 
     useEffect (() => {
         firebase.db.collection('excersises').orderBy('name').onSnapshot(querySnapshot => {
@@ -124,6 +148,14 @@ function PremiumRoutine(props) {
             })
         }
     }, [])
+
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener(
+          "hardwareBackPress",
+          cancelRoutineAlert
+        );
+        return () => backHandler.remove();
+      }, []);
 
     if (loading){
         return(
@@ -148,7 +180,6 @@ function PremiumRoutine(props) {
                 color='black'
                 editable={false}/>
         <View style = {{margin:3 }}>
-        <Text style = {styles.title2}>Ejercicios Asignados ({counter}):</Text>
         <Text style = {styles.title2}>** Para agregar ejercicios hacer clic en el botón + **</Text>
         </View>
         <View style = {{margin:5}}>
@@ -161,7 +192,8 @@ function PremiumRoutine(props) {
                     onPress={() => {
                         props.navigation.navigate("ModifyExercise", {
                             exerciseId: showex2.id,
-                            userId: generateID(),
+                            routineId: routine.id,
+                            userId: user.username,
                         })}}>
                     <ListItem.Chevron />
                     <ListItem.Content>
@@ -174,20 +206,21 @@ function PremiumRoutine(props) {
         </View>
         <FAB style = {styles.button}
             visible={true}
-            title="Enviar Rutina"
+            title="  Enviar Rutina   "
             titleStyle = {{fontSize: 12}}
             color='limegreen'
             upperCase
-            onPress={() => sendRoutine()}
+            onPress={() => finishRoutineAlert()}
             icon={{ name: 'check', color: 'white' }}
             />
         <FAB style = {styles.button}
             visible={true}
+            size={'small'}
             title="Cancelar Rutina"
             titleStyle = {{fontSize: 12}}
             color='red'
             upperCase
-            onPress={() => cancelRoutine()}
+            onPress={() => cancelRoutineAlert()}
             icon={{ name: 'cancel', color: 'white' }}
             />
         </ScrollView>
@@ -202,7 +235,13 @@ function PremiumRoutine(props) {
               icon={{ name: 'add', color: 'white' }}
               buttonStyle={{backgroundColor:'limegreen'}}
               title="Añadir Ejercicio"
-              onPress={toggleDialog5}
+              onPress={() => {
+                if(routine.name !== ''){
+                    toggleDialog5
+                }else{
+                    alert('Asigne un nombre a la rutina')
+                }
+            }}
             />
         </SpeedDial>
         <ScrollView>
