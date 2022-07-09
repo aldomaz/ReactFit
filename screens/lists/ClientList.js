@@ -11,7 +11,7 @@ function ClientList(props) {
     const [filteredDataSource, setFilteredDataSource] = useState([]);
 
     useEffect(() => {
-        firebase.db.collection('users').onSnapshot(querySnapshot => {
+        firebase.db.collection('users').orderBy("name").onSnapshot(querySnapshot => {
             const users = [];
             querySnapshot.docs.forEach(doc => {
                 if (doc.data().role === 'normal' || doc.data().role === 'premium') {
@@ -61,7 +61,7 @@ function ClientList(props) {
                 placeholder="Buscar cliente"
                 onChangeText={(text) => searchFilterFunction(text)}
                 value={search}
-                clearButtonMode='always'
+                maxLength ={50}
             />
             {
                 filteredDataSource.map(user => {
