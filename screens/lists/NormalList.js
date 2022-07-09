@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { ScrollView, StyleSheet, Text } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 import firebase from '../../database/firebase'
 import { ListItem } from 'react-native-elements'
+import { Searchbar } from 'react-native-paper';
 
 function NormalList(props) {
     const [users, setusers] = useState([])
+    const [search, setSearch] = useState('');
+    const [filteredDataSource, setFilteredDataSource] = useState([]);
 
     useEffect(() => {
         firebase.db.collection('users').orderBy("name").onSnapshot(querySnapshot => {
@@ -21,14 +24,44 @@ function NormalList(props) {
                 }
             })
 
+            setFilteredDataSource(users)
             setusers(users)
         })
     }, [])
 
+    const searchFilterFunction = (text) => {
+        // Check if searched text is not blank
+        if (text) {
+          // Inserted text is not blank
+          // Filter the masterDataSource and update FilteredDataSource
+          const newData = users.filter(function (item) {
+            // Applying filter for the inserted text in search bar
+            const itemData = item.name
+              ? item.name.toUpperCase()
+              : ''.toUpperCase();
+            const textData = text.toUpperCase();
+            return itemData.indexOf(textData) > -1;
+          });
+          setFilteredDataSource(newData);
+          setSearch(text);
+        } else {
+          // Inserted text is blank
+          // Update FilteredDataSource with masterDataSource
+          setFilteredDataSource(users);
+          setSearch(text);
+        }
+      };
+
     return (
         <ScrollView style={styles.container}>
+            <Searchbar
+                placeholder="Buscar cliente"
+                onChangeText={(text) => searchFilterFunction(text)}
+                value={search}
+                maxLength ={50}
+            />
             {
-                users.map(user => {
+                filteredDataSource.map(user => {
                     return (
                         <ListItem 
                         key={user.id} 
