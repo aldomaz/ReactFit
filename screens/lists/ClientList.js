@@ -24,8 +24,8 @@ function ClientList(props) {
                 }
             })
 
-            setFilteredDataSource(users)
-            setusers(users)
+            setFilteredDataSource(users);
+            setusers(users);
         })
     }, [])
 

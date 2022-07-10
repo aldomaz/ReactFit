@@ -2,11 +2,14 @@ import React, {useEffect, useState} from 'react'
 import {View, StyleSheet, TextInput, ScrollView, BackHandler , Alert, ActivityIndicator , Text} from 'react-native'
 import firebase from '../database/firebase'
 import { SpeedDial, FAB , Dialog, CheckBox, ListItem} from 'react-native-elements'
+import { Searchbar } from 'react-native-paper';
 
 function PremiumRoutine(props) {
 
     const [showex, setEx] = useState([]);
     const [showex2, setEx2] = useState([]);
+    const [search, setSearch] = useState('');
+    const [filteredDataSource, setFilteredDataSource] = useState([]);
     
     const initialState2 = {
         name: '',
@@ -141,6 +144,7 @@ function PremiumRoutine(props) {
                 })
             })
             setEx(showex);
+            setFilteredDataSource(showex);
         })
         if(user.username === ''){
             setUser({
@@ -148,6 +152,29 @@ function PremiumRoutine(props) {
             })
         }
     }, [])
+
+    const searchFilterFunction = (text) => {
+        // Check if searched text is not blank
+        if (text) {
+          // Inserted text is not blank
+          // Filter the masterDataSource and update FilteredDataSource
+          const newData = showex.filter(function (item) {
+            // Applying filter for the inserted text in search bar
+            const itemData = item.name
+              ? item.name.toUpperCase()
+              : ''.toUpperCase();
+            const textData = text.toUpperCase();
+            return itemData.indexOf(textData) > -1;
+          });
+          setFilteredDataSource(newData);
+          setSearch(text);
+        } else {
+          // Inserted text is blank
+          // Update FilteredDataSource with masterDataSource
+          setFilteredDataSource(showex);
+          setSearch(text);
+        }
+    };
 
     useEffect(() => {
         const backHandler = BackHandler.addEventListener(
@@ -207,11 +234,11 @@ function PremiumRoutine(props) {
         <FAB style = {styles.button}
             visible={true}
             title="  Enviar Rutina   "
-            titleStyle = {{fontSize: 12}}
-            color='limegreen'
+            titleStyle = {{fontSize: 12, color: 'limegreen'}}
+            color='black'
             upperCase
             onPress={() => finishRoutineAlert()}
-            icon={{ name: 'check', color: 'white' }}
+            icon={{ name: 'check', color: 'limegreen' }}
             />
         <FAB style = {styles.button}
             visible={true}
@@ -226,18 +253,18 @@ function PremiumRoutine(props) {
         </ScrollView>
         <SpeedDial
             isOpen={open}
-            buttonStyle={{backgroundColor:'limegreen'}}
+            buttonStyle={{backgroundColor:'black'}}
             icon={{ name: 'add', color: 'white' }}
             openIcon={{ name: 'close', color: 'white' }}
             onOpen={() => setOpen(!open)}
             onClose={() => setOpen(!open)}>
             <SpeedDial.Action
               icon={{ name: 'add', color: 'white' }}
-              buttonStyle={{backgroundColor:'limegreen'}}
+              buttonStyle={{backgroundColor:'black'}}
               title="Añadir Ejercicio"
               onPress={() => {
                 if(routine.name !== ''){
-                    toggleDialog5
+                    toggleDialog5();
                 }else{
                     alert('Asigne un nombre a la rutina')
                 }
@@ -250,14 +277,24 @@ function PremiumRoutine(props) {
             onBackdropPress={toggleDialog5}
         >
         <ScrollView >
-        <Dialog.Title title="Seleccionar Ejercicio"/>
-            {showex.map(showex => (
+            <Searchbar
+                placeholder="Buscar ejercicio"
+                placeholderTextColor={'gray'}
+                onChangeText={(text) => searchFilterFunction(text)}
+                value={search}
+                iconColor={'white'}
+                maxLength ={50}
+                inputStyle={{fontSize: 14, color: 'white'}}
+                style={{backgroundColor: 'black', margin: 10}}
+            />
+            {filteredDataSource.map(showex => (
                 <CheckBox
                     key= {showex.id}
                     title={showex.name}
                     containerStyle={{ backgroundColor: 'white', borderWidth: 0 }}
                     checkedIcon="dot-circle-o"
                     uncheckedIcon="circle-o"
+                    checkedColor='black'
                     checked={checked === showex.id}
                     onPress={() => {setChecked(showex.id),
                     setExercise({
@@ -269,13 +306,14 @@ function PremiumRoutine(props) {
             ))}
         <Dialog.Actions>
             <Dialog.Button
-                title="CONFIRM"
+                title="AÑADIR"
+                titleStyle={{color: 'black'}}
                 onPress={() => {
                     toggleDialog5;
                     addExercise(checked);
                 }}
             />
-            <Dialog.Button title="CANCEL" onPress={toggleDialog5} />
+            <Dialog.Button titleStyle={{color: 'red'}} title="CANCELAR" onPress={toggleDialog5} />
         </Dialog.Actions>
         </ScrollView>
     </Dialog>
@@ -317,7 +355,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
         padding: 10,
         borderWidth: 1,
-        borderColor: 'red',
         borderRadius: 10,
     },
     text: {
