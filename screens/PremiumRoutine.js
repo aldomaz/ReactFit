@@ -234,11 +234,11 @@ function PremiumRoutine(props) {
         <FAB style = {styles.button}
             visible={true}
             title="  Enviar Rutina   "
-            titleStyle = {{fontSize: 12, color: 'limegreen'}}
-            color='black'
+            titleStyle = {{fontSize: 12, color: 'white'}}
+            color='limegreen'
             upperCase
             onPress={() => finishRoutineAlert()}
-            icon={{ name: 'check', color: 'limegreen' }}
+            icon={{ name: 'check', color: 'white' }}
             />
         <FAB style = {styles.button}
             visible={true}
