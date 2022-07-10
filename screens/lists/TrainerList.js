@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ScrollView, Button , StyleSheet } from 'react-native'
 import firebase from '../../database/firebase'
 import { ListItem } from 'react-native-elements'
-import { color } from 'react-native-elements/dist/helpers'
+import { Searchbar } from 'react-native-paper';
 
 const TrainerList = (props) => {
     const [users, setusers] = useState([])
