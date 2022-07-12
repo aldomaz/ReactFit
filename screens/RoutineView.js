@@ -1,36 +1,69 @@
 import React,  {useEffect, useState} from 'react'
 import firebase from '../database/firebase'
-import { ListItem }from 'react-native-elements'
+import { List } from 'react-native-paper'
 import { View , Text, StyleSheet, ScrollView, Button} from 'react-native';
 
 function RoutineView(props) {
-    const [users, setusers]=useState([])
+    const [routine, setRoutine]=useState([])
+    const [exercise, setExercise]=useState([])
 
     useEffect(() => {
         firebase.db.collection('users').doc(firebase.auth.currentUser.uid).collection('routines').onSnapshot(querySnapshot => {
             const users = [];
             querySnapshot.docs.forEach(doc => {
-                const {routine} = doc.data()
+                const {name} = doc.data()
                 users.push({
                     id: doc.id,
-                    routine,
+                    name,
                 })
             })  
-            setusers(users)
+            setRoutine(users)
         })
     }, [])
+
+    const getExercises = (id) => {
+        firebase.db.collection('users').doc(firebase.auth.currentUser.uid).collection('routines').doc(id).collection('exercise').onSnapshot(querySnapshot => {
+            const exercise = [];
+            querySnapshot.docs.forEach(doc => {
+                const {name} = doc.data()
+                exercise.push({
+                    id: doc.id,
+                    name,
+                })
+            })  
+            setExercise(exercise);
+        })
+    }
 
     return (
         <ScrollView>
             {
-                users.map(user => {
+                routine.map(routine => {
                     return(
-                        <ListItem key={user.id} bottomDivider>
-                            <ListItem.Chevron />
-                            <ListItem.Content>
-                                <ListItem.Title>{user.routine}</ListItem.Title>
-                            </ListItem.Content>
-                        </ListItem>
+                        <List.Section                         
+                        key={routine.id}  
+                        bottomDivider>
+                        <List.Accordion
+                        key={routine.id}  
+                        title={routine.name}
+                        onPress={getExercises(routine.id)}>
+                        {
+                            exercise.map(exercise => {
+                                return(
+                                    <List.Section key={exercise.id} 
+                                    bottomDivider>
+                                        <List.Item title={exercise.name}
+                                        onPress={() => {props.navigation.navigate('ExerciseView',{
+                                            userId: firebase.auth.currentUser.uid,
+                                            routineId: routine.id,
+                                            exerciseId: exercise.id,
+                                        })}}/>
+                                    </List.Section>
+                                )
+                            })
+                        }
+                        </List.Accordion>
+                        </List.Section>
                     )
                 })
             }
