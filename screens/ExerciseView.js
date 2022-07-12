@@ -50,9 +50,8 @@ function ExerciseView(props) {
                 visible={true}
                 title=" Descripción "
                 titleStyle = {{fontSize: 12}}
-                color='limegreen'
-                upperCase
-                icon={{ name: 'question', color: 'white' }}/>
+                color='red'
+                upperCase/>
             </View>
             <View style = {styles.inputGroup}>
                 <Text style = {styles.title}>Nombre</Text>
@@ -73,6 +72,20 @@ function ExerciseView(props) {
                 <TextInput style = {styles.text}
                 placeholder='Exercise Name'
                 value={exercise.repeats}
+                editable={false}/>
+            </View>
+            <View style = {styles.inputGroup}>
+                <Text style = {styles.title}>Musculo a trabajar</Text>
+                <TextInput style = {styles.text}
+                placeholder='Muscle'
+                value={exercise.muscle}
+                editable={false}/>
+            </View>
+            <View style = {styles.inputGroup}>
+                <Text style = {styles.title}>Variación</Text>
+                <TextInput style = {styles.text}
+                placeholder='Variation'
+                value={exercise.variation}
                 editable={false}/>
             </View>
         </ScrollView>
