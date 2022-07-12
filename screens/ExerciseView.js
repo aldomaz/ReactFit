@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {View, StyleSheet, Text, ScrollView, TextInput , ActivityIndicator, Image} from 'react-native'
-import { FAB } from 'react-native-elements'
+import { FAB , Dialog} from 'react-native-elements'
 import firebase from '../database/firebase'
 
 function ExerciseView(props) {
@@ -13,6 +13,11 @@ function ExerciseView(props) {
         muscle: '',
         variation: '',
     }
+
+    const [visible, setVisible] = useState(false);
+    const toggleDialog = () => {
+        setVisible(!visible);
+      };
 
     const [loading, setLoading] = useState(true)
     const [exercise, setExercise] = useState(initialState)
@@ -51,7 +56,8 @@ function ExerciseView(props) {
                 title=" Descripción "
                 titleStyle = {{fontSize: 12}}
                 color='red'
-                upperCase/>
+                upperCase
+                onPress={toggleDialog}/>
             </View>
             <View style = {styles.inputGroup}>
                 <Text style = {styles.title}>Nombre</Text>
@@ -88,6 +94,13 @@ function ExerciseView(props) {
                 value={exercise.variation}
                 editable={false}/>
             </View>
+            <Dialog
+            isVisible={visible}
+            onBackdropPress={toggleDialog}>
+                <Text style = {styles.title}>DESCRIPCION</Text>
+                <Text style = {styles.text2} >{exercise.description}</Text>
+                
+            </Dialog>
         </ScrollView>
     )
 }
@@ -99,6 +112,11 @@ const styles = StyleSheet.create({
     },
     text: {
         color: 'black',
+        alignSelf: 'center',
+    },
+    text2: {
+        color: 'black',
+        textAlign: 'justify',
     },
     title:{
         padding: 2,
