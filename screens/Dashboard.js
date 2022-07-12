@@ -1,6 +1,6 @@
 import React , {useState} from 'react'
 import firebase from '../database/firebase'
-import { View , ActivityIndicator, ScrollView , StyleSheet, StatusBar } from 'react-native'
+import { View , ActivityIndicator, ScrollView , StyleSheet } from 'react-native'
 import AdminView from '../views/AdminView';
 import PremiumView from '../views/PremiumView';
 import InstructorView from '../views/InstructorView';

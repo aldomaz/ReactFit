@@ -39,12 +39,11 @@ function RoutineView(props) {
         <ScrollView>
             {
                 routine.map(routine => {
-                    return(
+                    return( 
                         <List.Section                         
                         key={routine.id}  
                         bottomDivider>
                         <List.Accordion
-                        key={routine.id}  
                         title={routine.name}
                         onPress={getExercises(routine.id)}>
                         {
