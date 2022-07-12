@@ -10,6 +10,7 @@ function ModifyExercise(props) {
         name: '',
         repeats: '',
         series: '',
+        variation: '',
     }
 
     const [loading, setLoading] = useState(true)
@@ -37,10 +38,11 @@ function ModifyExercise(props) {
     const saveChanges =  async () => {
         setLoading(true);
         const dbRef = firebase.db.collection('users').doc(props.route.params.userId).collection('routines').doc(props.route.params.routineId).collection('exercise').doc(props.route.params.exerciseId);
-        await dbRef.set({
+        await dbRef.update({
             name: exercise.name,
             repeats: exercise.repeats,
             series: exercise.series,
+            variation: exercise.variation,
         })
         setExercise(initialState);
         props.navigation.navigate('PremiumRoutine');
@@ -86,7 +88,14 @@ function ModifyExercise(props) {
                 value={exercise.repeats}
                 onChangeText={(value) => handleChangeText('repeats', value)}/>
             </View>
-            <View>
+            <Text style = {styles.title}>Variaciones</Text>
+            <View style = {styles.inputGroup2}>
+                <TextInput style = {styles.text}
+                placeholder='Variaciones'
+                value={exercise.variation}
+                onChangeText={(value) => handleChangeText('variation', value)}/>
+            </View>
+            <View style = {styles.buttonContainer}>
                 <FAB style = {styles.button}
                 visible={true}
                 title=" Guardar Cambios "
@@ -134,8 +143,12 @@ const styles = StyleSheet.create({
         padding: 5,
         fontSize: 15,
     },
+    buttonContainer: {
+        margin: 15,
+    },
     button:{
         padding: 2,
+        margin: 2,
     },
     list: {
         padding: 5,

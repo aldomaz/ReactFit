@@ -22,6 +22,7 @@ import NormalList from './screens/lists/NormalList';
 
 import PremiumRoutine from './screens/PremiumRoutine';
 import ModifyExercise from './screens/ModifyExercise';
+import ExerciseView from './screens/ExerciseView';
 
 function MyStack() {
   return (
@@ -74,11 +75,15 @@ function MyStack() {
           headerTitleStyle:{color:'white'},
           headerTintColor:'white',
           headerStyle:{backgroundColor: 'black'}}} />
-          <Stack.Screen name="PremiumRoutine" component={PremiumRoutine} options={{ title: 'Asignar Rutina Premium', headerTitleAlign: 'center' ,
+        <Stack.Screen name="PremiumRoutine" component={PremiumRoutine} options={{ title: 'Asignar Rutina Premium', headerTitleAlign: 'center' ,
           headerTitleStyle:{color:'white'},
           headerTintColor:'white',
           headerBackVisible: false, 
           headerLeft: null, 
+          headerStyle:{backgroundColor: 'black'}}}/>
+        <Stack.Screen name="ExerciseView" component={ExerciseView} options={{ title: 'Ejercicio Asignado', headerTitleAlign: 'center' ,
+          headerTitleStyle:{color:'white'},
+          headerTintColor:'white',
           headerStyle:{backgroundColor: 'black'}}}/>
           <Stack.Screen name="ModifyExercise" component={ModifyExercise} options={{ title: 'Modificar Ejercicio', headerTitleAlign: 'center' ,
           headerTitleStyle:{color:'white'},
