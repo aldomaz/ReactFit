@@ -162,12 +162,8 @@ function PremiumRoutine(props) {
     }, [])
 
     const searchFilterFunction = (text) => {
-        // Check if searched text is not blank
         if (text) {
-          // Inserted text is not blank
-          // Filter the masterDataSource and update FilteredDataSource
           const newData = showex.filter(function (item) {
-            // Applying filter for the inserted text in search bar
             const itemData = item.name
               ? item.name.toUpperCase()
               : ''.toUpperCase();
@@ -177,8 +173,6 @@ function PremiumRoutine(props) {
           setFilteredDataSource(newData);
           setSearch(text);
         } else {
-          // Inserted text is blank
-          // Update FilteredDataSource with masterDataSource
           setFilteredDataSource(showex);
           setSearch(text);
         }

@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
-import "firebase/storage";
+import getDownloadURL from "firebase/storage";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAczqd3phZt_euFxfMLOKNg1zxYfh22yFc",
