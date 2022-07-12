@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {View, StyleSheet, Text, ScrollView, TextInput , ActivityIndicator, Alert} from 'react-native'
+import {View, StyleSheet, Text, ScrollView, TextInput , ActivityIndicator } from 'react-native'
 import { FAB } from 'react-native-elements'
 import firebase from '../database/firebase'
 
