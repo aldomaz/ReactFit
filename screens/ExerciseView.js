@@ -1,7 +1,7 @@
-import React, {Children, useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {View, StyleSheet, Text, ScrollView, TextInput , ActivityIndicator, Image} from 'react-native'
 import { FAB , Dialog , Slider , Icon} from 'react-native-elements'
-import { Badge } from 'react-native-paper'
+import { Badge , Portal , Modal , Provider} from 'react-native-paper'
 import firebase from '../database/firebase'
 
 function ExerciseView(props) {
@@ -32,10 +32,14 @@ function ExerciseView(props) {
         return `rgb(${r},${g},${b})`;
     };
 
-    const [visible, setVisible] = useState(false);
-    const toggleDialog = () => {
-        setVisible(!visible);
-      };
+    //const [visible, setVisible] = useState(false);
+    //const toggleDialog = () => {
+    //    setVisible(!visible);
+    //  };
+
+    const [visible, setVisible] = React.useState(false);
+    const showModal = () => setVisible(true);
+    const hideModal = () => setVisible(false);
 
     const [loading, setLoading] = useState(true)
     const [exercise, setExercise] = useState(initialState)
@@ -73,6 +77,10 @@ function ExerciseView(props) {
         getDescription(props.route.params.exerciseId);
     }, [])
 
+    const finishExercise = async () => {
+        console.log('Ejercicio Finalizado');
+    }
+
     if (loading){
         return(
             <View>
@@ -93,7 +101,7 @@ function ExerciseView(props) {
                 titleStyle = {{fontSize: 12}}
                 color='red'
                 upperCase
-                onPress={toggleDialog}/>
+                onPress={showModal}/>
             </View>
             <View style = {styles.inputGroup}>
                 <Text style = {styles.title}>Nombre</Text>
@@ -156,15 +164,18 @@ function ExerciseView(props) {
                 titleStyle = {{fontSize: 12, color: 'white'}}
                 color='limegreen'
                 upperCase
-                onPress={() => finishRoutineAlert()}
+                onPress={() => finishExercise()}
                 icon={{ name: 'check', color: 'white' }}/>
             </View>
-            <Dialog
-            isVisible={visible}
-            onBackdropPress={toggleDialog}>
-                <Dialog.Title title="Descripción" titleStyle={{alignSelf:'center', fontSize:14}}/>
-                <Image style={styles.description} source={{uri: urlDesc}} />
-            </Dialog>
+            <Provider>
+                <Portal>
+                    <Modal 
+                    visible={visible} 
+                    onDismiss={hideModal}>
+                        <Image style={styles.description} source={{uri: urlDesc}} />
+                    </Modal>
+                </Portal>
+            </Provider>
         </ScrollView>
     )
 }
@@ -214,8 +225,8 @@ const styles = StyleSheet.create({
         margin: 20,
     },
     description: {
-        width: 286,
-        height: 114,
+        width: 315,
+        height: 130,
         resizeMode: 'stretch',
         alignSelf: 'center',
         margin: 10,
