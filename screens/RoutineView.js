@@ -4,21 +4,38 @@ import { List } from 'react-native-paper'
 import { View , Text, StyleSheet, ScrollView, Button} from 'react-native';
 
 function RoutineView(props) {
+    const initialState = {
+        id: '',
+        role: '',
+    }
+
+    const [user, setUser]=useState(initialState)
     const [routine, setRoutine]=useState([])
     const [exercise, setExercise]=useState([])
 
+    getRoleByID = async (userId) => {
+        const dbRef = firebase.db.collection('users').doc(userId);
+        const doc = await dbRef.get();
+        const user = doc.data();
+        setUser({
+            ...user,
+            id: doc.id,
+        });
+    }
+
     useEffect(() => {
         firebase.db.collection('users').doc(firebase.auth.currentUser.uid).collection('routines').onSnapshot(querySnapshot => {
-            const users = [];
+            const routine = [];
             querySnapshot.docs.forEach(doc => {
                 const {name} = doc.data()
-                users.push({
+                routine.push({
                     id: doc.id,
                     name,
                 })
             })  
-            setRoutine(users)
+            setRoutine(routine); 
         })
+        getRoleByID(firebase.auth.currentUser.uid);
     }, [])
 
     const getExercises = (id) => {
@@ -52,11 +69,19 @@ function RoutineView(props) {
                                     <List.Section key={exercise.id} 
                                     bottomDivider>
                                         <List.Item title={exercise.name}
-                                        onPress={() => {props.navigation.navigate('ExerciseView',{
+                                        onPress={() => { if(user.role === 'premium'){
+                                            props.navigation.navigate('ExerciseView',{
                                             userId: firebase.auth.currentUser.uid,
                                             routineId: routine.id,
                                             exerciseId: exercise.id,
-                                        })}}/>
+                                        })}else{
+                                            props.navigation.navigate('NormalExerciseView',{
+                                                userId: firebase.auth.currentUser.uid,
+                                                routineId: routine.id,
+                                                exerciseId: exercise.id,
+                                            })
+                                        }
+                                        }}/>
                                     </List.Section>
                                 )
                             })

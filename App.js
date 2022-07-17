@@ -21,8 +21,10 @@ import ClientList from './screens/lists/ClientList';
 import NormalList from './screens/lists/NormalList';
 
 import PremiumRoutine from './screens/PremiumRoutine';
+import NormalRoutine from './screens/NormalRoutine';
 import ModifyExercise from './screens/ModifyExercise';
 import ExerciseView from './screens/ExerciseView';
+import NormalExerciseView from './screens/NormalExerciseView';
 
 function MyStack() {
   return (
@@ -81,15 +83,24 @@ function MyStack() {
           headerBackVisible: false, 
           headerLeft: null, 
           headerStyle:{backgroundColor: 'black'}}}/>
+        <Stack.Screen name="NormalRoutine" component={NormalRoutine} options={{ title: 'Asignar Rutina Normal', headerTitleAlign: 'center' ,
+          headerTitleStyle:{color:'white'},
+          headerTintColor:'white',
+          headerBackVisible: false, 
+          headerLeft: null, 
+          headerStyle:{backgroundColor: 'black'}}}/>
         <Stack.Screen name="ExerciseView" component={ExerciseView} options={{ title: 'Ejercicio Asignado', headerTitleAlign: 'center' ,
           headerTitleStyle:{color:'white'},
           headerTintColor:'white',
           headerStyle:{backgroundColor: 'black'}}}/>
-          <Stack.Screen name="ModifyExercise" component={ModifyExercise} options={{ title: 'Modificar Ejercicio', headerTitleAlign: 'center' ,
+        <Stack.Screen name="NormalExerciseView" component={NormalExerciseView} options={{ title: 'Ejercicio Asignado', headerTitleAlign: 'center' ,
           headerTitleStyle:{color:'white'},
           headerTintColor:'white',
-          headerStyle:{backgroundColor: 'black'}}}
-          />
+          headerStyle:{backgroundColor: 'black'}}}/>
+        <Stack.Screen name="ModifyExercise" component={ModifyExercise} options={{ title: 'Modificar Ejercicio', headerTitleAlign: 'center' ,
+          headerTitleStyle:{color:'white'},
+          headerTintColor:'white',
+          headerStyle:{backgroundColor: 'black'}}}/>
         <Stack.Screen name="RoutineView" component={RoutineView} options={{ title: 'Rutinas Asignadas', headerTitleAlign: 'center',
           headerTitleStyle:{color:'white'},
           headerTintColor:'white',

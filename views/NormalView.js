@@ -18,6 +18,12 @@ function NormalView(props) {
                 <Text style={styles.text}>{firebase.auth.currentUser.displayName}</Text>
             </View>
             <View style={styles.button}>
+                <Button title = 'Ver Rutina'
+                    color='red'
+                    onPress={() => props.navigation.navigate('RoutineView')}> 
+                </Button>
+            </View>
+            <View style={styles.button}>
                 <Button title = 'Cerrar Sesión'
                     color='red'
                     onPress={() => SignOut()}> 
