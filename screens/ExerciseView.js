@@ -32,12 +32,7 @@ function ExerciseView(props) {
         return `rgb(${r},${g},${b})`;
     };
 
-    //const [visible, setVisible] = useState(false);
-    //const toggleDialog = () => {
-    //    setVisible(!visible);
-    //  };
-
-    const [visible, setVisible] = React.useState(false);
+    const [visible, setVisible] = useState(false);
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
 
@@ -156,7 +151,7 @@ function ExerciseView(props) {
                     ),
                   }}>
                 </Slider>
-            </View>
+            </View>  
             <View style = {styles.buttonContainer}>
                 <FAB style = {styles.button}
                 visible={true}

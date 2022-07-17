@@ -63,7 +63,6 @@ function NormalList(props) {
                         bottomDivider onPress={() => {
                             props.navigation.navigate("NormalRoutine", {
                                 userId: user.id,
-                                userRole: user.role,
                             })
                         }}>
                             <ListItem.Chevron />

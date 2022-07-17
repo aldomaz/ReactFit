@@ -30,12 +30,8 @@ function PremiumList(props) {
     }, [])
 
     const searchFilterFunction = (text) => {
-        // Check if searched text is not blank
         if (text) {
-          // Inserted text is not blank
-          // Filter the masterDataSource and update FilteredDataSource
           const newData = users.filter(function (item) {
-            // Applying filter for the inserted text in search bar
             const itemData = item.name
               ? item.name.toUpperCase()
               : ''.toUpperCase();
@@ -45,8 +41,6 @@ function PremiumList(props) {
           setFilteredDataSource(newData);
           setSearch(text);
         } else {
-          // Inserted text is blank
-          // Update FilteredDataSource with masterDataSource
           setFilteredDataSource(users);
           setSearch(text);
         }
