@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, TextInput, ScrollView, Button, Alert, Text, Image } from 'react-native'
+import { View, StyleSheet, TextInput, ScrollView, Pressable , Button, Alert, Text, Image } from 'react-native'
 import { ActivityIndicator } from 'react-native'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import firebase from '../database/firebase'
+import { useTogglePasswordVisibility} from '../components/useTogglePasswordVisibility'
 
 const LoginScreen = (props) => {
 
@@ -10,6 +12,7 @@ const LoginScreen = (props) => {
         password: ''
     };
 
+    const { passwordVisibility, rightIcon, handlePasswordVisibility } = useTogglePasswordVisibility();
     const [state, setState] = useState(initialState);
     const [loading, setLoading] = useState(false)
 
@@ -24,7 +27,10 @@ const LoginScreen = (props) => {
         } else { 
             if (err === 'auth/wrong-password'){
                 Alert.alert("Contraseña incorrecta");
-                setState(initialState);
+                setState({
+                    email: state.email,
+                    password: '',
+                });
             }else{
                 Alert.alert(err);
                 setState(initialState);
@@ -70,16 +76,21 @@ const LoginScreen = (props) => {
             </View>
             <View style={styles.inputGroup}>
                 <TextInput placeholder='Email'
+                    value={state.email}
                     onChangeText={(value) => handleChangeText('email', value)}
                     keyboardType={'email-address'}
                     autoCapitalize={'none'}
-                    maxLength={50} />
+                    maxLength={50}/>
             </View>
             <View style={styles.inputGroup}>
-                <TextInput placeholder='Contraseña'
-                    secureTextEntry={true}
+                <TextInput style={styles.inputField} 
+                    placeholder='Contraseña'
+                    secureTextEntry={passwordVisibility}
                     maxLength={16}
-                    onChangeText={(value) => handleChangeText('password', value)} />
+                    onChangeText={(value) => handleChangeText('password', value)}/>
+                <Pressable onPress={handlePasswordVisibility}>
+                    <MaterialCommunityIcons name={rightIcon} size={18} color="#232323" />
+                </Pressable>
             </View>
             <View style={styles.button}>
                 <Button title='Ingresar'
@@ -110,9 +121,15 @@ const styles = StyleSheet.create({
         borderColor: 'grey',
         padding: 10,
         fontSize: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     button: {
         margin: 10,
+    },
+    inputField: {
+        padding: 2,
+        width: '90%'
     },
     text: {
         alignSelf: 'center',

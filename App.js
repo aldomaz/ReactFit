@@ -11,6 +11,7 @@ import UserRegister from './screens/UserRegister';
 import UserDetailScreen from './screens/UserDetailScreen';
 import CreateUser from './screens/CreateUser';
 import CompleteUserProfile from './screens/CompleteUserProfile';
+import ChangePassword from './screens/ChangePassword';
 import PremiumInfo from './screens/PremiumInfo'
 import RoutineView from './screens/RoutineView';
 import CreateTrainer from './screens/CreateTrainer'
@@ -62,6 +63,10 @@ function MyStack() {
           headerTintColor:'white',
           headerStyle:{backgroundColor: 'black'}}} />
         <Stack.Screen name="CompleteUserProfile" component={CompleteUserProfile} options={{ title: 'Editar Perfil', headerTitleAlign: 'center',
+          headerTitleStyle:{color:'white'},
+          headerTintColor:'white',
+          headerStyle:{backgroundColor: 'black'}}} />
+        <Stack.Screen name="ChangePassword" component={ChangePassword} options={{ title: 'Cambiar Contraseña', headerTitleAlign: 'center',
           headerTitleStyle:{color:'white'},
           headerTintColor:'white',
           headerStyle:{backgroundColor: 'black'}}} />
