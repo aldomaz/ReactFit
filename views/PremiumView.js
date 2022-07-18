@@ -23,6 +23,12 @@ function PremiumView(props) {
                 </Button>
             </View>
             <View style={styles.button}>
+                <Button title = 'Cambiar Contraseña'
+                    color='red'
+                    onPress={() => props.navigation.navigate('ChangePassword')}> 
+                </Button>
+            </View>
+            <View style={styles.button}>
                 <Button title = 'Ver rutinas'
                 color='red'
                 onPress={() => props.navigation.navigate('RoutineView')}> 
