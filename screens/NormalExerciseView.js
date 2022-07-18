@@ -7,12 +7,12 @@ import firebase from '../database/firebase'
 function NormalExerciseView(props) {
   
   const initialState = {
-    id: '',
-    name: '',
-    repeats: '',
-    series: '',
-    description: '',
-    muscle: '',
+      id: '',
+      name: '',
+      repeats: '',
+      series: '',
+      description: '',
+      muscle: '',
   }
 
   const [url, setUrl] = useState();
@@ -25,27 +25,27 @@ function NormalExerciseView(props) {
   const [exercise, setExercise] = useState(initialState)
 
   const getExerciseByID = async (userId, routineId, exerciseId) => {
-    const dbRef = firebase.db.collection('users').doc(userId).collection('routines').doc(routineId).collection('exercise').doc(exerciseId);
-    const doc = await dbRef.get();
-    const exercise = doc.data();
-    setExercise({
+      const dbRef = firebase.db.collection('users').doc(userId).collection('routines').doc(routineId).collection('exercise').doc(exerciseId);
+      const doc = await dbRef.get();
+      const exercise = doc.data();
+      setExercise({
         ...exercise,
         id: doc.id,
-    });
-    setLoading(false);
+      });
+      setLoading(false);
   }
 
   const getImage = async (exerciseId) => {
-    const storage = firebase.storage.ref();
-    const imageRef = storage.child('images/'+exerciseId+'.png');
-    await imageRef.getDownloadURL().then((url) => {
-      setUrl(url);
-    })
+      const storage = firebase.storage.ref();
+      const imageRef = storage.child('images/'+exerciseId+'.jpg');
+      await imageRef.getDownloadURL().then((url) => {
+        setUrl(url);
+      })
   }
 
   const getDescription = async (exerciseId) => {
     const storage = firebase.storage.ref();
-    const imageRef = storage.child('descriptions/'+exerciseId+'Description.png');
+    const imageRef = storage.child('descriptions/'+exerciseId+'Des.jpg');
     await imageRef.getDownloadURL().then((url) => {
       setUrlDesc(url);
     })

@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
-import { View, Button, TextInput, ScrollView, StyleSheet, ActivityIndicator, Alert} from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { View, Button, TextInput, ScrollView, StyleSheet, ActivityIndicator, Alert , Pressable } from 'react-native';
 import firebase from '../database/firebase';
+import { useTogglePasswordVisibility} from '../components/useTogglePasswordVisibility'
 
 function CreateTrainer(props) {
     const auth = firebase.auth;
@@ -14,6 +16,7 @@ function CreateTrainer(props) {
         role: 'instructor',
     }
 
+    const { passwordVisibility, rightIcon, handlePasswordVisibility } = useTogglePasswordVisibility();
     const [state, setState] = useState(initialState);
 
     const [loading, setLoading] = useState(false)
@@ -101,16 +104,26 @@ function CreateTrainer(props) {
                 autoCapitalize={'none'}/>
             </View>
             <View style = {styles.inputGroup}>
-                <TextInput name='pwd' placeholder='Contraseña' 
+                <TextInput style = {styles.inputField}
+                name='pwd' 
+                placeholder='Contraseña' 
                 onChangeText={(value) => handleChangeText('password', value)}
-                secureTextEntry={true}
+                secureTextEntry={passwordVisibility}
                 maxLenght={16}/>
+                <Pressable onPress={handlePasswordVisibility}>
+                    <MaterialCommunityIcons name={rightIcon} size={18} color="#232323" />
+                </Pressable>
             </View>
             <View style = {styles.inputGroup}>
-                <TextInput name="pwd2" placeholder='Validar Contraseña' 
+                <TextInput style = {styles.inputField}
+                name="pwd2" 
+                placeholder='Validar Contraseña' 
                 onChangeText={(value) => handleChangeText('password2', value)}
-                secureTextEntry={true}
+                secureTextEntry={passwordVisibility}
                 maxLenght={16}/>
+                <Pressable onPress={handlePasswordVisibility}>
+                    <MaterialCommunityIcons name={rightIcon} size={18} color="#232323" />
+                </Pressable>
             </View>
             <View style = {styles.button}>
                 <Button title='Crear Entrenador' 
@@ -136,10 +149,16 @@ const styles = StyleSheet.create({
         borderColor: 'grey',
         padding: 10,
         fontSize: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     button: {
         margin: 10,
     },
+    inputField: {
+        padding: 2,
+        width: '90%'
+    },    
     text: {
         alignSelf: 'center',
         fontSize: 30,

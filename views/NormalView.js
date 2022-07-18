@@ -24,6 +24,12 @@ function NormalView(props) {
                 </Button>
             </View>
             <View style={styles.button}>
+                <Button title = 'Cambiar Contraseña'
+                    color='red'
+                    onPress={() => props.navigation.navigate('ChangePassword')}> 
+                </Button>
+            </View>
+            <View style={styles.button}>
                 <Button title = 'Cerrar Sesión'
                     color='red'
                     onPress={() => SignOut()}> 

@@ -1,6 +1,6 @@
 import React,  {useEffect, useState} from 'react'
 import firebase from '../database/firebase'
-import { List } from 'react-native-paper'
+import { Dialog , List, ListItem } from 'react-native-elements'
 import { View , Text, StyleSheet, ScrollView, Button} from 'react-native';
 
 function RoutineView(props) {
@@ -12,6 +12,15 @@ function RoutineView(props) {
     const [user, setUser]=useState(initialState)
     const [routine, setRoutine]=useState([])
     const [exercise, setExercise]=useState([])
+
+    const [currentRoutine, SetCurrentRoutine] = useState ({
+        routineId: '',
+    })
+
+    const [visible, setVisible] = useState(false);
+    const toggleDialog = () => {
+        setVisible(!visible);
+      };
 
     getRoleByID = async (userId) => {
         const dbRef = firebase.db.collection('users').doc(userId);
@@ -49,50 +58,108 @@ function RoutineView(props) {
                 })
             })  
             setExercise(exercise);
+            SetCurrentRoutine({
+                routineId: id
+            })
         })
     }
 
     return (
-        <ScrollView>
+        <ScrollView style={styles.container}>
             {
                 routine.map(routine => {
                     return( 
-                        <List.Section                         
-                        key={routine.id}  
-                        bottomDivider>
-                        <List.Accordion
-                        title={routine.name}
-                        onPress={getExercises(routine.id)}>
-                        {
-                            exercise.map(exercise => {
-                                return(
-                                    <List.Section key={exercise.id} 
-                                    bottomDivider>
-                                        <List.Item title={exercise.name}
-                                        onPress={() => { if(user.role === 'premium'){
-                                            props.navigation.navigate('ExerciseView',{
-                                            userId: firebase.auth.currentUser.uid,
-                                            routineId: routine.id,
-                                            exerciseId: exercise.id,
-                                        })}else{
-                                            props.navigation.navigate('NormalExerciseView',{
-                                                userId: firebase.auth.currentUser.uid,
-                                                routineId: routine.id,
-                                                exerciseId: exercise.id,
-                                            })
-                                        }
-                                        }}/>
-                                    </List.Section>
-                                )
-                            })
-                        }
-                        </List.Accordion>
-                        </List.Section>
+                        <ListItem
+                        containerStyle={styles.list}
+                        key={routine.id}
+                        onPress={() => {
+                            getExercises(routine.id);
+                            toggleDialog();}}>
+                        <ListItem.Chevron />
+                        <ListItem.Content>
+                                <ListItem.Title style={styles.text}>{routine.name}</ListItem.Title>
+                            </ListItem.Content>
+                        </ListItem>
                     )
                 })
             }
+            <Dialog
+            isVisible={visible}
+            onBackdropPress={() => {
+                toggleDialog();
+                setExercise([]);
+            }}>
+                {
+                    exercise.map(exercise => {
+                        return(
+                            <ListItem key={exercise.id}
+                                onPress={() => { if(user.role === 'premium'){
+                                    props.navigation.navigate('ExerciseView',{
+                                    userId: firebase.auth.currentUser.uid,
+                                    routineId: currentRoutine.routineId,
+                                    exerciseId: exercise.id,
+                                })}else{
+                                    props.navigation.navigate('NormalExerciseView',{
+                                                userId: firebase.auth.currentUser.uid,
+                                                routineId: currentRoutine.routineId,
+                                                exerciseId: exercise.id,
+                                    })
+                                    }
+                                }}>
+                            <ListItem.Chevron color={'black'}/>
+                            <ListItem.Content>
+                                <ListItem.Title>{exercise.name}</ListItem.Title>
+                            </ListItem.Content>
+                            </ListItem>
+                        )
+                    })
+                }
+            </Dialog>
         </ScrollView>
     )
 }
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'black',
+    },
+    title:{
+        padding: 2,
+        color: 'gray',
+        fontSize: 10,
+    },
+    title2:{
+        padding: 2,
+        color: 'black',
+        fontSize: 10,
+        alignSelf: 'center',
+    },
+    button:{
+        padding: 10,
+    },
+    list: {
+        backgroundColor: 'black',
+    },
+    inputGroup: {
+        margin: 5,
+        backgroundColor: "white",
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: 'grey',
+        padding: 10,
+        fontSize: 15,
+    },
+    list: {
+        backgroundColor: 'black',
+        padding: 10,
+        borderWidth: 1,
+        borderRadius: 10,
+    },
+    text: {
+        color: 'white',
+    },
+});
 
 export default RoutineView

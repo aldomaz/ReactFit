@@ -52,7 +52,7 @@ function ExerciseView(props) {
 
     const getImage = async (exerciseId) => {
         const storage = firebase.storage.ref();
-        const imageRef = storage.child('images/'+exerciseId+'.png');
+        const imageRef = storage.child('images/'+exerciseId+'.jpg');
         await imageRef.getDownloadURL().then((url) => {
             setUrl(url);
         })
@@ -60,7 +60,7 @@ function ExerciseView(props) {
 
     const getDescription = async (exerciseId) => {
         const storage = firebase.storage.ref();
-        const imageRef = storage.child('descriptions/'+exerciseId+'Description.png');
+        const imageRef = storage.child('descriptions/'+exerciseId+'Des.jpg');
         await imageRef.getDownloadURL().then((url) => {
             setUrlDesc(url);
         })

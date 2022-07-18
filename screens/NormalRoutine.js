@@ -14,7 +14,6 @@ function NormalRoutine(props ) {
         name: '',
         repeats: '',
         series: '',
-        description: '',
         muscle: '',
     }
 
@@ -67,20 +66,18 @@ function NormalRoutine(props ) {
             name: exercise.name,
             series: exercise.series,
             repeats: exercise.repeats,
-            description: exercise.description,
             muscle: exercise.muscle,
         })
         setCounter(counter+1);
         firebase.db.collection('users').doc(user.username).collection('routines').doc(generateID()).collection('exercise').orderBy('name').onSnapshot(querySnapshot => {
             const showex2 = [];
             querySnapshot.docs.forEach(doc => {
-                const { name, repeats, series , description , muscle } = doc.data()
+                const { name, repeats, series , muscle } = doc.data()
                 showex2.push({
                     id: doc.id,
                     name,
                     repeats,
                     series,
-                    description,
                     muscle,
                 })
             })
@@ -140,13 +137,12 @@ function NormalRoutine(props ) {
         firebase.db.collection('excersises').orderBy('name').onSnapshot(querySnapshot => {
             const showex = [];
             querySnapshot.docs.forEach(doc => {
-                const { name, repeats, series , description , muscle } = doc.data()
+                const { name, repeats, series , muscle } = doc.data()
                 showex.push({
                     id: doc.id,
                     name,
                     repeats,
                     series,
-                    description,
                     muscle,
                 })
             })
@@ -296,7 +292,6 @@ function NormalRoutine(props ) {
                         name: showex.name,
                         repeats: showex.repeats,
                         series: showex.series,
-                        description: showex.description,
                         muscle: showex.muscle,
                     })}}
                />
