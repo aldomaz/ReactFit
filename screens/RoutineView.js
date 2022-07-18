@@ -81,6 +81,7 @@ function RoutineView(props) {
         <ScrollView style={styles.container}>
             {
                 routine.map(routine => {
+                    
                     return( 
                         <ListItem
                         containerStyle={styles.list}

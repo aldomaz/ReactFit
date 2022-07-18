@@ -38,12 +38,20 @@ function ModifyExercise(props) {
     const saveChanges =  async () => {
         setLoading(true);
         const dbRef = firebase.db.collection('users').doc(props.route.params.userId).collection('routines').doc(props.route.params.routineId).collection('exercise').doc(props.route.params.exerciseId);
-        await dbRef.update({
-            name: exercise.name,
-            repeats: exercise.repeats,
-            series: exercise.series,
-            variation: exercise.variation,
-        })
+        if(exercise.variation !== undefined){
+            await dbRef.update({
+                name: exercise.name,
+                repeats: exercise.repeats,
+                series: exercise.series,
+                variation: exercise.variation,
+            })
+        }else{
+            await dbRef.update({
+                name: exercise.name,
+                repeats: exercise.repeats,
+                series: exercise.series,
+            })
+        }
         setExercise(initialState);
         props.navigation.navigate('PremiumRoutine');
     }
