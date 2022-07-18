@@ -1,20 +1,24 @@
 import React,  {useEffect, useState} from 'react'
 import firebase from '../database/firebase'
 import { Dialog , ListItem, FAB } from 'react-native-elements'
-import { View , Text, StyleSheet, ScrollView, Button , Alert} from 'react-native';
+import { View , Text, StyleSheet, ScrollView, Button , Alert , ActivityIndicator} from 'react-native';
 
 function RoutineView(props) {
     const initialState = {
         id: '',
         role: '',
+        name: '',
     }
 
     const [user, setUser]=useState(initialState)
     const [routine, setRoutine]=useState([])
     const [exercise, setExercise]=useState([])
+    const [routinePercentage, setPercentage]=useState(0);
+    const [loading, setLoading] = useState(false)
 
     const [currentRoutine, SetCurrentRoutine] = useState ({
         routineId: '',
+        routineName: '',
     })
 
     const [visible, setVisible] = useState(false);
@@ -47,7 +51,7 @@ function RoutineView(props) {
         getRoleByID(firebase.auth.currentUser.uid);
     }, [])
 
-    const getExercises = (id) => {
+    const getExercises = (id, routineName) => {
         firebase.db.collection('users').doc(firebase.auth.currentUser.uid).collection('routines').doc(id).collection('exercise').onSnapshot(querySnapshot => {
             const exercise = [];
             querySnapshot.docs.forEach(doc => {
@@ -59,15 +63,48 @@ function RoutineView(props) {
             })  
             setExercise(exercise);
             SetCurrentRoutine({
-                routineId: id
+                routineId: id,
+                routineName: routineName,
             })
         })
     }
 
+    const getRoutinePercentage = (id) => {
+        firebase.db.collection('tracking').doc(id).collection('completeExercise').onSnapshot(querySnapshot => {
+            const exPercentage = [];
+            querySnapshot.docs.forEach(doc => {
+                const {percentage} = doc.data();
+                exPercentage.push({
+                    percentage,
+                })
+            })
+            var suma = 0;
+            exPercentage.map((exPercentage) => {
+                suma += exPercentage.percentage;
+            })
+            suma = suma/exPercentage.length;
+            suma = suma.toFixed();
+            console.log(suma);
+            setPercentage(suma);
+        })
+    }
+
     const finishRoutine = async (id) => {
-        toggleDialog();
+        setLoading(true);
         const dbRef = firebase.db.collection('users').doc(firebase.auth.currentUser.uid).collection('routines').doc(id);
+        if(user.role === 'premium')
+        {   
+            getRoutinePercentage(id);
+            const dbRef2 = firebase.db.collection('tracking').doc(id);
+            await dbRef2.set({
+                userName: user.name,
+                routineName: currentRoutine.routineName,
+                percentage: routinePercentage,
+            })
+        }
         await dbRef.delete();
+        toggleDialog();
+        setLoading(false);
     }
 
     const finishRoutineAlert = (id) => {
@@ -75,6 +112,14 @@ function RoutineView(props) {
             {text: 'Sí', onPress: () => finishRoutine(id)},
             {text: 'No', onPress: () => console.log('false')},
         ])
+    }
+
+    if (loading){
+        return(
+            <View>
+                <ActivityIndicator size="large" color="#9e9e9e"/>
+            </View>
+        );
     }
 
     return (
@@ -87,7 +132,7 @@ function RoutineView(props) {
                         containerStyle={styles.list}
                         key={routine.id}
                         onPress={() => {
-                            getExercises(routine.id);
+                            getExercises(routine.id, routine.name);
                             toggleDialog();}}>
                         <ListItem.Chevron />
                         <ListItem.Content>
