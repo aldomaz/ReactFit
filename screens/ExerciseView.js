@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {View, StyleSheet, Text, ScrollView, TextInput , ActivityIndicator, Image} from 'react-native'
+import {View, StyleSheet, Text, ScrollView, TextInput , ActivityIndicator, Image , Alert} from 'react-native'
 import { FAB , Dialog , Slider , Icon} from 'react-native-elements'
 import { Badge , Portal , Modal , Provider} from 'react-native-paper'
 import firebase from '../database/firebase'
@@ -9,10 +9,16 @@ function ExerciseView(props) {
         id: '',
         name: '',
         repeats: '',
-        series: '',
+        series: '', 
         description: '',
         muscle: '',
         variation: '',
+    }
+
+    const initialParams = {
+        routineId: '',
+        userId: '',
+        exerciseId: '',
     }
 
     const [url, setUrl] = useState();
@@ -38,6 +44,7 @@ function ExerciseView(props) {
 
     const [loading, setLoading] = useState(true)
     const [exercise, setExercise] = useState(initialState)
+    const [params, setParams] = useState(initialParams);
     
     const getExerciseByID = async (userId, routineId, exerciseId) => {
         const dbRef = firebase.db.collection('users').doc(userId).collection('routines').doc(routineId).collection('exercise').doc(exerciseId);
@@ -66,14 +73,31 @@ function ExerciseView(props) {
         })
     }
 
+    const setRouteParams = (userId, routineId, exerciseId) => {
+        setParams({
+            userId: userId,
+            routineId: routineId,
+            exerciseId: exerciseId,
+        })
+    }
+
     useEffect (() => {
+        setRouteParams(props.route.params.userId, props.route.params.routineId, props.route.params.exerciseId);
         getExerciseByID(props.route.params.userId, props.route.params.routineId, props.route.params.exerciseId);
         getImage(props.route.params.exerciseId);
         getDescription(props.route.params.exerciseId);
     }, [])
 
-    const completeExercise = (id) => {
-        const dbref = firebase.db.collection('tracking').doc(firebase.auth.currentUser).collection('completeExercise')
+    const completeExercise = async(id) => {
+        setLoading(true);
+        const dbref = firebase.db.collection('tracking').doc(params.routineId).collection('completeExercise').doc(id);
+        const dbref2 = firebase.db.collection('users').doc(params.userId).collection('routines').doc(params.routineId).collection('exercise').doc(id);
+        await dbref.set({
+            name: exercise.name,
+            percentage: value,
+        })
+        await dbref2.delete();
+        props.navigation.goBack();
     }
 
     const completeExerciseAlert = (id) => {
