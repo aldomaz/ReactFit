@@ -1,7 +1,7 @@
 import React,  {useEffect, useState} from 'react'
 import firebase from '../database/firebase'
-import { Dialog , List, ListItem } from 'react-native-elements'
-import { View , Text, StyleSheet, ScrollView, Button} from 'react-native';
+import { Dialog , ListItem, FAB } from 'react-native-elements'
+import { View , Text, StyleSheet, ScrollView, Button , Alert} from 'react-native';
 
 function RoutineView(props) {
     const initialState = {
@@ -64,6 +64,19 @@ function RoutineView(props) {
         })
     }
 
+    const finishRoutine = async (id) => {
+        toggleDialog();
+        const dbRef = firebase.db.collection('users').doc(firebase.auth.currentUser.uid).collection('routines').doc(id);
+        await dbRef.delete();
+    }
+
+    const finishRoutineAlert = (id) => {
+        Alert.alert("Finalizar rutina. Se eliminaran todos los ejercicios", "¿Estás Seguro?", [
+            {text: 'Sí', onPress: () => finishRoutine(id)},
+            {text: 'No', onPress: () => console.log('false')},
+        ])
+    }
+
     return (
         <ScrollView style={styles.container}>
             {
@@ -114,6 +127,16 @@ function RoutineView(props) {
                         )
                     })
                 }
+                <View style = {styles.buttonContainer}>
+                    <FAB style = {styles.button}
+                    visible={true}
+                    title="Finalizar Rutina"
+                    titleStyle = {{fontSize: 12, color: 'white'}}
+                    color='limegreen'
+                    upperCase
+                    onPress={() => finishRoutineAlert(currentRoutine.routineId)}
+                    icon={{ name: 'check', color: 'white' }}/>
+                </View>
             </Dialog>
         </ScrollView>
     )
@@ -124,6 +147,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'black',
+    },
+    buttonContainer: {
+        marginTop: 20,
     },
     title:{
         padding: 2,

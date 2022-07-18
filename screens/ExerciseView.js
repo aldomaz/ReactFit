@@ -72,8 +72,15 @@ function ExerciseView(props) {
         getDescription(props.route.params.exerciseId);
     }, [])
 
-    const finishExercise = async () => {
-        console.log('Ejercicio Finalizado');
+    const completeExercise = (id) => {
+        const dbref = firebase.db.collection('tracking').doc(firebase.auth.currentUser).collection('completeExercise')
+    }
+
+    const completeExerciseAlert = (id) => {
+        Alert.alert("Completar Ejercicio", "¿Estás Seguro?", [
+            {text: 'Sí', onPress: () => completeExercise(id)},
+            {text: 'No', onPress: () => console.log('false')},
+        ])
     }
 
     if (loading){
@@ -129,7 +136,8 @@ function ExerciseView(props) {
             <View style = {styles.inputGroup}>
                 <Text style = {styles.title}>Variación</Text>
                 <TextInput style = {styles.text}
-                placeholder='Variation'
+                placeholderTextColor='white'
+                placeholder='Sin Variación'
                 value={exercise.variation}
                 editable={false}/>
             </View>
@@ -155,11 +163,11 @@ function ExerciseView(props) {
             <View style = {styles.buttonContainer}>
                 <FAB style = {styles.button}
                 visible={true}
-                title="Finalizar Ejercicio"
+                title="Completar Ejercicio"
                 titleStyle = {{fontSize: 12, color: 'white'}}
                 color='limegreen'
                 upperCase
-                onPress={() => finishExercise()}
+                onPress={() => completeExerciseAlert(exercise.id)}
                 icon={{ name: 'check', color: 'white' }}/>
             </View>
             <Provider>

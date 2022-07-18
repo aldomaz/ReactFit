@@ -56,10 +56,6 @@ function NormalExerciseView(props) {
     getImage(props.route.params.exerciseId);
     getDescription(props.route.params.exerciseId);
   }, [])
-  
-  const finishExercise = async () => {
-    console.log('Ejercicio Finalizado');
-  }
 
   if (loading){
     return(
@@ -110,16 +106,6 @@ function NormalExerciseView(props) {
       placeholder='Muscle'
       value={exercise.muscle}
       editable={false}/>
-    </View>
-    <View style = {styles.buttonContainer}>
-      <FAB style = {styles.button}
-      visible={true}
-      title="Finalizar Ejercicio"
-      titleStyle = {{fontSize: 12, color: 'white'}}
-      color='limegreen'
-      upperCase
-      onPress={() => finishExercise()}
-      icon={{ name: 'check', color: 'white' }}/>
     </View>
     <Provider>
       <Portal>
