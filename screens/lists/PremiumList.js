@@ -73,7 +73,7 @@ function PremiumList(props) {
                                 props.navigation.navigate("PremiumInfo", {
                                     userId: user.id,
                                     userRole: user.role,
-                                })
+                                });
                             }}/>
                             <List.Item
                             style={styles.list}
