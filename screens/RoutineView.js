@@ -10,10 +10,10 @@ function RoutineView(props) {
         name: '',
     }
 
-    const [user, setUser]=useState(initialState)
-    const [routine, setRoutine]=useState([])
-    const [exercise, setExercise]=useState([])
-    const [routinePercentage, setPercentage]=useState(0);
+    const [user, setUser] = useState(initialState)
+    const [routine, setRoutine] = useState([])
+    const [exercise, setExercise] = useState([])
+    const [routinePercentage, setPercentage] = useState(0)
     const [loading, setLoading] = useState(false)
 
     const [currentRoutine, SetCurrentRoutine] = useState ({
@@ -26,7 +26,26 @@ function RoutineView(props) {
         setVisible(!visible);
       };
 
-    getRoleByID = async (userId) => {
+    function getRoutinePercentage(id){
+        const exPercentage = [];
+        let suma = 0;
+        firebase.db.collection('tracking').doc(id).collection('completeExercise').onSnapshot(querySnapshot => {
+            querySnapshot.docs.forEach(doc => {
+                const {percentage} = doc.data();
+                exPercentage.push({
+                    percentage,
+                })
+            })
+            exPercentage.forEach((exPercentage) => {
+                suma += exPercentage.percentage;
+            })
+            suma = suma/exPercentage.length;
+            console.log(suma);
+            setPercentage(suma);
+        })
+    }
+
+    const getRoleByID = async (userId) => {
         const dbRef = firebase.db.collection('users').doc(userId);
         const doc = await dbRef.get();
         const user = doc.data();
@@ -69,48 +88,17 @@ function RoutineView(props) {
         })
     }
 
-    const getRoutinePercentage = (id) => {
-        firebase.db.collection('tracking').doc(id).collection('completeExercise').onSnapshot(querySnapshot => {
-            const exPercentage = [];
-            querySnapshot.docs.forEach(doc => {
-                const {percentage} = doc.data();
-                exPercentage.push({
-                    percentage,
-                })
-            })
-            var suma = 0;
-            exPercentage.map((exPercentage) => {
-                suma += exPercentage.percentage;
-            })
-            suma = suma/exPercentage.length;
-            suma = suma.toFixed();
-            console.log(suma);
-            setPercentage(suma);
-        })
-    }
-
-    const finishRoutine = async (id) => {
-        setLoading(true);
-        const dbRef = firebase.db.collection('users').doc(firebase.auth.currentUser.uid).collection('routines').doc(id);
-        if(user.role === 'premium')
-        {   
-            getRoutinePercentage(id);
-            const dbRef2 = firebase.db.collection('tracking').doc(id);
-            await dbRef2.set({
-                userName: user.name,
-                routineName: currentRoutine.routineName,
-                percentage: routinePercentage,
-            })
-        }
-        await dbRef.delete();
-        toggleDialog();
-        setLoading(false);
+    const getCurrentDate=()=>{
+        var date = new Date().getDate();
+        var month = new Date().getMonth() + 1;
+        var year = new Date().getFullYear();
+        return date + '-' + month + '-' + year;
     }
 
     const finishRoutineAlert = (id) => {
         Alert.alert("Finalizar rutina. Se eliminaran todos los ejercicios", "¿Estás Seguro?", [
             {text: 'Sí', onPress: () => finishRoutine(id)},
-            {text: 'No', onPress: () => console.log('false')},
+            {text: 'No', onPress: () => console.log(routinePercentage)},
         ])
     }
 
@@ -120,6 +108,25 @@ function RoutineView(props) {
                 <ActivityIndicator size="large" color="#9e9e9e"/>
             </View>
         );
+    }
+
+    async function finishRoutine(id){
+        setLoading(true);
+        const dbRef = await firebase.db.collection('users').doc(firebase.auth.currentUser.uid).collection('routines').doc(id);
+        if(user.role === 'premium')
+        {   
+            const dbRef2 = firebase.db.collection('tracking').doc(id);
+            await dbRef2.set({
+                userName: user.name,
+                userId: firebase.auth.currentUser.uid,
+                routineName: currentRoutine.routineName,
+                percentage: routinePercentage,
+                date: getCurrentDate(),
+            })
+        }
+        //await dbRef.delete();
+        toggleDialog();
+        setLoading(false);
     }
 
     return (
@@ -133,6 +140,7 @@ function RoutineView(props) {
                         key={routine.id}
                         onPress={() => {
                             getExercises(routine.id, routine.name);
+                            getRoutinePercentage(routine.id);
                             toggleDialog();}}>
                         <ListItem.Chevron />
                         <ListItem.Content>
@@ -180,7 +188,7 @@ function RoutineView(props) {
                     titleStyle = {{fontSize: 12, color: 'white'}}
                     color='limegreen'
                     upperCase
-                    onPress={() => finishRoutineAlert(currentRoutine.routineId)}
+                    onPress={() => {finishRoutineAlert(currentRoutine.routineId);}}
                     icon={{ name: 'check', color: 'white' }}/>
                 </View>
             </Dialog>
