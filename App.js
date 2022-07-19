@@ -26,6 +26,7 @@ import NormalRoutine from './screens/NormalRoutine';
 import ModifyExercise from './screens/ModifyExercise';
 import ExerciseView from './screens/ExerciseView';
 import NormalExerciseView from './screens/NormalExerciseView';
+import TrackingView from './screens/TrackingView';
 
 function MyStack() {
   return (
@@ -107,6 +108,10 @@ function MyStack() {
           headerTintColor:'white',
           headerStyle:{backgroundColor: 'black'}}}/>
         <Stack.Screen name="RoutineView" component={RoutineView} options={{ title: 'Rutinas Asignadas', headerTitleAlign: 'center',
+          headerTitleStyle:{color:'white'},
+          headerTintColor:'white',
+          headerStyle:{backgroundColor: 'black'} }} />
+        <Stack.Screen name="TrackingView" component={TrackingView} options={{ title: 'Seguimiento', headerTitleAlign: 'center',
           headerTitleStyle:{color:'white'},
           headerTintColor:'white',
           headerStyle:{backgroundColor: 'black'} }} />

@@ -32,7 +32,7 @@ const LoginScreen = (props) => {
                     password: '',
                 });
             }else{
-                Alert.alert(err);
+                Alert.alert(err.message);
                 setState(initialState);
             }
         }

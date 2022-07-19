@@ -124,7 +124,7 @@ function RoutineView(props) {
                 date: getCurrentDate(),
             })
         }
-        //await dbRef.delete();
+        await dbRef.delete();
         toggleDialog();
         setLoading(false);
     }
