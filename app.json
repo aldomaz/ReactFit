@@ -20,8 +20,10 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.tesis.reactfit",
+      "versionCode": 1,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./resources/icon.png",
         "backgroundColor": "#FFFFFF"
       }
     },

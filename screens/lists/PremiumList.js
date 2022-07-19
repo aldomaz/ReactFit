@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 import firebase from '../../database/firebase'
-import { ListItem } from 'react-native-elements'
-import { Searchbar } from 'react-native-paper';
+import { List , Searchbar } from 'react-native-paper';
 
 function PremiumList(props) {
     const [users, setusers] = useState([])
@@ -57,21 +56,38 @@ function PremiumList(props) {
             {
                 filteredDataSource.map(user => {
                     return (
-                        <ListItem 
+                        <List.Section
                         key={user.id} 
-                        containerStyle={styles.list}
-                        bottomDivider onPress={() => {
-                            props.navigation.navigate("PremiumInfo", {
-                                userId: user.id,
-                                userRole: user.role,
-                            })
-                        }}>
-                            <ListItem.Chevron />
-                            <ListItem.Content>
-                                <ListItem.Title style={styles.text}>{user.name}</ListItem.Title>
-                                <ListItem.Subtitle style={styles.text}>{user.email}</ListItem.Subtitle>
-                            </ListItem.Content>
-                        </ListItem>
+                        bottomDivider>
+                        <List.Accordion
+                        style={styles.listcontainer}
+                        right={props => <List.Icon {...props} icon="menu-down" color="white"/>}
+                        titleStyle={{color: 'white'}}
+                        title={user.name}>
+                            <List.Item
+                            style={styles.list}
+                            right={props => <List.Icon {...props} icon="menu-right" color="white"/>}
+                            titleStyle={{color: 'white'}}
+                            title='Asignar Ejercicio'
+                            onPress={() => {
+                                props.navigation.navigate("PremiumInfo", {
+                                    userId: user.id,
+                                    userRole: user.role,
+                                })
+                            }}/>
+                            <List.Item
+                            style={styles.list}
+                            right={props => <List.Icon {...props} icon="menu-right" color="white"/>}
+                            titleStyle={{color: 'white'}}
+                            title='Ver Seguimiento'
+                            onPress={() => {
+                                props.navigation.navigate("TrackingView", {
+                                    userId: user.id,
+                                    userRole: user.role,
+                                })
+                            }}/>
+                        </List.Accordion>
+                        </List.Section>
                     )
                 })
             }
@@ -84,7 +100,12 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'black',
     },
+    listcontainer: {
+        padding: 1,
+        backgroundColor: 'black',
+    },
     list: {
+        padding: 1,
         backgroundColor: 'black',
     },
     text: {
