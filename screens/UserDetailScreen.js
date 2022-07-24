@@ -100,10 +100,10 @@ const UserDetailScreen = (props) =>{
                 onChangeText={(value) => handleChangeText('role', value)}/>
             </View>
             <View style = {styles.button}>
-                <Button color='red' title='Update User' onPress={() => updateUser()}/>
+                <Button color='red' title='Actualizar Datos de Usuario' onPress={() => updateUser()}/>
             </View>
             <View style = {styles.button}>
-                <Button color='red' title='Delete User' onPress={() => openConfirmationAlert()}/>
+                <Button color='red' title='Eliminar Usuario' onPress={() => openConfirmationAlert()}/>
             </View>
         </ScrollView>
     )

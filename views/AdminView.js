@@ -8,7 +8,9 @@ function AdminView(props) {
     const SignOut = async () => {
         await firebase.auth
             .signOut()
-            .then(() => { props.navigation.navigate('LoginScreen') });
+            .then(() => {
+                props.navigation.navigate('LoginScreen');
+            });
     }
 
     return (

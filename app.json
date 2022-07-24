@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "react-native-firebase",
+    "name": "ReactFit",
     "slug": "react-native-firebase",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -21,10 +21,10 @@
     },
     "android": {
       "package": "com.tesis.reactfit",
-      "versionCode": 1,
+      "versionCode": 1.0,
       "adaptiveIcon": {
         "foregroundImage": "./resources/icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#000000"
       }
     },
     "web": {
