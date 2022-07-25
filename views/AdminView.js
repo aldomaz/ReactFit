@@ -10,7 +10,6 @@ function AdminView(props) {
         await firebase.auth
             .signOut()
             .then(() => {
-                Analytics.resetAnalyticsData();
                 props.navigation.navigate('LoginScreen');
             });
     }

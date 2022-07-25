@@ -8,7 +8,6 @@ function InstructorView(props) {
         await firebase.auth
         .signOut()
         .then(() => {
-            Analytics.resetAnalyticsData();
             props.navigation.navigate('LoginScreen')
         });
     }
