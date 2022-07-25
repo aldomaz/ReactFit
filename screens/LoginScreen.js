@@ -4,6 +4,7 @@ import { ActivityIndicator } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import firebase from '../database/firebase'
 import { useTogglePasswordVisibility} from '../components/useTogglePasswordVisibility'
+import * as Analytics from 'expo-firebase-analytics';
 
 const LoginScreen = (props) => {
 
@@ -45,9 +46,12 @@ const LoginScreen = (props) => {
             setLoading(true);
             await firebase.auth
                 .signInWithEmailAndPassword(state.email, state.password)
-                .then(() => {
+                .then((auth) => {
                     setLoading(false);
                     setState(initialState);
+                    Analytics.logEvent( "login" , {
+                        method: auth.user.email
+                      });
                     props.navigation.navigate("Dashboard");
                 })
                 .catch(error => {

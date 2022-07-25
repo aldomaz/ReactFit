@@ -17,18 +17,31 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "googleServicesFile": "./google-services.json"
     },
     "android": {
       "package": "com.tesis.reactfit",
       "versionCode": 1.0,
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./resources/icon.png",
         "backgroundColor": "#000000"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "config":{
+        "firebase": {
+          "apiKey": "AIzaSyAczqd3phZt_euFxfMLOKNg1zxYfh22yFc",
+          "authDomain": "react-native-firebase-e3591.firebaseapp.com",
+          "projectId": "react-native-firebase-e3591",
+          "storageBucket": "react-native-firebase-e3591.appspot.com",
+          "messagingSenderId": "673068243449",
+          "appId": "1:673068243449:web:d6e7efc3e1e8579b244528",
+          "measurementId": "G-H9QJ6RZW5Q"
+        }
+      }
     }
   }
 }

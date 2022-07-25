@@ -1,6 +1,7 @@
 import React from 'react';
 import firebase from '../database/firebase';
 import { View, Text, StyleSheet, ScrollView , Button} from 'react-native';
+import * as Analytics from 'expo-firebase-analytics';
 
 
 function AdminView(props) {
@@ -9,6 +10,7 @@ function AdminView(props) {
         await firebase.auth
             .signOut()
             .then(() => {
+                Analytics.resetAnalyticsData();
                 props.navigation.navigate('LoginScreen');
             });
     }

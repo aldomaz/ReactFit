@@ -8,7 +8,10 @@ function NormalView(props) {
     const SignOut = async () => {
         await firebase.auth
         .signOut()
-        .then(() => {props.navigation.navigate('LoginScreen')});
+        .then(() => {
+            Analytics.resetAnalyticsData();
+            props.navigation.navigate('LoginScreen')
+        });
     }
 
     return (
