@@ -46,9 +46,13 @@ function PremiumInfo(props) {
 
     if (loading){
         return(
-            <View>
-                <ActivityIndicator size="large" color="#9e9e9e"/>
-            </View>
+            <ScrollView backgroundColor='black'>
+                <View>
+                    <ActivityIndicator 
+                    style={styles.loading}
+                    size='large' color="red" />
+                </View>
+            </ScrollView>
         );
     }
 
@@ -128,6 +132,9 @@ const styles = StyleSheet.create({
     list: {
         padding: 5,
         borderColor: 'grey',
+    },
+    loading: {
+        marginTop: 300,
     },
 });
 

@@ -18,11 +18,12 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "bundleIdentifier": "com.tesis.reactfit"
     },
     "android": {
       "package": "com.tesis.reactfit",
-      "versionCode": 1.0,
+      "versionCode": 1,
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./resources/icon.png",
@@ -31,7 +32,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png",
-      "config":{
+      "config": {
         "firebase": {
           "apiKey": "AIzaSyAczqd3phZt_euFxfMLOKNg1zxYfh22yFc",
           "authDomain": "react-native-firebase-e3591.firebaseapp.com",

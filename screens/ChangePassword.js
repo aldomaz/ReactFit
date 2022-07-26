@@ -53,9 +53,13 @@ function ChangePassword() {
 
      if (loading){
         return(
-            <View>
-                <ActivityIndicator size="large" color="#9e9e9e"/>
-            </View>
+            <ScrollView backgroundColor='black'>
+                <View>
+                    <ActivityIndicator 
+                    style={styles.loading}
+                    size='large' color="red" />
+                </View>
+            </ScrollView>
         );
     }
     return (
@@ -120,6 +124,9 @@ const styles = StyleSheet.create({
     button: {
         padding: 10,
         margin: 10,
+    },
+    loading: {
+        marginTop: 300,
     },
 });
 

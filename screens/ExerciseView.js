@@ -109,9 +109,13 @@ function ExerciseView(props) {
 
     if (loading){
         return(
-            <View>
-                <ActivityIndicator size="large" color="#9e9e9e"/>
-            </View>
+            <ScrollView backgroundColor='black'>
+                <View>
+                    <ActivityIndicator 
+                    style={styles.loading}
+                    size='large' color="red" />
+                </View>
+            </ScrollView>
         );
     }
 
@@ -257,6 +261,9 @@ const styles = StyleSheet.create({
         resizeMode: 'stretch',
         alignSelf: 'center',
         margin: 10,
+    },
+    loading: {
+        marginTop: 300,
     },
 });
 
