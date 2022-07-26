@@ -80,9 +80,6 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 35,
     },
-    buttonContainer: {
-        margin: 10,
-    },
     text: {
         alignSelf: 'center',
         textAlign: 'center',
