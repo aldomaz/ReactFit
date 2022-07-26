@@ -1,6 +1,6 @@
-import React from 'react';
+import React , {useEffect} from 'react';
 import firebase from '../database/firebase';
-import { View , Text, StyleSheet, ScrollView, Button} from 'react-native';
+import { View , Text, ScrollView, StyleSheet, Alert, Button} from 'react-native';
 
 
 function NormalView(props) {
@@ -12,6 +12,18 @@ function NormalView(props) {
             props.navigation.navigate('LoginScreen')
         });
     }
+
+    useEffect(() => {
+        props.navigation.addListener('beforeRemove', (e) => {
+            e.preventDefault();
+            Alert.alert("Deseas cerrar sesión", "¿Estás Seguro?", [
+                {text: 'Sí', onPress: () => {
+                SignOut(),
+                props.navigation.dispatch(e.data.action)}},
+                {text: 'No', onPress: () => console.log('false')},
+            ])
+        })
+    });
 
     return (
         <ScrollView style={styles.container}>

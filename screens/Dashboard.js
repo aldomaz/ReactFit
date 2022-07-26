@@ -24,24 +24,28 @@ function Dashboard(props) {
     }
 
     const setUserWithDbAndRol = () =>{
-            setLoading(true);
-            getRol(firebase.auth.currentUser.uid).then((rol) => {
-                const userData = {
-                    id: firebase.auth.currentUser.uid,
-                    email: firebase.auth.currentUser.email,
-                    userRole: rol,
-                };
-                setUser(userData);
-                console.log("userData final", userData);
-                setLoading(false);
-            });
+        setLoading(true);
+        getRol(firebase.auth.currentUser.uid).then((rol) => {
+            const userData = {
+                id: firebase.auth.currentUser.uid,
+                email: firebase.auth.currentUser.email,
+                userRole: rol,
+            };
+            setUser(userData);
+            console.log("userData final", userData);
+            setLoading(false);
+        });
     }
 
     if (loading){
         return(
-            <View>
-                <ActivityIndicator size="large" color="#9e9e9e"/>
-            </View>
+            <ScrollView backgroundColor='black'>
+                <View>
+                    <ActivityIndicator 
+                    style={styles.loading}
+                    size='large' color="red" />
+                </View>
+            </ScrollView>
         );
     }
 
@@ -57,30 +61,8 @@ function Dashboard(props) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 35,
-    },
-    inputGroup: {
-        margin: 5,
-        backgroundColor: "white",
-        borderWidth: 1,
-        borderRadius: 10,
-        borderColor: 'grey',
-        padding: 10,
-        fontSize: 20,
-    },
-    button: {
-        margin: 10,
-        color:'red',
-    },
-    text: {
-        alignSelf: 'center',
-        textAlign: 'center',
-        fontSize: 30,
-        padding: 15,
-        margin: 20,
-        color: 'white',
+    loading: {
+        marginTop: 300,
     },
 });
 

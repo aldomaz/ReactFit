@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, TextInput, ScrollView, Pressable , Button, Alert, Text, Image } from 'react-native'
-import { ActivityIndicator } from 'react-native'
+import { View, StyleSheet, TextInput, ScrollView, Pressable , Button, Alert, Text, Image , ActivityIndicator , TouchableOpacity } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import firebase from '../database/firebase'
 import { useTogglePasswordVisibility} from '../components/useTogglePasswordVisibility'
@@ -64,27 +63,36 @@ const LoginScreen = (props) => {
 
     if (loading) {
         return (
-            <View>
-                <ActivityIndicator size="large" color="#9e9e9e" />
-            </View>
+            <ScrollView backgroundColor='black'>
+                <View>
+                    <ActivityIndicator 
+                    style={styles.loading}
+                    size='large' color="red" />
+                </View>
+            </ScrollView>
         );
     }
 
     return (
-        <ScrollView style={styles.container} backgroundColor={'black'}>
-            <View >
-                <Image style={styles.image} source={require('react-native-firebase/resources/logo.png')} />
+        <ScrollView style={styles.container} 
+        backgroundColor={'black'}>
+            <View>
+                <Image style={styles.image} 
+                source={require('react-native-firebase/resources/logo.png')}/>
             </View>
             <View>
-                <Text style={styles.text}>ReactFit</Text>
+                <Text style={styles.title}>ReactFit</Text>
             </View>
             <View style={styles.inputGroup}>
-                <TextInput placeholder='Email'
+                <TextInput
+                    style={styles.inputField}  
+                    placeholder='Email'
                     value={state.email}
                     onChangeText={(value) => handleChangeText('email', value)}
                     keyboardType={'email-address'}
                     autoCapitalize={'none'}
                     maxLength={50}/>
+                    <MaterialCommunityIcons name={'mail'} size={18} color="#232323" />
             </View>
             <View style={styles.inputGroup}>
                 <TextInput style={styles.inputField} 
@@ -96,11 +104,10 @@ const LoginScreen = (props) => {
                     <MaterialCommunityIcons name={rightIcon} size={18} color="#232323" />
                 </Pressable>
             </View>
-            <View style={styles.button}>
-                <Button title='Ingresar'
-                    color='red'
-                    onPress={() => userLogin()} />
-            </View>
+            <TouchableOpacity style={styles.appButtonContainer}
+            onPress={() => userLogin()}>
+                <Text style={styles.appButtonText}>Ingresar</Text>
+            </TouchableOpacity>
         </ScrollView>
     )
 }
@@ -112,8 +119,8 @@ const styles = StyleSheet.create({
         alignSelf: 'auto',
     },
     image: {
-        width: 160,
-        height: 160,
+        width: 200,
+        height: 200,
         resizeMode: 'stretch',
         alignSelf: 'center',
     },
@@ -128,19 +135,34 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
     },
-    button: {
-        margin: 10,
-    },
+    appButtonContainer: {
+        marginTop: 15,
+        marginHorizontal: 8,
+        padding: 12,
+        backgroundColor: "red",
+        borderRadius: 18,
+      },
+    appButtonText: {
+        fontSize: 15,
+        color: "#fff",
+        fontWeight: "bold",
+        alignSelf: "center",
+        textTransform: "uppercase"
+      },
     inputField: {
         padding: 2,
-        width: '90%'
+        width: '90%',
     },
-    text: {
+    title: {
         alignSelf: 'center',
         fontSize: 30,
         padding: 15,
         margin: 20,
         color: 'white',
+        fontWeight: 'bold',
+    },
+    loading: {
+        marginTop: 300,
     },
 });
 

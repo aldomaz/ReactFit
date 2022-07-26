@@ -1,18 +1,28 @@
-import React from 'react';
+import React , { useEffect } from 'react';
 import firebase from '../database/firebase';
-import { View, Text, StyleSheet, ScrollView , Button} from 'react-native';
-import * as Analytics from 'expo-firebase-analytics';
-
+import { View, Text, StyleSheet, ScrollView , Button , Alert , BackHandler} from 'react-native';
 
 function AdminView(props) {
 
     const SignOut = async () => {
         await firebase.auth
-            .signOut()
-            .then(() => {
-                props.navigation.navigate('LoginScreen');
-            });
+        .signOut()
+        .then(() => {
+            props.navigation.navigate('LoginScreen');
+        });
     }
+
+    useEffect(() => {
+        props.navigation.addListener('beforeRemove', (e) => {
+            e.preventDefault();
+            Alert.alert("Deseas cerrar sesión", "¿Estás Seguro?", [
+                {text: 'Sí', onPress: () => {
+                SignOut(),
+                props.navigation.dispatch(e.data.action)}},
+                {text: 'No', onPress: () => console.log('false')},
+            ])
+        })
+    });
 
     return (
         <ScrollView style={styles.container}>
