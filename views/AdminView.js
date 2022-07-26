@@ -34,7 +34,7 @@ function AdminView(props) {
                 <Text style={styles.text}>ReactFit</Text>
             </View>
             <Pressable style={styles.icon}>
-                <MaterialCommunityIcons name={'account-cog-outline'} 
+                <MaterialCommunityIcons name={'account-tie'} 
                 size={130} 
                 color="red"/>
             </Pressable>

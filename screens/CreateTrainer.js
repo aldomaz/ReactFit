@@ -99,7 +99,7 @@ function CreateTrainer(props) {
     return(
         <ScrollView style = {styles.container}>
             <Pressable style={styles.icon}>
-                <MaterialCommunityIcons name={'account-check'} 
+                <MaterialCommunityIcons name={'account-plus'} 
                 size={130} 
                 color="red"/>
             </Pressable>

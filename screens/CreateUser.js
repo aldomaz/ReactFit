@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { View, Button, TextInput, ScrollView, StyleSheet, ActivityIndicator, Alert, Pressable , Text} from 'react-native';
+import { View , TextInput, ScrollView, StyleSheet, ActivityIndicator, Alert, Pressable , Text} from 'react-native';
 import firebase from '../database/firebase';
 import {Picker} from '@react-native-picker/picker';
 import { FAB }from 'react-native-elements'
@@ -100,7 +100,7 @@ function CreateUser(props) {
     return(
         <ScrollView style = {styles.container}>
             <Pressable style={styles.icon}>
-                <MaterialCommunityIcons name={'account-check'} 
+                <MaterialCommunityIcons name={'account-plus'} 
                 size={130} 
                 color="red"/>
             </Pressable>

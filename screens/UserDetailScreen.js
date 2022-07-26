@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
-import {View, StyleSheet, TextInput, ScrollView, Button, Alert, Text} from 'react-native'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import {View, StyleSheet, TextInput, ScrollView , Alert, Text , Pressable} from 'react-native'
 import { ActivityIndicator } from 'react-native'
 import { FAB } from 'react-native-elements'
 import firebase from '../database/firebase'
@@ -86,6 +87,11 @@ const UserDetailScreen = (props) =>{
 
     return(
         <ScrollView style = {styles.container}>
+            <Pressable style={styles.icon}>
+                <MaterialCommunityIcons name={'account-edit'} 
+                size={130} 
+                color="red"/>
+            </Pressable>
             <Text style = {styles.title}>Nombre y Apellido</Text>
             <View style = {styles.inputGroup}>
                 <TextInput 
@@ -164,6 +170,11 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: 'bold',
         width: '80%'
+    },
+    icon:{
+        padding: 25,
+        alignItems: 'center',
+        opacity: 0.8,
     },
     loading: {
         marginTop: 300,
