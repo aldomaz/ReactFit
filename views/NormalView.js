@@ -1,6 +1,8 @@
-import React , {useEffect} from 'react';
+import React , { useEffect } from 'react';
+import { FAB } from 'react-native-elements'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import firebase from '../database/firebase';
-import { View , Text, ScrollView, StyleSheet, Alert, Button} from 'react-native';
+import { View, Text, StyleSheet, ScrollView , Pressable , Alert , Image , Button } from 'react-native';
 
 
 function NormalView(props) {
@@ -27,27 +29,49 @@ function NormalView(props) {
 
     return (
         <ScrollView style={styles.container}>
+            <View style={{flexDirection: 'row', alignSelf: 'center'}}>
+                <Image style={styles.image} 
+                source={require('react-native-firebase/resources/logo.png')}/>
+                <Text style={styles.text}>ReactFit</Text>
+            </View>
+            <Pressable style={styles.icon}>
+                <MaterialCommunityIcons name={'dumbbell'} 
+                size={130} 
+                color="red"/>
+            </Pressable>
+            <Text style={styles.subtitle}>Normal</Text>
             <View style={styles.view}>
                 <Text style={styles.text}>Bienvenido</Text>
                 <Text style={styles.text}>{firebase.auth.currentUser.displayName}</Text>
             </View>
             <View style={styles.button}>
-                <Button title = 'Ver Rutina'
+                <FAB style = {styles.button}
+                    visible={true}
+                    title="Ver Rutina"
+                    titleStyle = {styles.titleButton}
                     color='red'
-                    onPress={() => props.navigation.navigate('RoutineView')}> 
-                </Button>
-            </View>
-            <View style={styles.button}>
-                <Button title = 'Cambiar Contraseña'
+                    upperCase
+                    onPress={() => props.navigation.navigate('RoutineView')}
+                    icon={{ name: 'star', color: 'white' }}
+                />
+                <FAB style = {styles.button}
+                    visible={true}
+                    title="Cambiar Contraseña"
+                    titleStyle = {styles.titleButton}
                     color='red'
-                    onPress={() => props.navigation.navigate('ChangePassword')}> 
-                </Button>
-            </View>
-            <View style={styles.button}>
-                <Button title = 'Cerrar Sesión'
+                    upperCase
+                    onPress={() => props.navigation.navigate('ChangePassword')}
+                    icon={{ name: 'edit', color: 'white' }}
+                />
+                <FAB style = {styles.button}
+                    visible={true}
+                    title="Cerrar Sesión"
+                    titleStyle = {styles.titleButton}
                     color='red'
-                    onPress={() => SignOut()}> 
-                </Button>
+                    upperCase
+                    onPress={() => SignOut()}
+                    icon={{ name: 'logout', color: 'white' }}
+                />
             </View>
         </ScrollView>
     )
@@ -71,15 +95,40 @@ const styles = StyleSheet.create({
         padding: 10,
         fontSize: 20,
     },
-    button: {
-        margin: 10,
+    button:{
+        margin: 15,
+        width: '100%',
+        alignSelf: 'center'
+    },
+    titleButton:{
+        fontSize: 14,
+        fontWeight: 'bold',
+        width: '80%'
+    },
+    image: {
+        width: 20,
+        height: 20,
+        resizeMode: 'stretch',
+        alignSelf: 'center',
+        marginRight: 10,
     },
     text: {
         alignSelf: 'center',
         textAlign: 'center',
-        fontSize: 30,
+        fontSize: 24,
         margin: 3,
         color: 'white',
+    },
+    subtitle:{
+        alignSelf: 'center',
+        textAlign: 'center',
+        fontSize: 12,
+        color: 'white',
+    },
+    icon:{
+        paddingTop: 10,
+        alignItems: 'center',
+        opacity: 0.8,
     },
 });
 

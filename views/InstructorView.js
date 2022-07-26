@@ -2,7 +2,7 @@ import React , { useEffect } from 'react';
 import { FAB } from 'react-native-elements'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import firebase from '../database/firebase';
-import { View, Text, StyleSheet, ScrollView , Pressable , Alert , Image , Button } from 'react-native';
+import { View, Text, StyleSheet, ScrollView , Pressable , Alert , Image } from 'react-native';
 
 function InstructorView(props) {
 
