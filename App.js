@@ -40,7 +40,7 @@ function MyStack() {
           headerTitleAlign: 'center', 
           headerBackVisible: false, 
           headerLeft: null, 
-          headerTitleStyle:{color:'white'} , 
+          headerTitleStyle:{color:'black'} , 
           headerStyle:{backgroundColor: 'black'}}}/>
         <Stack.Screen name="TrainerList" component={TrainerList} options={{ title: 'Entrenadores', headerTitleAlign: 'center' , 
           headerTitleStyle:{color:'white'},

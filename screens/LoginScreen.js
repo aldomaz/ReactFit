@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, TextInput, ScrollView, Pressable , Button, Alert, Text, Image , ActivityIndicator , TouchableOpacity } from 'react-native'
+import { View, StyleSheet, TextInput, ScrollView, Pressable , Alert, Text, Image , ActivityIndicator , TouchableOpacity } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import firebase from '../database/firebase'
 import { useTogglePasswordVisibility} from '../components/useTogglePasswordVisibility'

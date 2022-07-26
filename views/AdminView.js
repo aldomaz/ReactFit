@@ -1,6 +1,8 @@
 import React , { useEffect } from 'react';
+import { FAB } from 'react-native-elements'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import firebase from '../database/firebase';
-import { View, Text, StyleSheet, ScrollView , Button , Alert , BackHandler} from 'react-native';
+import { View, Text, StyleSheet, ScrollView , Pressable , Alert , Image } from 'react-native';
 
 function AdminView(props) {
 
@@ -26,26 +28,48 @@ function AdminView(props) {
 
     return (
         <ScrollView style={styles.container}>
-            <View>
-                <Text style={styles.text}>Bienvenido {firebase.auth.currentUser.displayName}</Text>
+            <View style={{flexDirection: 'row', alignSelf: 'center', padding: 10}}>
+                <Image style={styles.image} 
+                source={require('react-native-firebase/resources/logo.png')}/>
+                <Text style={styles.text}>ReactFit</Text>
             </View>
-            <View style={styles.button}>
-                <Button title='Lista de Entrenadores'
-                    color='red'
-                    onPress={() => props.navigation.navigate('TrainerList')}>
-                </Button>
+            <Pressable style={styles.icon}>
+                <MaterialCommunityIcons name={'account-cog-outline'} 
+                size={130} 
+                color="red"/>
+            </Pressable>
+            <View style={styles.view}>
+                <Text style={styles.text}>Bienvenido</Text>
+                <Text style={styles.text}>{firebase.auth.currentUser.displayName}</Text>
             </View>
-            <View style={styles.button}>
-                <Button title='Lista de Clientes'
+            <View style={styles.view}>
+                <FAB style = {styles.button}
+                    visible={true}
+                    title="Lista de Entrenadores"
+                    titleStyle = {styles.titleButton}
                     color='red'
-                    onPress={() => props.navigation.navigate('ClientList')}>
-                </Button>
-            </View>
-            <View style={styles.button}>
-                <Button title='Cerrar Sesión'
+                    upperCase
+                    onPress={() => props.navigation.navigate('TrainerList')}
+                    icon={{ name: 'list', color: 'white' }}
+                />
+                <FAB style = {styles.button}
+                    visible={true}
+                    title="Lista de Clientes"
+                    titleStyle = {styles.titleButton}
                     color='red'
-                    onPress={() => SignOut()}>
-                </Button>
+                    upperCase
+                    onPress={() => props.navigation.navigate('ClientList')}
+                    icon={{ name: 'list', color: 'white' }}
+                />
+                <FAB style = {styles.button}
+                    visible={true}
+                    title="Cerrar Sesión"
+                    titleStyle = {styles.titleButton}
+                    color='red'
+                    upperCase
+                    onPress={() => SignOut()}
+                    icon={{ name: 'logout', color: 'white' }}
+                />
             </View>
         </ScrollView>
     )
@@ -56,28 +80,41 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 35,
     },
-    buttonColor:{
-        backgroundColor:'red',
-    },  
-    inputGroup: {
-        margin: 5,
-        backgroundColor: "white",
-        borderWidth: 1,
-        borderRadius: 10,
-        borderColor: 'grey',
-        padding: 10,
-        fontSize: 20,
-    },
-    button: {
+    buttonContainer: {
         margin: 10,
     },
     text: {
         alignSelf: 'center',
         textAlign: 'center',
-        fontSize: 30,
-        padding: 15,
-        margin: 20,
+        fontSize: 24,
+        margin: 3,
         color: 'white',
+    },
+    button:{
+        margin: 15,
+        width: '100%',
+        alignSelf: 'center'
+    },
+    titleButton:{
+        fontSize: 14,
+        fontWeight: 'bold',
+        width: '80%'
+    },
+    view: {
+        flex: 1,
+        padding: 15,
+    },
+    image: {
+        width: 20,
+        height: 20,
+        resizeMode: 'stretch',
+        alignSelf: 'center',
+        marginRight: 10,
+    },
+    icon:{
+        paddingTop: 10,
+        alignItems: 'center',
+        opacity: 0.8,
     },
 });
 
