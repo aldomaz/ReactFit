@@ -63,6 +63,15 @@ function AdminView(props) {
                 />
                 <FAB style = {styles.button}
                     visible={true}
+                    title="Cambiar Contraseña"
+                    titleStyle = {styles.titleButton}
+                    color='red'
+                    upperCase
+                    onPress={() => props.navigation.navigate('ChangePassword')}
+                    icon={{ name: 'edit', color: 'white' }}
+                />
+                <FAB style = {styles.button}
+                    visible={true}
                     title="Cerrar Sesión"
                     titleStyle = {styles.titleButton}
                     color='red'
@@ -88,7 +97,7 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     button:{
-        margin: 15,
+        margin: 10,
         width: '100%',
         alignSelf: 'center'
     },

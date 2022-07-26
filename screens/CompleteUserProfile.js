@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {View, StyleSheet, TextInput, ScrollView, Button, Text} from 'react-native'
-import { ActivityIndicator } from 'react-native'
+import {View, StyleSheet, TextInput, ScrollView, Button, Text , ActivityIndicator} from 'react-native'
 import firebase from '../database/firebase'
 
 function CompleteUserProfile(props) {
@@ -17,8 +16,8 @@ function CompleteUserProfile(props) {
     }
 
     const auth = firebase.auth;
-    const [user, setUser] = useState(initialState)
-    const [loading, setLoading] = useState(true)
+    const [user, setUser] = useState(initialState);
+    const [loading, setLoading] = useState(true);
 
     const getUserByID = async (id) => {
         const dbRef = firebase.db.collection('users').doc(id);

@@ -1,11 +1,11 @@
 import React, {useState} from 'react'
-import {View, StyleSheet, TextInput, ScrollView, Button, Alert, Pressable} from 'react-native'
-import { ActivityIndicator } from 'react-native'
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import {View, Text , StyleSheet, TextInput, ScrollView, Alert, Pressable , ActivityIndicator} from 'react-native'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { FAB }from 'react-native-elements'
 import firebase from '../database/firebase'
-import { useTogglePasswordVisibility} from '../components/useTogglePasswordVisibility'
+import { useTogglePasswordVisibility } from '../components/useTogglePasswordVisibility'
 
-function ChangePassword() {
+function ChangePassword(props) {
 
     const initialState = {
         newPwd: '',
@@ -64,6 +64,12 @@ function ChangePassword() {
     }
     return (
     <ScrollView style = {styles.container}>
+        <Pressable style={styles.icon}>
+            <MaterialCommunityIcons name={'lock-check'} 
+            size={130} 
+            color="red"/>
+        </Pressable>
+        <Text style = {styles.title}>Contraseña Nueva</Text>
         <View style = {styles.inputGroup}>
             <TextInput 
             style = {styles.inputField}
@@ -77,6 +83,7 @@ function ChangePassword() {
                 <MaterialCommunityIcons name={rightIcon} size={18} color="#232323" />
             </Pressable>
         </View>
+        <Text style = {styles.title}>Validar Contraseña</Text>
         <View style = {styles.inputGroup}>
             <TextInput 
             style = {styles.inputField}
@@ -89,31 +96,40 @@ function ChangePassword() {
                 <MaterialCommunityIcons name={rightIcon} size={18} color="#232323" />
             </Pressable>
         </View>
-        <View style = {styles.button}>
-            <Button color='limegreen' title='Cambiar Contraseña' 
-            onPress={() => changePassword(password.newPwd)}/>
-        </View>
+        <FAB style = {styles.button}
+            visible={true}
+            title="Actualizar Contraseña"
+            titleStyle = {styles.titleButton}
+            color='red'
+            upperCase
+            onPress={() => changePassword(password.newPwd)}
+            icon={{ name: 'update', color: 'white' , size: 20}}
+        />
     </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         flex: 1,
         padding: 35,
+        alignSelf: 'auto',
+        backgroundColor: 'black',
     },
     title:{
-        padding: 2,
-        color: 'gray',
+        paddingLeft: 10,
+        marginTop: 6,
+        color: 'lightgray',
         fontSize: 10,
     },
     inputGroup: {
-        margin: 10,
+        margin: 5,
         backgroundColor: "white",
         borderWidth: 1,
-        borderRadius: 10,
-        borderColor: 'grey',
+        borderRadius: 15,
+        borderColor: 'red',
         padding: 10,
+        fontSize: 20,
         flexDirection: 'row',
         alignItems: 'center',
     },
@@ -121,9 +137,20 @@ const styles = StyleSheet.create({
         padding: 2,
         width: '90%'
     },
-    button: {
-        padding: 10,
-        margin: 10,
+    button:{
+        margin: 30,
+        width: '90%',
+        alignSelf: 'center',
+    },
+    titleButton:{
+        fontSize: 14,
+        fontWeight: 'bold',
+        width: '80%'
+    },
+    icon:{
+        padding: 25,
+        alignItems: 'center',
+        opacity: 0.8,
     },
     loading: {
         marginTop: 300,

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ScrollView, StyleSheet } from 'react-native'
+import { ScrollView, StyleSheet , ActivityIndicator, View } from 'react-native'
 import firebase from '../../database/firebase'
 import { ListItem } from 'react-native-elements'
 import { Searchbar } from 'react-native-paper';
@@ -7,9 +7,11 @@ import { Searchbar } from 'react-native-paper';
 function NormalList(props) {
     const [users, setusers] = useState([])
     const [search, setSearch] = useState('');
+    const [loading, setLoading] = useState(true);
     const [filteredDataSource, setFilteredDataSource] = useState([]);
 
     useEffect(() => {
+        setLoading(true);
         firebase.db.collection('users').orderBy("name").onSnapshot(querySnapshot => {
             const users = [];
             querySnapshot.docs.forEach(doc => {
@@ -23,11 +25,23 @@ function NormalList(props) {
                     })
                 }
             })
-
-            setFilteredDataSource(users)
-            setusers(users)
+            setFilteredDataSource(users);
+            setusers(users);
+            setLoading(false);
         })
     }, [])
+
+    if (loading){
+        return(
+            <ScrollView backgroundColor='black'>
+                <View>
+                    <ActivityIndicator 
+                    style={styles.loading}
+                    size='large' color="red" />
+                </View>
+            </ScrollView>
+        );
+    }
 
     const searchFilterFunction = (text) => {
         if (text) {
@@ -88,6 +102,9 @@ const styles = StyleSheet.create({
     },
     text: {
         color: 'white',
+    },
+    loading: {
+        marginTop: 300,
     },
 });
 

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
-import {View, StyleSheet, TextInput, ScrollView, Button, Alert} from 'react-native'
+import {View, StyleSheet, TextInput, ScrollView, Button, Alert, Text} from 'react-native'
 import { ActivityIndicator } from 'react-native'
+import { FAB } from 'react-native-elements'
 import firebase from '../database/firebase'
 
 const UserDetailScreen = (props) =>{
@@ -50,7 +51,7 @@ const UserDetailScreen = (props) =>{
     const updateUser = async () => {
         setLoading(true);
         const dbRef = firebase.db.collection('users').doc(user.id);
-        await dbRef.set({
+        await dbRef.update({
             name: user.name,
             email: user.email,
             role: user.role,
@@ -64,7 +65,7 @@ const UserDetailScreen = (props) =>{
         }
     }
 
-    const openConfirmationAlert = () => {
+    const deleteConfirmationAlert = () => {
         Alert.alert("Eliminar Usuario", "¿Estás Seguro?", [
             {text: 'Sí', onPress: () => deleteUser()},
             {text: 'No', onPress: () => console.log('false')},
@@ -85,48 +86,84 @@ const UserDetailScreen = (props) =>{
 
     return(
         <ScrollView style = {styles.container}>
+            <Text style = {styles.title}>Nombre y Apellido</Text>
             <View style = {styles.inputGroup}>
                 <TextInput 
                 placeholder='Name User'
                 value={user.name}
                 onChangeText={(value) => handleChangeText('name', value)} />
             </View> 
+            <Text style = {styles.title}>Email</Text>
             <View style = {styles.inputGroup}>
                 <TextInput 
                 placeholder='Email User' 
                 value={user.email}
                 onChangeText={(value) => handleChangeText('email', value)}/>
             </View>
+            <Text style = {styles.title}>Rol</Text>
             <View style = {styles.inputGroup}>
                 <TextInput 
+                style = {{color: 'black'}}
+                editable={false}
                 placeholder='Rol User' 
                 value={user.role}
                 onChangeText={(value) => handleChangeText('role', value)}/>
             </View>
-            <View style = {styles.button}>
-                <Button color='red' title='Actualizar Datos de Usuario' onPress={() => updateUser()}/>
-            </View>
-            <View style = {styles.button}>
-                <Button color='red' title='Eliminar Usuario' onPress={() => openConfirmationAlert()}/>
+            <View style={{marginTop: 20}}>
+                <FAB style = {styles.button}
+                    visible={true}
+                    title="Actualizar Datos"
+                    titleStyle = {styles.titleButton}
+                    color='red'
+                    upperCase
+                    onPress={() => updateUser()}
+                    icon={{ name: 'update', color: 'white' , size: 20}}
+                />
+                <FAB style = {styles.button}
+                    visible={true}
+                    title="Eliminar Usuario"
+                    titleStyle = {styles.titleButton}
+                    color='red'
+                    upperCase
+                    onPress={() => deleteConfirmationAlert()}
+                    icon={{ name: 'delete', color: 'white' , size: 20}}
+                />
             </View>
         </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         flex: 1,
         padding: 35,
+        alignSelf: 'auto',
+        backgroundColor: 'black',
     },
     inputGroup: {
-        flex:1,
-        padding:0,
-        margin:15,
-        borderBottomWidth:1,
-        borderBottomColor: '#cccccc',
+        margin: 5,
+        backgroundColor: "white",
+        borderWidth: 1,
+        borderRadius: 15,
+        borderColor: 'red',
+        padding: 10,
+        fontSize: 20,
+    },    
+    title:{
+        paddingLeft: 10,
+        marginTop: 6,
+        color: 'lightgray',
+        fontSize: 10,
     },
-    button: {
+    button:{
         margin: 10,
+        width: '90%',
+        alignSelf: 'center',
+    },
+    titleButton:{
+        fontSize: 14,
+        fontWeight: 'bold',
+        width: '80%'
     },
     loading: {
         marginTop: 300,

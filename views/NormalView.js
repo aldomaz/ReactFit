@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     button:{
-        margin: 15,
+        margin: 10,
         width: '100%',
         alignSelf: 'center'
     },

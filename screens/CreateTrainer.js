@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
+import { FAB }from 'react-native-elements'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { View, Button, TextInput, ScrollView, StyleSheet, ActivityIndicator, Alert , Pressable } from 'react-native';
+import { View, TextInput, ScrollView, StyleSheet, ActivityIndicator, Alert , Pressable , Text} from 'react-native';
 import firebase from '../database/firebase';
 import { useTogglePasswordVisibility} from '../components/useTogglePasswordVisibility'
 
@@ -96,18 +97,26 @@ function CreateTrainer(props) {
     }
 
     return(
-            <ScrollView style = {styles.container}>
+        <ScrollView style = {styles.container}>
+            <Pressable style={styles.icon}>
+                <MaterialCommunityIcons name={'account-check'} 
+                size={130} 
+                color="red"/>
+            </Pressable>
+            <Text style = {styles.title}>Nombre y Apellido</Text>
             <View style = {styles.inputGroup}>
-                <TextInput placeholder='Nombre de Usuario' 
+                <TextInput placeholder='Nombre y Apellido' 
                 onChangeText={(value) => handleChangeText('name', value)} />
             </View>
+            <Text style = {styles.title}>Email</Text>
             <View style = {styles.inputGroup}>
                 <TextInput placeholder='Email' 
                 onChangeText={(value) => handleChangeText('email', value)}
                 keyboardType={'email-address'}
                 autoCapitalize={'none'}/>
             </View>
-            <View style = {styles.inputGroup}>
+            <Text style = {styles.title}>Contraseña</Text>
+            <View style = {styles.passwordInput}>
                 <TextInput style = {styles.inputField}
                 name='pwd' 
                 placeholder='Contraseña' 
@@ -118,7 +127,8 @@ function CreateTrainer(props) {
                     <MaterialCommunityIcons name={rightIcon} size={18} color="#232323" />
                 </Pressable>
             </View>
-            <View style = {styles.inputGroup}>
+            <Text style = {styles.title}>Validar Contraseña</Text>
+            <View style = {styles.passwordInput}>
                 <TextInput style = {styles.inputField}
                 name="pwd2" 
                 placeholder='Validar Contraseña' 
@@ -129,11 +139,15 @@ function CreateTrainer(props) {
                     <MaterialCommunityIcons name={rightIcon} size={18} color="#232323" />
                 </Pressable>
             </View>
-            <View style = {styles.button}>
-                <Button title='Crear Entrenador' 
+            <FAB style = {styles.button}
+                visible={true}
+                title="Añadir Entrenador"
+                titleStyle = {styles.titleButton}
                 color='red'
-                onPress={() => saveNewUser()}/>
-            </View>
+                upperCase
+                onPress={() => saveNewUser()}
+                icon={{ name: 'save', color: 'white' , size: 20}}
+            />
         </ScrollView>
         
     )
@@ -144,31 +158,52 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 35,
         alignSelf: 'auto',
+        backgroundColor: 'black',
     },
     inputGroup: {
         margin: 5,
         backgroundColor: "white",
         borderWidth: 1,
-        borderRadius: 10,
-        borderColor: 'grey',
+        borderRadius: 15,
+        borderColor: 'red',
+        padding: 10,
+        fontSize: 20,
+    },
+    passwordInput:{
+        margin: 5,
+        backgroundColor: "white",
+        borderWidth: 1,
+        borderRadius: 15,
+        borderColor: 'red',
         padding: 10,
         fontSize: 20,
         flexDirection: 'row',
         alignItems: 'center',
     },
-    button: {
-        margin: 10,
+    button:{
+        margin: 30,
+        width: '90%',
+        alignSelf: 'center',
+    },
+    titleButton:{
+        fontSize: 14,
+        fontWeight: 'bold',
+        width: '80%'
     },
     inputField: {
         padding: 2,
         width: '90%'
     },    
-    text: {
-        alignSelf: 'center',
-        fontSize: 30,
-        padding: 15,
-        margin: 20,
-        color: 'white',
+    title:{
+        paddingLeft: 10,
+        marginTop: 6,
+        color: 'lightgray',
+        fontSize: 10,
+    },
+    icon:{
+        padding: 25,
+        alignItems: 'center',
+        opacity: 0.8,
     },
     loading: {
         marginTop: 300,
