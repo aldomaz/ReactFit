@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { ScrollView, StyleSheet , Text , View } from 'react-native'
+import { ScrollView, StyleSheet , Text , View , ActivityIndicator } from 'react-native'
 import firebase from '../database/firebase'
 import { ListItem , Dialog} from 'react-native-elements';
 
 function TrackingView(props) {
+
+    
+    const [loading, setLoading] = useState(true);
+
     const initialState ={
         date: '',
         percentage: '',
@@ -14,6 +18,7 @@ function TrackingView(props) {
     const [exercise, setExercise] = useState([]);
 
     useEffect(() => {
+        setLoading(true);
         firebase.db.collection('tracking').onSnapshot(querySnapshot => {
             const routines = [];
             querySnapshot.docs.forEach(doc => {
@@ -27,6 +32,7 @@ function TrackingView(props) {
                 })
                 }
             })
+            setLoading(false);
             setRoutines(routines);
         })
     }, [])

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ScrollView, StyleSheet , ActivityIndicator, View } from 'react-native'
+import { ScrollView, StyleSheet , ActivityIndicator, View, Text } from 'react-native'
 import firebase from '../../database/firebase'
 import { ListItem } from 'react-native-elements'
 import { Searchbar } from 'react-native-paper';

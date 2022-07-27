@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ScrollView, StyleSheet , ActivityIndicator, View } from 'react-native'
+import { ScrollView, StyleSheet , ActivityIndicator, View, Text} from 'react-native'
 import firebase from '../../database/firebase'
 import { List , Searchbar } from 'react-native-paper';
 
@@ -65,21 +65,22 @@ function PremiumList(props) {
     return (
         <ScrollView style={styles.container}>
             <Searchbar
+                inputStyle={{fontSize: 16, color: 'white'}}
+                style={styles.searchbar}
                 placeholder="Buscar cliente"
                 onChangeText={(text) => searchFilterFunction(text)}
                 value={search}
                 maxLength ={50}
             />
-            <View style={{marginHorizontal: 10, width:'90%', alignSelf: 'center'}}>
+            <View style={{marginHorizontal: 10, width:'100%', alignSelf: 'center'}}>
             {
                 filteredDataSource.map(user => {
                     return (
                         <List.Section
-                        key={user.id} 
-                        bottomDivider>
+                        key={user.id}>
                         <List.Accordion
                         style={styles.listcontainer}
-                        right={props => <List.Icon {...props} icon="menu-down" color="red"/>}
+                        right={props => <List.Icon {...props} icon="menu-down" color="white"/>}
                         titleStyle={{color: 'white'}}
                         title={user.name}
                         onPress={handlePress}>
@@ -123,17 +124,30 @@ const styles = StyleSheet.create({
     listcontainer: {
         padding: 1,
         backgroundColor: 'black',
+        borderBottomWidth: 2,
+        borderColor: 'lightgray',
     },
     list: {
         padding: 1,
-        width: '95%',
+        width: '90%',
         backgroundColor: 'black',
+        borderBottomWidth: 1, 
+        borderColor: 'red',
+        alignSelf: 'center'
     },
     text: {
         color: 'white',
     },
     loading: {
         marginTop: 300,
+    },
+    searchbar:{
+        borderWidth: 1,
+        borderRadius: 25,
+        width: '97%',
+        alignSelf: 'center',
+        borderWidth: 2,
+        opacity: 0.8,
     },
 });
 

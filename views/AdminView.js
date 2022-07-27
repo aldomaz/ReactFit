@@ -99,14 +99,15 @@ const styles = StyleSheet.create({
     button:{
         margin: 10,
         width: '100%',
-        alignSelf: 'center'
+        alignSelf: 'center',
     },
     titleButton:{
         fontSize: 14,
         fontWeight: 'bold',
-        width: '80%'
+        width: '90%',
     },
     view: {
+        
         flex: 1,
         padding: 15,
     },

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ScrollView, StyleSheet , ActivityIndicator, View } from 'react-native'
+import { ScrollView, StyleSheet , ActivityIndicator, View, Text} from 'react-native'
 import firebase from '../../database/firebase'
 import { ListItem , FAB } from 'react-native-elements'
 import { Searchbar } from 'react-native-paper';
@@ -74,7 +74,7 @@ const TrainerList = (props) => {
             <Searchbar
                 inputStyle={{fontSize: 16}}
                 style={styles.searchbar}
-                placeholder="Buscar cliente"
+                placeholder="Buscar Entrenador"
                 onChangeText={(text) => searchFilterFunction(text)}
                 value={search}
                 maxLength ={50}
