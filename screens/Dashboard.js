@@ -44,6 +44,7 @@ function Dashboard(props) {
                     <ActivityIndicator 
                     style={styles.loading}
                     size='large' color="red" />
+                    <Text style={{fontSize: 12, alignSelf: 'center', color: 'white'}}>Cargando...</Text>
                 </View>
             </ScrollView>
         );

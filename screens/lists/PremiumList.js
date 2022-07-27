@@ -6,7 +6,9 @@ import { List , Searchbar } from 'react-native-paper';
 function PremiumList(props) {
     const [users, setusers] = useState([])
     const [search, setSearch] = useState('');
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true); 
+    const [expanded, setExpanded] = useState(true);
+    const handlePress = () => setExpanded(!expanded);
     const [filteredDataSource, setFilteredDataSource] = useState([]);
 
     useEffect(() => {
@@ -37,6 +39,7 @@ function PremiumList(props) {
                     <ActivityIndicator 
                     style={styles.loading}
                     size='large' color="red" />
+                    <Text style={{fontSize: 12, alignSelf: 'center', color: 'white'}}>Cargando...</Text>
                 </View>
             </ScrollView>
         );
@@ -67,6 +70,7 @@ function PremiumList(props) {
                 value={search}
                 maxLength ={50}
             />
+            <View style={{marginHorizontal: 10, width:'90%', alignSelf: 'center'}}>
             {
                 filteredDataSource.map(user => {
                     return (
@@ -75,12 +79,13 @@ function PremiumList(props) {
                         bottomDivider>
                         <List.Accordion
                         style={styles.listcontainer}
-                        right={props => <List.Icon {...props} icon="menu-down" color="white"/>}
+                        right={props => <List.Icon {...props} icon="menu-down" color="red"/>}
                         titleStyle={{color: 'white'}}
-                        title={user.name}>
+                        title={user.name}
+                        onPress={handlePress}>
                             <List.Item
                             style={styles.list}
-                            right={props => <List.Icon {...props} icon="menu-right" color="white"/>}
+                            right={props => <List.Icon {...props} icon="menu-right" color="red"/>}
                             titleStyle={{color: 'white'}}
                             title='Asignar Ejercicio'
                             onPress={() => {
@@ -91,7 +96,7 @@ function PremiumList(props) {
                             }}/>
                             <List.Item
                             style={styles.list}
-                            right={props => <List.Icon {...props} icon="menu-right" color="white"/>}
+                            right={props => <List.Icon {...props} icon="menu-right" color="red"/>}
                             titleStyle={{color: 'white'}}
                             title='Ver Seguimiento'
                             onPress={() => {
@@ -105,6 +110,7 @@ function PremiumList(props) {
                     )
                 })
             }
+            </View>
         </ScrollView>
     )
 }
@@ -120,6 +126,7 @@ const styles = StyleSheet.create({
     },
     list: {
         padding: 1,
+        width: '95%',
         backgroundColor: 'black',
     },
     text: {

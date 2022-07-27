@@ -49,7 +49,20 @@ function TrackingView(props) {
     const [visible, setVisible] = useState(false);
     const toggleDialog = () => {
         setVisible(!visible);
-      };
+    };
+
+    if (loading){
+        return(
+            <ScrollView backgroundColor='black'>
+                <View>
+                    <ActivityIndicator 
+                    style={styles.loading}
+                    size='large' color="red" />
+                    <Text style={{fontSize: 12, alignSelf: 'center', color: 'white'}}>Cargando...</Text>
+                </View>
+            </ScrollView>
+        );
+    }
 
     return (
         <ScrollView style={styles.container}>

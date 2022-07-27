@@ -51,7 +51,7 @@ function PremiumView(props) {
                     color='red'
                     upperCase
                     onPress={() => props.navigation.navigate('RoutineView')}
-                    icon={{ name: 'star', color: 'white' }}
+                    icon={{ name: 'search', color: 'white' }}
                 />
                 <FAB style = {styles.button}
                     visible={true}
