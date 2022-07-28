@@ -35,7 +35,7 @@ function NormalView(props) {
                 <Text style={styles.text}>ReactFit</Text>
             </View>
             <Pressable style={styles.icon}>
-                <MaterialCommunityIcons name={'dumbbell'} 
+                <MaterialCommunityIcons name={'account'} 
                 size={130} 
                 color="red"/>
             </Pressable>

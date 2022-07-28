@@ -54,7 +54,7 @@ function MyStack() {
           headerTitleStyle:{color:'white'},
           headerTintColor:'white',
           headerStyle:{backgroundColor: 'black'} }}/>
-        <Stack.Screen name="CreateUser" component={CreateUser} options={{ title: 'Crear Usuario', headerTitleAlign: 'center',
+        <Stack.Screen name="CreateUser" component={CreateUser} options={{ title: 'Crear Cliente', headerTitleAlign: 'center',
           headerTitleStyle:{color:'white'},
           headerTintColor:'white',
           headerStyle:{backgroundColor: 'black'}}} />

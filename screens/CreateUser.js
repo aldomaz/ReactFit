@@ -154,7 +154,7 @@ function CreateUser(props) {
             </View>
             <FAB style = {styles.button}
                 visible={true}
-                title="Añadir Entrenador"
+                title="Añadir Cliente"
                 titleStyle = {styles.titleButton}
                 color='red'
                 upperCase
@@ -221,7 +221,6 @@ const styles = StyleSheet.create({
         fontSize: 10,
     },
     icon:{
-        padding: 25,
         alignItems: 'center',
         opacity: 0.8,
     },

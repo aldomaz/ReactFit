@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, TextInput, ScrollView, Pressable , Alert, Text, Image , ActivityIndicator , TouchableOpacity } from 'react-native'
+import { View, StyleSheet, TextInput, ScrollView, Pressable , Alert, Text, Image , ActivityIndicator } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import firebase from '../database/firebase'
+import { FAB } from 'react-native-elements'
 import { useTogglePasswordVisibility} from '../components/useTogglePasswordVisibility'
 import * as Analytics from 'expo-firebase-analytics';
 
@@ -105,10 +106,15 @@ const LoginScreen = (props) => {
                     <MaterialCommunityIcons name={rightIcon} size={18} color="#232323" />
                 </Pressable>
             </View>
-            <TouchableOpacity style={styles.appButtonContainer}
-            onPress={() => userLogin()}>
-                <Text style={styles.appButtonText}>Ingresar</Text>
-            </TouchableOpacity>
+            <FAB style = {styles.button}
+                visible={true}
+                title="Ingresar"
+                titleStyle = {styles.titleButton}
+                color='red'
+                upperCase
+                onPress={() => userLogin()}
+                icon={{ name: 'login', color: 'white' , size: 20}}
+            />
         </ScrollView>
     )
 }
@@ -136,20 +142,17 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
     },
-    appButtonContainer: {
-        marginTop: 15,
-        marginHorizontal: 8,
-        padding: 12,
-        backgroundColor: "red",
-        borderRadius: 18,
-      },
-    appButtonText: {
-        fontSize: 15,
-        color: "#fff",
-        fontWeight: "bold",
-        alignSelf: "center",
-        textTransform: "uppercase"
-      },
+    button:{
+        margin: 10,
+        width: '90%',
+        alignSelf: 'center',
+        paddingTop: 15,
+    },
+    titleButton:{
+        fontSize: 14,
+        fontWeight: 'bold',
+        width: '80%'
+    },
     inputField: {
         padding: 2,
         width: '90%',

@@ -1,7 +1,8 @@
 import React,  {useEffect, useState} from 'react'
 import firebase from '../database/firebase'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Dialog , ListItem, FAB } from 'react-native-elements'
-import { View , Text, StyleSheet, ScrollView, Button , Alert , ActivityIndicator} from 'react-native';
+import { View , Text, StyleSheet, ScrollView, Pressable , Alert , ActivityIndicator} from 'react-native';
 
 function RoutineView(props) {
     const initialState = {
@@ -56,6 +57,7 @@ function RoutineView(props) {
     }
 
     useEffect(() => {
+        setLoading(true);
         firebase.db.collection('users').doc(firebase.auth.currentUser.uid).collection('routines').onSnapshot(querySnapshot => {
             const routine = [];
             querySnapshot.docs.forEach(doc => {
@@ -66,6 +68,7 @@ function RoutineView(props) {
                 })
             })  
             setRoutine(routine); 
+            setLoading(false);
         })
         getRoleByID(firebase.auth.currentUser.uid);
     }, [])
@@ -136,6 +139,7 @@ function RoutineView(props) {
 
     return (
         <ScrollView style={styles.container}>
+            {routine.length===0?<Text style={styles.alertText}>No tiene rutinas asignadas</Text>:<></>}
             {
                 routine.map(routine => {
                     
@@ -161,10 +165,16 @@ function RoutineView(props) {
                 toggleDialog();
                 setExercise([]);
             }}>
+            <Pressable style={styles.icon}>
+                <MaterialCommunityIcons name={'dumbbell'} 
+                size={130} 
+                color="red"/>
+            </Pressable>
                 {
                     exercise.map(exercise => {
                         return(
                             <ListItem key={exercise.id}
+                                style={styles.listDialog}
                                 onPress={() => { if(user.role === 'premium'){
                                     props.navigation.navigate('ExerciseView',{
                                     userId: firebase.auth.currentUser.uid,
@@ -178,7 +188,7 @@ function RoutineView(props) {
                                     })
                                     }
                                 }}>
-                            <ListItem.Chevron color={'black'}/>
+                            <ListItem.Chevron color={'red'}/>
                             <ListItem.Content>
                                 <ListItem.Title>{exercise.name}</ListItem.Title>
                             </ListItem.Content>
@@ -191,7 +201,7 @@ function RoutineView(props) {
                     visible={true}
                     title="Finalizar Rutina"
                     titleStyle = {{fontSize: 12, color: 'white'}}
-                    color='limegreen'
+                    color='red'
                     upperCase
                     onPress={() => {finishRoutineAlert(currentRoutine.routineId);}}
                     icon={{ name: 'check', color: 'white' }}/>
@@ -224,9 +234,6 @@ const styles = StyleSheet.create({
     button:{
         padding: 10,
     },
-    list: {
-        backgroundColor: 'black',
-    },
     inputGroup: {
         margin: 5,
         backgroundColor: "white",
@@ -236,17 +243,38 @@ const styles = StyleSheet.create({
         padding: 10,
         fontSize: 15,
     },
+    listDialog: {
+        paddingTop: 3,
+        alignSelf: 'center',
+        width: '95%',
+        borderBottomColor: 'red',
+        borderBottomWidth: 2,
+    },
     list: {
         backgroundColor: 'black',
-        padding: 10,
+        borderColor: 'red',
+        alignSelf: 'center',
+        padding: 20,
+        width: '95%',
         borderWidth: 1,
-        borderRadius: 10,
+        borderRadius: 30,
     },
     text: {
         color: 'white',
     },
     loading: {
         marginTop: 300,
+    },
+    alertText:{
+        color: 'red', 
+        alignSelf: 'center', 
+        fontSize: 16, 
+        paddingTop: 20,
+    },
+    icon:{
+        padding: 25,
+        alignItems: 'center',
+        opacity: 0.8,
     },
 });
 

@@ -83,7 +83,7 @@ function NormalList(props) {
                             <ListItem.Chevron />
                             <ListItem.Content>
                                 <ListItem.Title style={styles.text}>{user.name}</ListItem.Title>
-                                <ListItem.Subtitle style={styles.text}>{user.email}</ListItem.Subtitle>
+                                <ListItem.Subtitle style={styles.text2}>{user.email}</ListItem.Subtitle>
                             </ListItem.Content>
                         </ListItem>
                     )
@@ -103,6 +103,10 @@ const styles = StyleSheet.create({
     },
     text: {
         color: 'white',
+    },
+    text2:{
+        color: 'lightgray',
+        fontSize: 12,
     },
     loading: {
         marginTop: 300,

@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react'
-import {View, StyleSheet, TextInput, ScrollView, Button, Text , ActivityIndicator} from 'react-native'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import {FAB} from 'react-native-elements'
+import {View, StyleSheet, TextInput, ScrollView, Pressable , Text , ActivityIndicator} from 'react-native'
 import firebase from '../database/firebase'
 
 function CompleteUserProfile(props) {
@@ -12,7 +14,6 @@ function CompleteUserProfile(props) {
         weight: '',
         height: '',
         job: '',
-        physicalActivity: "",
     }
 
     const auth = firebase.auth;
@@ -69,52 +70,63 @@ function CompleteUserProfile(props) {
 
   return (
     <ScrollView style = {styles.container}>
+            <Pressable style={styles.icon}>
+                <MaterialCommunityIcons name={'account-edit'} 
+                size={130} 
+                color="red"/>
+            </Pressable>
+            <Text style = {styles.title}>Nombre</Text>
             <View style = {styles.inputGroup}>
-                <Text style = {styles.title}>Nombre</Text>
                 <TextInput 
                 placeholder='Name User'
                 value={user.name}
                 onChangeText={(value) => handleChangeText('name', value)} />
             </View> 
+            <Text style = {styles.title}>Objetivo</Text>
             <View style = {styles.inputGroup}>
-                <Text style = {styles.title}>Objetivo</Text>
                 <TextInput 
                 value={user.goal}
                 onChangeText={(value) => handleChangeText('goal', value)} />
             </View> 
+            <Text style = {styles.title}>Edad</Text>
             <View style = {styles.inputGroup}>
-                <Text style = {styles.title}>Edad</Text>
                 <TextInput 
                 value={user.age}
                 keyboardType={'number-pad'}
                 maxLength={3}
                 onChangeText={(value) => handleChangeText('age', value)} />
             </View> 
+            <Text style = {styles.title}>Peso (kg)</Text>
             <View style = {styles.inputGroup}>
-                <Text style = {styles.title}>Peso (kg)</Text>
                 <TextInput 
                 value={user.weight}
                 keyboardType={'number-pad'}
                 maxLength={3}
                 onChangeText={(value) => handleChangeText('weight', value)} />
             </View> 
+            <Text style = {styles.title}>Estatura (cm)</Text>
             <View style = {styles.inputGroup}>
-                <Text style = {styles.title}>Estatura (cm)</Text>
                 <TextInput 
                 value={user.height}
                 keyboardType={'number-pad'}
                 maxLength={3}
                 onChangeText={(value) => handleChangeText('height', value)} />
             </View> 
+            <Text style = {styles.title}>Ocupacion</Text>
             <View style = {styles.inputGroup}>
-                <Text style = {styles.title}>Ocupacion</Text>
                 <TextInput 
                 value={user.job}
                 onChangeText={(value) => handleChangeText('job', value)} />
             </View> 
-            <View>
-                <Button color='red' title='Guardar Información' onPress={() => updateUser()}/>
-            </View>
+            <FAB style = {styles.button}
+                visible={true}
+                title="Guardar Información"
+                titleStyle = {styles.titleButton}
+                color='red'
+                upperCase
+                onPress={() => updateUser()}
+                icon={{ name: 'edit', color: 'white' , size: 20}}
+            />
         </ScrollView>
   )
 }
@@ -123,18 +135,38 @@ const styles = StyleSheet.create({
     container:{
         flex: 1,
         padding: 35,
+        backgroundColor: 'black',
     },
     title:{
-        padding: 2,
-        color: 'gray',
+        paddingLeft: 10,
+        marginTop: 6,
+        color: 'lightgray',
         fontSize: 10,
     },
     inputGroup: {
-        flex:1,
-        padding:0,
-        marginBottom:15,
-        borderBottomWidth:1,
-        borderBottomColor: '#cccccc',
+        margin: 5,
+        backgroundColor: "white",
+        borderWidth: 1,
+        borderRadius: 15,
+        borderColor: 'red',
+        paddingLeft: 15,
+        padding: 8,
+        fontSize: 20,
+    },    
+    button:{
+        margin: 10,
+        width: '90%',
+        alignSelf: 'center',
+        paddingTop: 15,
+    },
+    titleButton:{
+        fontSize: 14,
+        fontWeight: 'bold',
+        width: '80%'
+    },
+    icon:{
+        alignItems: 'center',
+        opacity: 0.8,
     },
     loading: {
         marginTop: 300,

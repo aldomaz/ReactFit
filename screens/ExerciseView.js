@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {View, StyleSheet, Text, ScrollView, TextInput , ActivityIndicator, Image , Alert} from 'react-native'
-import { FAB , Dialog , Slider , Icon} from 'react-native-elements'
+import { FAB , Slider } from 'react-native-elements'
 import { Badge , Portal , Modal , Provider} from 'react-native-paper'
 import firebase from '../database/firebase'
 
@@ -125,15 +125,14 @@ function ExerciseView(props) {
             <View >
                 <Image style={styles.image} source={{uri: url}} />
             </View>
-            <View style = {styles.buttonContainer}>
-                <FAB style = {styles.button}
+            <FAB style = {styles.button}
                 visible={true}
-                title=" Descripción "
-                titleStyle = {{fontSize: 12}}
+                title="Descripción"
+                titleStyle = {styles.titleButton}
                 color='red'
+                icon={{ name: 'info', color: 'white' }}
                 upperCase
                 onPress={showModal}/>
-            </View>
             <View style = {styles.inputGroup}>
                 <Text style = {styles.title}>Nombre</Text>
                 <TextInput style = {styles.text}
@@ -193,8 +192,8 @@ function ExerciseView(props) {
                 <FAB style = {styles.button}
                 visible={true}
                 title="Completar Ejercicio"
-                titleStyle = {{fontSize: 12, color: 'white'}}
-                color='limegreen'
+                titleStyle = {styles.titleButton}
+                color='red'
                 upperCase
                 onPress={() => completeExerciseAlert(exercise.id)}
                 icon={{ name: 'check', color: 'white' }}/>
@@ -233,12 +232,15 @@ const styles = StyleSheet.create({
     inputGroup:{
         margin: 1,
     },
-    buttonContainer: {
-        margin: 15,
-    },
     button:{
-        padding: 2,
-        margin: 2,
+        margin: 30,
+        width: '70%',
+        alignSelf: 'center',
+    },
+    titleButton:{
+        fontSize: 12,
+        fontWeight: 'bold',
+        width: '80%'
     },
     list: {
         padding: 5,

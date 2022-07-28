@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
-import {View, StyleSheet, TextInput, ScrollView, BackHandler , Alert, ActivityIndicator , Text} from 'react-native'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import {View, StyleSheet, TextInput, ScrollView, BackHandler , Alert, ActivityIndicator , Text , Pressable} from 'react-native'
 import firebase from '../database/firebase'
 import { SpeedDial, FAB , Dialog, CheckBox, ListItem} from 'react-native-elements'
 import { Searchbar } from 'react-native-paper';
@@ -197,6 +198,12 @@ function NormalRoutine(props ) {
   return (
     <View style = {styles.container}>
         <ScrollView>
+        <Pressable style={styles.icon}>
+            <MaterialCommunityIcons name={'dumbbell'} 
+            size={130} 
+            color="red"/>
+            <Text style={styles.text}>Normal</Text>
+        </Pressable>
         <Text style = {styles.title}>Nombre</Text>
             <TextInput 
                 value = {routine.name}
@@ -227,36 +234,37 @@ function NormalRoutine(props ) {
             })
         }
         </View>
-        <FAB style = {styles.button}
-            visible={true}
-            title="  Enviar Rutina   "
-            titleStyle = {{fontSize: 12, color: 'white'}}
-            color='limegreen'
-            upperCase
-            onPress={() => finishRoutineAlert()}
-            icon={{ name: 'check', color: 'white' }}
+        <View style={{marginTop: 8}}>
+            <FAB style = {styles.button}
+                visible={true}
+                title="Enviar Rutina"
+                titleStyle = {styles.titleButton}
+                color='red'
+                upperCase
+                onPress={() => finishRoutineAlert()}
+                icon={{ name: 'check', color: 'white' , size: 20}}
             />
-        <FAB style = {styles.button}
-            visible={true}
-            size={'small'}
-            title="Cancelar Rutina"
-            titleStyle = {{fontSize: 12}}
-            color='red'
-            upperCase
-            onPress={() => cancelRoutineAlert()}
-            icon={{ name: 'cancel', color: 'white' }}
+            <FAB style = {styles.button}
+                visible={true}
+                title="Cancelar Rutina"
+                titleStyle = {styles.titleButton}
+                color='red'
+                upperCase
+                onPress={() => cancelRoutineAlert()}
+                icon={{ name: 'cancel', color: 'white' , size: 20}}
             />
+        </View>
         </ScrollView>
         <SpeedDial
             isOpen={open}
-            buttonStyle={{backgroundColor:'black'}}
+            buttonStyle={{backgroundColor:'red'}}
             icon={{ name: 'add', color: 'white' }}
             openIcon={{ name: 'close', color: 'white' }}
             onOpen={() => setOpen(!open)}
             onClose={() => setOpen(!open)}>
             <SpeedDial.Action
               icon={{ name: 'add', color: 'white' }}
-              buttonStyle={{backgroundColor:'black'}}
+              buttonStyle={{backgroundColor:'red'}}
               title="Añadir Ejercicio"
               onPress={() => {
                 if(routine.name !== ''){
@@ -281,16 +289,17 @@ function NormalRoutine(props ) {
                 iconColor={'white'}
                 maxLength ={50}
                 inputStyle={{fontSize: 14, color: 'white'}}
-                style={{backgroundColor: 'black', margin: 10}}
+                style={styles.searchbar}
             />
             {filteredDataSource.map(showex => (
                 <CheckBox
                     key= {showex.id}
                     title={showex.name}
                     containerStyle={{ backgroundColor: 'white', borderWidth: 0 }}
-                    checkedIcon="dot-circle-o"
+                    checkedIcon="check"
                     uncheckedIcon="circle-o"
-                    checkedColor='black'
+                    uncheckedColor='black'
+                    checkedColor='red'
                     checked={checked === showex.id}
                     onPress={() => {setChecked(showex.id),
                     setExercise({
@@ -304,13 +313,13 @@ function NormalRoutine(props ) {
         <Dialog.Actions>
             <Dialog.Button
                 title="AÑADIR"
-                titleStyle={{color: 'black'}}
+                titleStyle={{color: 'red'}}
                 onPress={() => {
                     toggleDialog5;
                     addExercise(checked);
                 }}
             />
-            <Dialog.Button titleStyle={{color: 'red'}} title="CANCELAR" onPress={toggleDialog5} />
+            <Dialog.Button titleStyle={{color: 'black'}} title="CANCELAR" onPress={toggleDialog5} />
         </Dialog.Actions>
         </ScrollView>
     </Dialog>
@@ -323,41 +332,64 @@ const styles = StyleSheet.create({
     container:{
         flex: 1,
         padding: 35,
+        backgroundColor: 'black'
     },
     title:{
-        padding: 2,
-        color: 'gray',
+        paddingLeft: 10,
+        marginTop: 6,
+        color: 'lightgray',
         fontSize: 10,
     },
     title2:{
         padding: 2,
-        color: 'black',
+        color: 'white',
         fontSize: 10,
         alignSelf: 'center',
     },
     button:{
-        padding: 10,
+        margin: 10,
+        width: '90%',
+        alignSelf: 'center',
+    },
+    titleButton:{
+        fontSize: 14,
+        fontWeight: 'bold',
+        width: '80%'
     },
     inputGroup: {
         margin: 5,
         backgroundColor: "white",
         borderWidth: 1,
-        borderRadius: 10,
-        borderColor: 'grey',
-        padding: 10,
-        fontSize: 15,
+        borderRadius: 15,
+        borderColor: 'red',
+        padding: 5,
+        paddingLeft: 15,
+        fontSize: 16,
     },
     list: {
         backgroundColor: 'black',
-        padding: 10,
+        padding: 13,
         borderWidth: 1,
         borderRadius: 10,
+        borderColor: 'red',
+    },
+    searchbar:{
+        borderWidth: 2,
+        borderRadius: 20,
+        width: '98%',
+        alignSelf: 'center',
+        backgroundColor: 'black',
+        borderColor: 'red',
     },
     text: {
         color: 'white',
     },
     loading: {
         marginTop: 300,
+    },
+    icon:{
+        alignItems: 'center',
+        opacity: 0.8,
     },
 });
 

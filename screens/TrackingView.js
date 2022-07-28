@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { ScrollView, StyleSheet , Text , View , ActivityIndicator } from 'react-native'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { ScrollView, StyleSheet , Text , View , ActivityIndicator , Pressable} from 'react-native'
 import firebase from '../database/firebase'
 import { ListItem , Dialog} from 'react-native-elements';
 
@@ -100,6 +101,11 @@ function TrackingView(props) {
             onBackdropPress={() => {
                 toggleDialog();
             }}>
+                <Pressable style={styles.icon}>
+                    <MaterialCommunityIcons name={'account-eye'} 
+                    size={130} 
+                    color="red"/>
+                </Pressable>
                 <View style={styles.dialogview}>
                     <Text style={styles.title}>Porcentaje de Completación</Text>
                     <Text style={styles.dialogtext}>{currentRoutine.percentage}%</Text>
@@ -121,6 +127,7 @@ function TrackingView(props) {
                             </ListItem.Content>
                         </ListItem>)
                     })}
+                <Dialog.Button titleStyle={{color: 'red', paddingTop: 10}} title="FINALIZAR" onPress={toggleDialog} />
                 </View>
             </Dialog>
         </ScrollView>
@@ -149,6 +156,11 @@ const styles = StyleSheet.create({
     dialogtext: {
         color: 'black',
         fontWeight: 'bold',
+    },
+    icon:{
+        padding: 25,
+        alignItems: 'center',
+        opacity: 0.8,
     },
 });
 

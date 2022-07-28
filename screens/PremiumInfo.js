@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
-import {View, StyleSheet, TextInput, ScrollView, ActivityIndicator , Text} from 'react-native'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import {View, StyleSheet, TextInput, ScrollView, ActivityIndicator , Pressable , Text} from 'react-native'
 import { FAB } from 'react-native-elements'
 import firebase from '../database/firebase'
 
@@ -59,49 +60,61 @@ function PremiumInfo(props) {
 
     return (
         <ScrollView style = {styles.container}>
+            <Pressable style={styles.icon}>
+                <MaterialCommunityIcons name={'account-details'} 
+                size={130} 
+                color="red"/>
+            </Pressable>
             <View style = {styles.inputGroup}>
                 <Text style = {styles.title}>Nombre</Text>
                 <TextInput style = {styles.text}
-                placeholder='Name User'
+                placeholderTextColor='gray'
+                placeholder='No registrado'
                 value={user.name}
                 editable={false}/>
             </View> 
             <View style = {styles.inputGroup}>
                 <Text style = {styles.title}>Objetivo</Text>
                 <TextInput style = {styles.text}
-                placeholder='Goal User' 
+                placeholderTextColor='gray'
+                placeholder='No registrado' 
                 value={user.goal}
                 editable={false}/>
             </View>
             <View style = {styles.inputGroup}>
                 <Text style = {styles.title}>Edad</Text>
                 <TextInput style = {styles.text}
-                placeholder='Goal User' 
+                placeholderTextColor='gray'
+                placeholder='No registrado' 
                 value={user.age}
                 editable={false}/>
             </View>
+            <View style={{flexDirection: 'row'}}>
             <View style = {styles.inputGroup}>
                 <Text style = {styles.title}>Peso (kg)</Text>
                 <TextInput style = {styles.text}
-                placeholder='Goal User' 
+                placeholderTextColor='gray'
+                placeholder='No registrado' 
                 value={user.weight}
                 editable={false}/>
             </View>
             <View style = {styles.inputGroup}>
                 <Text style = {styles.title}>Estatura (cm)</Text>
                 <TextInput style = {styles.text}
-                placeholder='Goal User' 
+                placeholderTextColor='gray'
+                placeholder='No registrado'
                 value={user.height}
                 editable={false}/>
             </View>
+            </View>
             <FAB style = {styles.button}
-            visible={true}
-            title="Asignar Rutina"
-            titleStyle = {{fontSize: 12}}
-            color='red'
-            upperCase
-            onPress={() => assignRoutine()}
-            icon={{ name: 'add', color: 'white' }}
+                visible={true}
+                title="Asignar Rutina"
+                titleStyle = {styles.titleButton}
+                color='red'
+                upperCase
+                onPress={() => assignRoutine()}
+                icon={{ name: 'add', color: 'white' , size: 20}}
             />
         </ScrollView>
     )
@@ -111,9 +124,10 @@ const styles = StyleSheet.create({
     container:{
         flex: 1,
         padding: 35,
+        backgroundColor: 'black',
     },
     text: {
-        color: 'black',
+        color: 'white',
     },
     title:{
         padding: 2,
@@ -121,18 +135,26 @@ const styles = StyleSheet.create({
         fontSize: 10,
     },
     inputGroup: {
-        flex:1,
-        padding:0,
-        marginBottom:15,
-        borderBottomWidth:1,
-        borderBottomColor: '#cccccc',
+        margin: 10,
     },
     button:{
-        padding: 5,
+        margin: 30,
+        width: '90%',
+        alignSelf: 'center',
+    },
+    titleButton:{
+        fontSize: 14,
+        fontWeight: 'bold',
+        width: '80%'
     },
     list: {
         padding: 5,
         borderColor: 'grey',
+    },
+    icon:{
+        padding: 25,
+        alignItems: 'center',
+        opacity: 0.8,
     },
     loading: {
         marginTop: 300,

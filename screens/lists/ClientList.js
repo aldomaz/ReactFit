@@ -108,10 +108,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
     },
     searchbar:{
-        borderWidth: 1,
+        borderWidth: 2,
         borderRadius: 20,
         width: '98%',
         alignSelf: 'center',
+        borderColor: 'red',
     },
     list: {
         backgroundColor: 'black',

@@ -18,6 +18,7 @@ const UserDetailScreen = (props) =>{
     const [loading, setLoading] = useState(loading?true:false)
 
     const getUserByID = async (id) => {
+        setLoading(true);
         const dbRef = firebase.db.collection('users').doc(id);
         const doc = await dbRef.get();
         const user = doc.data();
@@ -25,7 +26,7 @@ const UserDetailScreen = (props) =>{
             ...user,
             id: doc.id,
         });
-        setLoading(false)
+        setLoading(false);
     }
 
     useEffect (() => {
