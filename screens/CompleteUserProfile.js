@@ -9,7 +9,6 @@ function CompleteUserProfile(props) {
         id: '',
         name: '',
         goal: '',
-        dateBirth: '',
         age: '',
         weight: '',
         height: '',
@@ -36,7 +35,22 @@ function CompleteUserProfile(props) {
     }, [])
 
     const handleChangeText = (name, value) => {
-        setUser({...user, [name]: value})
+        if(name==='age' || name==='weight' || name==='height'){
+            let newText = '';
+            let numbers = '0123456789';
+    
+            for (var i=0; i < value.length; i++) {
+                if(numbers.indexOf(value[i]) > -1 ) {
+                newText = newText + value[i];
+                }  
+                else {
+                    alert("Solo se permiten números en los campos de Edad, Peso y Estatura");
+                }     
+            }
+            setUser({...user, [name]: newText})
+        }else{
+            setUser({...user, [name]: value})
+        }
     }
 
     const updateUser = async () => {

@@ -1,12 +1,13 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import {View, StyleSheet, TextInput, ScrollView , Alert, Text , Pressable} from 'react-native'
+import { View, StyleSheet, TextInput, ScrollView, Alert, Text, Pressable } from 'react-native'
 import { ActivityIndicator } from 'react-native'
 import { FAB } from 'react-native-elements'
+import { Picker } from '@react-native-picker/picker'
 import firebase from '../database/firebase'
 
-const UserDetailScreen = (props) =>{
-    
+const UserDetailScreen = (props) => {
+
     const initialState = {
         id: '',
         name: '',
@@ -15,7 +16,7 @@ const UserDetailScreen = (props) =>{
     }
 
     const [user, setUser] = useState(initialState)
-    const [loading, setLoading] = useState(loading?true:false)
+    const [loading, setLoading] = useState(loading ? true : false)
 
     const getUserByID = async (id) => {
         setLoading(true);
@@ -29,22 +30,22 @@ const UserDetailScreen = (props) =>{
         setLoading(false);
     }
 
-    useEffect (() => {
+    useEffect(() => {
         getUserByID(props.route.params.userId);
     }, [])
 
     const handleChangeText = (name, value) => {
-        setUser({...user, [name]: value})
+        setUser({ ...user, [name]: value })
     }
 
     const deleteUser = async () => {
         setLoading(true);
         const dbRef = firebase.db.collection('users').doc(props.route.params.userId);
         await dbRef.delete();
-        if(user.role === 'instructor'){
+        if (user.role === 'instructor') {
             setUser(initialState);
             props.navigation.navigate('UsersList');
-        }else{
+        } else {
             setUser(initialState);
             props.navigation.navigate('ClientList');
         }
@@ -58,10 +59,10 @@ const UserDetailScreen = (props) =>{
             email: user.email,
             role: user.role,
         })
-        if(user.role === 'instructor'){
+        if (user.role === 'instructor') {
             setUser(initialState);
             props.navigation.navigate('UsersList');
-        }else{
+        } else {
             setUser(initialState);
             props.navigation.navigate('ClientList');
         }
@@ -69,72 +70,87 @@ const UserDetailScreen = (props) =>{
 
     const deleteConfirmationAlert = () => {
         Alert.alert("Eliminar Usuario", "¿Estás Seguro?", [
-            {text: 'Sí', onPress: () => deleteUser()},
-            {text: 'No', onPress: () => console.log('false')},
+            { text: 'Sí', onPress: () => deleteUser() },
+            { text: 'No', onPress: () => console.log('false') },
         ])
     }
 
-    if (loading){
-        return(
+    if (loading) {
+        return (
             <ScrollView backgroundColor='black'>
                 <View>
-                    <ActivityIndicator 
-                    style={styles.loading}
-                    size='large' color="red" />
-                    <Text style={{fontSize: 12, alignSelf: 'center', color: 'white'}}>Cargando...</Text>
+                    <ActivityIndicator
+                        style={styles.loading}
+                        size='large' color="red" />
+                    <Text style={{ fontSize: 12, alignSelf: 'center', color: 'white' }}>Cargando...</Text>
                 </View>
             </ScrollView>
         );
     }
 
-    return(
-        <ScrollView style = {styles.container}>
+    return (
+        <ScrollView style={styles.container}>
             <Pressable style={styles.icon}>
-                <MaterialCommunityIcons name={'account-edit'} 
-                size={130} 
-                color="red"/>
+                <MaterialCommunityIcons name={'account-edit'}
+                    size={130}
+                    color="red" />
             </Pressable>
-            <Text style = {styles.title}>Nombre y Apellido</Text>
-            <View style = {styles.inputGroup}>
-                <TextInput 
-                placeholder='Name User'
-                value={user.name}
-                onChangeText={(value) => handleChangeText('name', value)} />
-            </View> 
-            <Text style = {styles.title}>Email</Text>
-            <View style = {styles.inputGroup}>
-                <TextInput 
-                placeholder='Email User' 
-                value={user.email}
-                onChangeText={(value) => handleChangeText('email', value)}/>
+            <Text style={styles.title}>Nombre y Apellido</Text>
+            <View style={styles.inputGroup}>
+                <TextInput
+                    placeholder='Name User'
+                    value={user.name}
+                    onChangeText={(value) => handleChangeText('name', value)} />
             </View>
-            <Text style = {styles.title}>Rol</Text>
-            <View style = {styles.inputGroup}>
-                <TextInput 
-                style = {{color: 'black'}}
-                editable={false}
-                placeholder='Rol User' 
-                value={user.role}
-                onChangeText={(value) => handleChangeText('role', value)}/>
+            <Text style={styles.title}>Email</Text>
+            <View style={styles.outPutGroup}>
+                <TextInput
+                    editable={false}
+                    style={{ color: 'white' }}
+                    placeholder='Email User'
+                    value={user.email}
+                />
             </View>
-            <View style={{marginTop: 20}}>
-                <FAB style = {styles.button}
+            <Text style={styles.title}>Rol</Text>
+            {
+            user.role==='instructor'?
+            <View style={styles.outPutGroup}>
+                <TextInput
+                    style={{ color: 'white' }}
+                    editable={false}
+                    placeholder='Rol User'
+                    value={user.role.toUpperCase()}
+                />
+            </View>:
+            <View style={styles.pickerContainer}>
+                <Picker
+                    selectedValue={user.role}
+                    onValueChange={(itemValue) => {
+                        handleChangeText('role', itemValue);
+                    }}>
+                    <Picker.Item label="Premium" value={"premium"} />
+                    <Picker.Item label="Normal" value={"normal"} />
+                </Picker>
+            </View>
+            }
+            <View style={{ marginTop: 20 }}>
+                <FAB style={styles.button}
                     visible={true}
                     title="Actualizar Datos"
-                    titleStyle = {styles.titleButton}
+                    titleStyle={styles.titleButton}
                     color='red'
                     upperCase
                     onPress={() => updateUser()}
-                    icon={{ name: 'update', color: 'white' , size: 20}}
+                    icon={{ name: 'update', color: 'white', size: 20 }}
                 />
-                <FAB style = {styles.button}
+                <FAB style={styles.button}
                     visible={true}
                     title="Eliminar Usuario"
-                    titleStyle = {styles.titleButton}
+                    titleStyle={styles.titleButton}
                     color='red'
                     upperCase
                     onPress={() => deleteConfirmationAlert()}
-                    icon={{ name: 'delete', color: 'white' , size: 20}}
+                    icon={{ name: 'delete', color: 'white', size: 20 }}
                 />
             </View>
         </ScrollView>
@@ -148,6 +164,9 @@ const styles = StyleSheet.create({
         alignSelf: 'auto',
         backgroundColor: 'black',
     },
+    outPutGroup: {
+        margin: 10,
+    },
     inputGroup: {
         margin: 5,
         backgroundColor: "white",
@@ -156,27 +175,36 @@ const styles = StyleSheet.create({
         borderColor: 'red',
         padding: 10,
         fontSize: 20,
-    },    
-    title:{
+    },
+    title: {
         paddingLeft: 10,
         marginTop: 6,
         color: 'lightgray',
         fontSize: 10,
     },
-    button:{
+    button: {
         margin: 10,
         width: '90%',
         alignSelf: 'center',
     },
-    titleButton:{
+    titleButton: {
         fontSize: 14,
         fontWeight: 'bold',
         width: '80%'
     },
-    icon:{
+    icon: {
         padding: 25,
         alignItems: 'center',
         opacity: 0.8,
+    },
+    pickerContainer: {
+        borderWidth: 1,
+        borderColor: 'red',
+        borderRadius: 10,
+        backgroundColor: 'white',
+        width: '98%',
+        margin: 5,
+        alignSelf: 'center'
     },
     loading: {
         marginTop: 300,

@@ -73,6 +73,7 @@ function TrackingView(props) {
 
     return (
         <ScrollView style={styles.container}>
+            {routines.length===0?<Text style={styles.alertText}>El cliente todavía no ha completado rutinas..</Text>:<></>}
             {
                 routines.map(routine => {
                     return (
@@ -161,6 +162,12 @@ const styles = StyleSheet.create({
         padding: 25,
         alignItems: 'center',
         opacity: 0.8,
+    },
+    alertText:{
+        color: 'red', 
+        alignSelf: 'center', 
+        fontSize: 16, 
+        paddingTop: 20,
     },
 });
 

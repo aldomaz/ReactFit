@@ -29,7 +29,22 @@ function ModifyExercise(props) {
     }
 
     const handleChangeText = (name, value) => {
-        setExercise({...exercise, [name]: value})
+        if(name==='repeats' || name==='series'){
+            let newText = '';
+            let numbers = '0123456789';
+    
+            for (var i=0; i < value.length; i++) {
+                if(numbers.indexOf(value[i]) > -1 ) {
+                newText = newText + value[i];
+                }  
+                else {
+                    alert("Solo se permiten números en los campos de Edad, Peso y Estatura");
+                }     
+            }
+            setExercise({...exercise, [name]: newText})
+        }else{
+            setExercise({...exercise, [name]: value})
+        }
     }
 
     useEffect (() => {

@@ -1,7 +1,7 @@
-import React, {useState} from 'react'
-import {View, Text , StyleSheet, TextInput, ScrollView, Alert, Pressable , ActivityIndicator} from 'react-native'
+import React, { useState } from 'react'
+import { View, Text, StyleSheet, TextInput, ScrollView, Alert, Pressable, ActivityIndicator } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { FAB }from 'react-native-elements'
+import { FAB } from 'react-native-elements'
 import firebase from '../database/firebase'
 import { useTogglePasswordVisibility } from '../components/useTogglePasswordVisibility'
 
@@ -16,7 +16,7 @@ function ChangePassword(props) {
         if (err.code === 'auth/weak-password') {
             Alert.alert("La contraseña debe tener más de 6 caracteres");
             setPassword(initialState);
-        } else { 
+        } else {
             Alert.alert(err.message);
             setPassword(initialState);
         }
@@ -24,13 +24,13 @@ function ChangePassword(props) {
 
     const { passwordVisibility, rightIcon, handlePasswordVisibility } = useTogglePasswordVisibility();
     const [password, setPassword] = useState(initialState)
-    const [loading, setLoading] = useState(loading?true:false)
+    const [loading, setLoading] = useState(loading ? true : false)
 
     const handleChangeText = (name, value) => {
-        setPassword({...password, [name]: value})
+        setPassword({ ...password, [name]: value })
     }
-    
-    const changePassword = async(newPassword) => {
+
+    const changePassword = async (newPassword) => {
         if (password.confirmPwd === newPassword){
             setLoading(true);
             const user = firebase.auth.currentUser;
@@ -44,69 +44,66 @@ function ChangePassword(props) {
                 passwordsErrorAlerts(error);});
         } else {
             alert('Las contraseñas no coinciden');
-            setPassword({
-                newPwd: '',
-                confirmPwd: '',
-            })
+            setPassword(initialState)
         }
     }
 
-     if (loading){
-        return(
+    if (loading) {
+        return (
             <ScrollView backgroundColor='black'>
                 <View>
-                    <ActivityIndicator 
-                    style={styles.loading}
-                    size='large' color="red" />
-                    <Text style={{fontSize: 12, alignSelf: 'center', color: 'white'}}>Cargando...</Text>
+                    <ActivityIndicator
+                        style={styles.loading}
+                        size='large' color="red" />
+                    <Text style={{ fontSize: 12, alignSelf: 'center', color: 'white' }}>Cargando...</Text>
                 </View>
             </ScrollView>
         );
     }
     return (
-    <ScrollView style = {styles.container}>
-        <Pressable style={styles.icon}>
-            <MaterialCommunityIcons name={'lock-check'} 
-            size={130} 
-            color="red"/>
-        </Pressable>
-        <Text style = {styles.title}>Contraseña Nueva</Text>
-        <View style = {styles.inputGroup}>
-            <TextInput 
-            style = {styles.inputField}
-            placeholder='Contraseña Nueva' 
-            value={password.newPwd}
-            secureTextEntry={passwordVisibility}
-            maxLength={16}
-            enablesReturnKeyAutomatically
-            onChangeText={(value) => handleChangeText('newPwd', value)}/>
-            <Pressable onPress={handlePasswordVisibility}>
-                <MaterialCommunityIcons name={rightIcon} size={18} color="#232323" />
+        <ScrollView style={styles.container}>
+            <Pressable style={styles.icon}>
+                <MaterialCommunityIcons name={'lock-check'}
+                    size={130}
+                    color="red" />
             </Pressable>
-        </View>
-        <Text style = {styles.title}>Validar Contraseña</Text>
-        <View style = {styles.inputGroup}>
-            <TextInput 
-            style = {styles.inputField}
-            placeholder='Confirmar Contraseña' 
-            value={password.confirmPwd}
-            secureTextEntry={passwordVisibility}
-            maxLength={16}
-            onChangeText={(value) => handleChangeText('confirmPwd', value)}/>
-            <Pressable onPress={handlePasswordVisibility}>
-                <MaterialCommunityIcons name={rightIcon} size={18} color="#232323" />
-            </Pressable>
-        </View>
-        <FAB style = {styles.button}
-            visible={true}
-            title="Actualizar Contraseña"
-            titleStyle = {styles.titleButton}
-            color='red'
-            upperCase
-            onPress={() => changePassword(password.newPwd)}
-            icon={{ name: 'update', color: 'white' , size: 20}}
-        />
-    </ScrollView>
+            <Text style={styles.title}>Contraseña Nueva</Text>
+            <View style={styles.inputGroup}>
+                <TextInput
+                    style={styles.inputField}
+                    placeholder='Contraseña Nueva'
+                    value={password.newPwd}
+                    secureTextEntry={passwordVisibility}
+                    maxLength={16}
+                    enablesReturnKeyAutomatically
+                    onChangeText={(value) => handleChangeText('newPwd', value)} />
+                <Pressable onPress={handlePasswordVisibility}>
+                    <MaterialCommunityIcons name={rightIcon} size={18} color="#232323" />
+                </Pressable>
+            </View>
+            <Text style={styles.title}>Validar Contraseña</Text>
+            <View style={styles.inputGroup}>
+                <TextInput
+                    style={styles.inputField}
+                    placeholder='Confirmar Contraseña'
+                    value={password.confirmPwd}
+                    secureTextEntry={passwordVisibility}
+                    maxLength={16}
+                    onChangeText={(value) => handleChangeText('confirmPwd', value)} />
+                <Pressable onPress={handlePasswordVisibility}>
+                    <MaterialCommunityIcons name={rightIcon} size={18} color="#232323" />
+                </Pressable>
+            </View>
+            <FAB style={styles.button}
+                visible={true}
+                title="Actualizar Contraseña"
+                titleStyle={styles.titleButton}
+                color='red'
+                upperCase
+                onPress={() => changePassword(password.newPwd)}
+                icon={{ name: 'update', color: 'white', size: 20 }}
+            />
+        </ScrollView>
     )
 }
 
@@ -117,7 +114,7 @@ const styles = StyleSheet.create({
         alignSelf: 'auto',
         backgroundColor: 'black',
     },
-    title:{
+    title: {
         paddingLeft: 10,
         marginTop: 6,
         color: 'lightgray',
@@ -138,17 +135,17 @@ const styles = StyleSheet.create({
         padding: 2,
         width: '90%'
     },
-    button:{
+    button: {
         margin: 30,
         width: '90%',
         alignSelf: 'center',
     },
-    titleButton:{
+    titleButton: {
         fontSize: 14,
         fontWeight: 'bold',
         width: '80%'
     },
-    icon:{
+    icon: {
         padding: 25,
         alignItems: 'center',
         opacity: 0.8,
