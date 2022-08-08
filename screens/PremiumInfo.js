@@ -157,7 +157,8 @@ const styles = StyleSheet.create({
         opacity: 0.8,
     },
     loading: {
-        marginTop: 300,
+        position: 'absolute',
+        margin: 0
     },
 });
 

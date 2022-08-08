@@ -137,7 +137,8 @@ const styles = StyleSheet.create({
         borderBottomColor: '#cccccc'
     },
     loading: {
-        marginTop: 300,
+        position: 'absolute',
+        margin: 0
     },
 })
 

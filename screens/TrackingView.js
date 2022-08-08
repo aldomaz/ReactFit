@@ -169,6 +169,10 @@ const styles = StyleSheet.create({
         fontSize: 16, 
         paddingTop: 20,
     },
+    loading: {
+        position: 'absolute',
+        margin: 0
+    },
 });
 
 export default TrackingView

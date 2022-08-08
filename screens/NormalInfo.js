@@ -132,7 +132,8 @@ const styles = StyleSheet.create({
         borderColor: 'grey',
     },
     loading: {
-        marginTop: 300,
+        position: 'absolute',
+        margin: 0
     },
 });
 

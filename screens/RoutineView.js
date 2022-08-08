@@ -263,7 +263,8 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     loading: {
-        marginTop: 300,
+        position: 'absolute',
+        margin: 0
     },
     alertText:{
         color: 'red', 

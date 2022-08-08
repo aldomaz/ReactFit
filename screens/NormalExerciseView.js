@@ -177,8 +177,9 @@ const styles = StyleSheet.create({
       margin: 10,
   },
   loading: {
-    marginTop: 300,
-  },
+    position: 'absolute',
+    margin: 0
+},
 });
 
 export default NormalExerciseView
