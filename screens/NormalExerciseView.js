@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {View, StyleSheet, Text, ScrollView, TextInput , ActivityIndicator, Image} from 'react-native'
-import { FAB , Dialog , Slider , Icon} from 'react-native-elements'
-import { Badge , Portal , Modal , Provider} from 'react-native-paper'
+import { FAB} from 'react-native-elements'
+import { Portal , Modal , Provider} from 'react-native-paper'
 import firebase from '../database/firebase'
 
 function NormalExerciseView(props) {
@@ -11,12 +11,13 @@ function NormalExerciseView(props) {
       name: '',
       repeats: '',
       series: '',
-      description: '',
+      description1: '',
+      description2: '',
+      description3: '',
       muscle: '',
   }
 
   const [url, setUrl] = useState();
-  const [urlDesc, setUrlDesc] = useState();
   const [visible, setVisible] = useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
@@ -43,18 +44,9 @@ function NormalExerciseView(props) {
       })
   }
 
-  const getDescription = async (exerciseId) => {
-    const storage = firebase.storage.ref();
-    const imageRef = storage.child('descriptions/'+exerciseId+'Des.jpg');
-    await imageRef.getDownloadURL().then((url) => {
-      setUrlDesc(url);
-    })
-  }
-  
   useEffect (() => {
     getExerciseByID(props.route.params.userId, props.route.params.routineId, props.route.params.exerciseId);
     getImage(props.route.params.exerciseId);
-    getDescription(props.route.params.exerciseId);
   }, [])
 
   if (loading){
@@ -114,10 +106,18 @@ function NormalExerciseView(props) {
     </View>
     <Provider>
       <Portal>
-        <Modal 
+        <Modal
+        contentContainerStyle={{backgroundColor: 'white', borderColor: 'red', borderWidth: 1}}
         visible={visible} 
         onDismiss={hideModal}>
-          <Image style={styles.description} source={{uri: urlDesc}} />
+          <View style={{flexDirection: 'row', alignSelf: 'center', padding: 20}}>
+            <Image style={styles.image2} 
+            source={require('react-native-firebase/resources/logo.png')}/>
+            <Text style={styles.text2}>ReactFit</Text>
+          </View>
+          <Text style={styles.descriptionText}>{exercise.description1}</Text>
+          <Text style={styles.descriptionText}>{'\t' + exercise.description2}</Text>
+          <Text style={styles.descriptionText}>{exercise.description3}</Text>
         </Modal>
       </Portal>
     </Provider>
@@ -135,8 +135,11 @@ const styles = StyleSheet.create({
       color: 'white',
   },
   text2: {
-      color: 'black',
-      textAlign: 'justify',
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontSize: 24,
+    margin: 3,
+    color: 'black',
   },
   title:{
       padding: 2,
@@ -166,20 +169,24 @@ const styles = StyleSheet.create({
       alignSelf: 'center',
       margin: 10,
   },
+  image2: {
+    width: 20,
+    height: 20,
+    resizeMode: 'stretch',
+    alignSelf: 'center',
+    marginRight: 10,
+  },
   sliderContainer: {
       margin: 20,
   },
-  description: {
-      width: 315,
-      height: 130,
-      resizeMode: 'stretch',
-      alignSelf: 'center',
-      margin: 10,
+  descriptionText:{
+    padding: 10,
+    fontSize: 18,
+    textAlign: 'justify',
   },
   loading: {
-    position: 'absolute',
-    margin: 0
-},
+    marginTop: 300,
+  },
 });
 
 export default NormalExerciseView

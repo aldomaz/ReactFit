@@ -17,6 +17,9 @@ function PremiumRoutine(props) {
         repeats: '',
         series: '',
         muscle: '',
+        description1: '',
+        description2: '',
+        description3: '',
     }
 
     const userState = {
@@ -69,18 +72,24 @@ function PremiumRoutine(props) {
             series: exercise.series,
             repeats: exercise.repeats,
             muscle: exercise.muscle,
+            description1: exercise.description1,
+            description2: exercise.description2,
+            description3: exercise.description3,
         })
         setCounter(counter+1);
         firebase.db.collection('users').doc(user.username).collection('routines').doc(generateID()).collection('exercise').orderBy('name').onSnapshot(querySnapshot => {
             const showex2 = [];
             querySnapshot.docs.forEach(doc => {
-                const { name, repeats, series , muscle } = doc.data()
+                const { name, repeats, series , muscle , description1 , description2 , description3} = doc.data()
                 showex2.push({
                     id: doc.id,
                     name,
                     repeats,
                     series,
                     muscle,
+                    description1,
+                    description2,
+                    description3
                 })
             })
             setEx2(showex2);
@@ -139,13 +148,16 @@ function PremiumRoutine(props) {
         firebase.db.collection('excersises').orderBy('name').onSnapshot(querySnapshot => {
             const showex = [];
             querySnapshot.docs.forEach(doc => {
-                const { name, repeats, series , muscle } = doc.data()
+                const { name, repeats, series , muscle , description1 , description2 , description3 } = doc.data()
                 showex.push({
                     id: doc.id,
                     name,
                     repeats,
                     series,
                     muscle,
+                    description1,
+                    description2,
+                    description3
                 })
             })
             setEx(showex);
@@ -314,6 +326,9 @@ function PremiumRoutine(props) {
                         repeats: showex.repeats,
                         series: showex.series,
                         muscle: showex.muscle,
+                        description1: showex.description1,
+                        description2: showex.description2,
+                        description3: showex.description3
                     })}}
                />
             ))}
@@ -393,8 +408,7 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     loading: {
-        position: 'absolute',
-        margin: 0
+        marginTop: 300,
     },
     icon:{
         alignItems: 'center',

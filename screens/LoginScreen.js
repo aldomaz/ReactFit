@@ -166,8 +166,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     loading: {
-        position: 'absolute',
-        margin: 0
+        marginTop: 300,
     },
 });
 

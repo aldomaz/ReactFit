@@ -207,8 +207,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     loading: {
-        position: 'absolute',
-        margin: 0
+        marginTop: 300,
     },
 });
 

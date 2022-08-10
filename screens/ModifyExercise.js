@@ -195,8 +195,7 @@ const styles = StyleSheet.create({
         borderColor: 'grey',
     },
     loading: {
-        position: 'absolute',
-        margin: 0
+        marginTop: 300,
     },
     icon:{
         padding: 25,

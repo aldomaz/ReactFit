@@ -63,8 +63,7 @@ function Dashboard(props) {
 
 const styles = StyleSheet.create({
     loading: {
-        position: 'absolute',
-        margin: 0
+        marginTop: 300,
     },
 });
 

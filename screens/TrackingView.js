@@ -170,8 +170,7 @@ const styles = StyleSheet.create({
         paddingTop: 20,
     },
     loading: {
-        position: 'absolute',
-        margin: 0
+        marginTop: 300,
     },
 });
 

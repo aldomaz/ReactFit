@@ -128,8 +128,7 @@ const styles = StyleSheet.create({
         fontSize: 10,
     },
     loading: {
-        position: 'absolute',
-        margin: 0
+        marginTop: 300,
     },
     button:{
         margin: 10,
